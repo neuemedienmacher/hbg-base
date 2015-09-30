@@ -19,7 +19,7 @@ class Note < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  enumerize :topic, in: %w(todo history hidden_contact external_info other)
+  enumerize :topic, in: %w(todo hidden_contact external_info)
 
   # Validations
   validates :text, presence: true, length: { maximum: 800 }
