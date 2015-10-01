@@ -83,5 +83,6 @@ de:
         spoc: SPoC
       offer:
         aasm_state: Zustand
+        section_filters: clarat-Welten
       organization:
         aasm_state: Zustand
