@@ -26,15 +26,6 @@ FactoryGirl.define do
     end
     identifier { _random[0] }
     name { _random[1] }
-
-    # # associations
-    # transient do
-    #   offer_count 0
-    # end
-    # after :create do |target_audience_filter, evaluator|
-    #   create_list :offer, evaluator.offer_count,
-    #               target_audience_filter: target_audience_filter
-    # end
   end
 
   factory :section_filter do
