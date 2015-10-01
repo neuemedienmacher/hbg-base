@@ -36,12 +36,11 @@ class Location < ActiveRecord::Base
 
   before_validation :generate_display_name
   def generate_display_name
-    self.display_name =
-      if name && !name.empty?
-        "#{organization_name}, #{name} (#{street} #{zip} #{city})"
-      else
-        "#{organization_name}, #{street} #{zip} #{city}"
-      end
+    display = "#{organization_name}"
+    display += ", #{name}" unless name.blank?
+    display += " | #{street}"
+    display += ", #{addition}," unless addition.blank?
+    self.display_name = display + " #{zip} #{city}"
   end
 
   def address

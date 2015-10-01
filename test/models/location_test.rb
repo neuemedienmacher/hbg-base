@@ -57,16 +57,29 @@ describe Location do
                               organization_id: 1 # fixture Orga
       end
 
+      it 'should show the basic info if nothing else exists' do
+        loc.display_name.must_be_nil
+        loc.generate_display_name
+        loc.display_name.must_equal 'foobar | street zip city'
+      end
+
       it 'should show the location name if one exists' do
         loc.name = 'name'
         loc.generate_display_name
-        loc.display_name.must_equal 'foobar, name (street zip city)'
+        loc.display_name.must_equal 'foobar, name | street zip city'
       end
 
-      it 'should not show a location name if none exists' do
-        loc.display_name.must_be_nil
+      it 'should show the addition if one exists' do
+        loc.addition = 'addition'
         loc.generate_display_name
-        loc.display_name.must_equal 'foobar, street zip city'
+        loc.display_name.must_equal 'foobar | street, addition, zip city'
+      end
+
+      it 'should show name & addition if both exist' do
+        loc.name = 'name'
+        loc.addition = 'addition'
+        loc.generate_display_name
+        loc.display_name.must_equal 'foobar, name | street, addition, zip city'
       end
     end
 
