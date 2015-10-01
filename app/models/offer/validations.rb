@@ -47,6 +47,7 @@ class Offer
       # Uses method from CustomValidatable concern.
       def validate_associated_fields
         validate_associated_presence :organizations
+        validate_associated_presence :section_filters
         validate_associated_presence :language_filters
         validate_associated_presence :target_audience_filters
       end

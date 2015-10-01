@@ -8,6 +8,9 @@ class Offer
       belongs_to :area, inverse_of: :offers
       has_and_belongs_to_many :categories
       has_and_belongs_to_many :filters
+      has_and_belongs_to_many :section_filters,
+                              association_foreign_key: 'filter_id',
+                              join_table: 'filters_offers'
       has_and_belongs_to_many :language_filters,
                               association_foreign_key: 'filter_id',
                               join_table: 'filters_offers'

@@ -49,6 +49,9 @@ de:
       filter:
         one: Filter
         other: Filter
+      section_filter:
+        one: clarat-Welt
+        other: clarat-Welt
       language_filter:
         one: Sprachfilter
         other: Sprachfilter

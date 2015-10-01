@@ -1,5 +1,4 @@
 class TargetAudienceFilter < Filter
-  validates :identifier, uniqueness: true, presence: true
-
-  IDENTIFIER = %w(children parents family acquintances pregnant_woman)
+  IDENTIFIER = %w(children parents nuclear_family acquintances pregnant_woman)
+  enumerize :identifier, in: TargetAudienceFilter::IDENTIFIER
 end

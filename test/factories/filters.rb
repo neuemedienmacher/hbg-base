@@ -16,8 +16,16 @@ FactoryGirl.define do
   end
 
   factory :target_audience_filter do
-    name { %w(Kinder Eltern Familie Bekannte).sample }
-    identifier { %w(children parents family aquintances).sample }
+    transient do
+      _random do
+        [
+          %w(children Kinder), %w(parents Eltern),
+          %w(nuclear_family Familie), %w(aquintances Bekannte)
+        ].sample
+      end
+    end
+    identifier { _random[0] }
+    name { _random[1] }
 
     # # associations
     # transient do
@@ -27,5 +35,15 @@ FactoryGirl.define do
     #   create_list :offer, evaluator.offer_count,
     #               target_audience_filter: target_audience_filter
     # end
+  end
+
+  factory :section_filter do
+    transient do
+      _random do
+        [%w(family Family), %w(refugees Refugees)].sample
+      end
+    end
+    identifier { _random[0] }
+    name { _random[1] }
   end
 end

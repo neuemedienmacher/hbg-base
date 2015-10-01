@@ -66,8 +66,9 @@ describe Offer do
       it { subject.must have_many(:organizations).through :organization_offers }
       it { subject.must have_and_belong_to_many :categories }
       it { subject.must have_and_belong_to_many :filters }
+      it { subject.must have_and_belong_to_many :section_filters }
       it { subject.must have_and_belong_to_many :language_filters }
-      it { subject.must have_and_belong_to_many :age_filters }
+      it { subject.must have_and_belong_to_many :target_audience_filters }
       it { subject.must have_and_belong_to_many :openings }
       it { subject.must have_many :hyperlinks }
       it { subject.must have_many :websites }
