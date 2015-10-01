@@ -20,16 +20,18 @@ class Offer
                 numericality: { greater_than_or_equal_to: 0,
                                 less_than_or_equal_to: 17, only_integer: true,
                                 allow_blank: false },
-                presence: true
+                presence: true,
+                if: :in_family_section?
       validates :age_to,
                 numericality: { greater_than: 0, less_than_or_equal_to: 18,
                                 only_integer: true, allow_blank: false },
-                presence: true
+                presence: true,
+                if: :in_family_section?
 
       # Custom validations
       validate :validate_associated_fields
       validate :only_approved_organizations, if: :approved?
-      validate :age_from_fits_age_to
+      validate :age_from_fits_age_to, if: :in_family_section?
       validate :location_and_area_fit_encounter
       validate :location_fits_organization, on: :update
       validate :contact_people_are_choosable
@@ -113,6 +115,10 @@ class Offer
           # There are no intersections between both sets of orgas and not SPoC
           fail_validation :contact_people, 'contact_person_not_choosable'
         end
+      end
+
+      def in_family_section?
+        section_filters.to_a.any? { |filter| filter.identifier == 'family' }
       end
     end
   end

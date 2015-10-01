@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    clarat_base (0.1.1)
+    clarat_base (0.1.2)
       aasm
       algoliasearch-rails
       bundler (>= 1.8.4)
