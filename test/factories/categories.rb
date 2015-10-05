@@ -7,13 +7,5 @@ FactoryGirl.define do
     trait :main do
       icon 'a-something'
     end
-
-    after :build do |category|
-      # Filters
-      category.section_filters << (
-        SectionFilter.all.sample ||
-          FactoryGirl.create(:section_filter)
-      )
-    end
   end
 end
