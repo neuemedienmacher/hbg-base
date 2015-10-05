@@ -3,7 +3,7 @@ class Offer
     extend ActiveSupport::Concern
 
     included do
-      # Associtations
+      # Associations
       belongs_to :location, inverse_of: :offers
       belongs_to :area, inverse_of: :offers
       has_and_belongs_to_many :categories
