@@ -47,6 +47,7 @@ class Category < ActiveRecord::Base
 
   # custom validation method
   def validate_section_filter_presence
-    fail_validation :section_filters, 'needs_section_filters' if send(:section_filters).empty?
+    fail_validation(:section_filters, 'needs_section_filters') if
+      send(:section_filters).empty?
   end
 end
