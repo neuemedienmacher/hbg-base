@@ -5,4 +5,3 @@ de:
       incomplete: |
         kann nicht angehakt werden, wenn nicht auch "Completed" gesetzt ist
       hq_location: "Es muss genau eine HQ-Location zugeordnet werden"
-      needs_section_filters: "benötigt mindestens eine clarat-Welt"
