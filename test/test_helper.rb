@@ -38,9 +38,14 @@ require 'minitest/mock'
 require 'minitest/hell'
 require 'pry-rescue/minitest' if ENV['RESCUE']
 require 'pry'
-require 'fakeredis'
+require 'sidekiq/testing'
+require 'fakeredis/minitest'
 require 'shoulda-matchers'
 require 'shoulda/matchers'
+
+# For Sidekiq
+
+Sidekiq::Testing.inline!
 
 # Inclusions: First matchers, then modules, then helpers.
 # Helpers need to be included after modules due to interdependencies.
