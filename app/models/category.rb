@@ -20,6 +20,7 @@ class Category < ActiveRecord::Base
 
   # Custom Validations
   validate :validate_section_filter_presence
+  validate :validate_section_filters_with_parent
 
   # Sanitization
   extend Sanitization
@@ -45,9 +46,22 @@ class Category < ActiveRecord::Base
     name + (icon ? '*' : '') if name
   end
 
-  # custom validation method
+  # custom validation methods
   def validate_section_filter_presence
     fail_validation(:section_filters, 'needs_section_filters') if
       send(:section_filters).empty?
+  end
+
+  def validate_section_filters_with_parent
+    if parent_id
+      section_filters.each do |filter|
+        parent = Category.find(parent_id)
+        fail_validation(:section_filters,
+                        'parent_needs_same_section_filter',
+                        parent_name: parent.name,
+                        filter_name: filter.name) unless
+                        parent.section_filters.pluck(:id).include? filter.id
+      end
+    end
   end
 end
