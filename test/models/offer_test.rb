@@ -56,8 +56,14 @@ describe Offer do
     describe 'when not in family section' do
       before { subject.section_filters = [] }
 
-      it { subject.wont validate_numericality_of(:age_from) }
-      it { subject.wont validate_numericality_of(:age_to) }
+      it do
+        subject.must validate_numericality_of(:age_from).only_integer
+          .is_greater_than_or_equal_to(0) # no less_than_or_equal_to
+      end
+      it do
+        subject.must validate_numericality_of(:age_to).only_integer
+          .is_greater_than(0) # no less_than_or_equal_to
+      end
     end
 
     describe 'custom' do

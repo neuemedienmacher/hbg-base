@@ -12,3 +12,5 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+gem 'fakeredis', github: 'guilleiguaran/fakeredis', branch: 'master'

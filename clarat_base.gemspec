@@ -68,7 +68,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake'
   s.add_development_dependency 'database_cleaner'
   # s.add_development_dependency 'colorize' # use this when RBP quits using `colored`
-  s.add_development_dependency 'fakeredis'
+  # s.add_development_dependency 'fakeredis' ! need version > 0.5.0
   s.add_development_dependency 'fakeweb', '~> 1.3'
   s.add_development_dependency 'webmock'
   s.add_development_dependency 'pry-rescue'

@@ -16,10 +16,11 @@ class Offer
       validates :encounter, presence: true
       validates :expires_at, presence: true
       validates :expires_at, later_date: true, on: :create
+
+      # Family section filtered validations
       validates :age_from,
-                numericality: { greater_than_or_equal_to: 0,
-                                less_than_or_equal_to: 17, only_integer: true,
-                                allow_blank: false },
+                numericality: { greater_than_or_equal_to: 0, only_integer: true,
+                                less_than_or_equal_to: 17, allow_blank: false },
                 presence: true,
                 if: :in_family_section?
       validates :age_to,
@@ -28,10 +29,22 @@ class Offer
                 presence: true,
                 if: :in_family_section?
 
+      # Non-family section filtered validations
+      validates :age_from,
+                numericality: { greater_than_or_equal_to: 0, only_integer: true,
+                                allow_blank: false },
+                presence: true,
+                unless: :in_family_section?
+      validates :age_to,
+                numericality: { greater_than: 0, only_integer: true,
+                                allow_blank: false },
+                presence: true,
+                unless: :in_family_section?
+
       # Custom validations
       validate :validate_associated_fields
       validate :only_approved_organizations, if: :approved?
-      validate :age_from_fits_age_to, if: :in_family_section?
+      validate :age_from_fits_age_to
       validate :location_and_area_fit_encounter
       validate :location_fits_organization, on: :update
       validate :contact_people_are_choosable
