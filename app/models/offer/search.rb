@@ -35,7 +35,7 @@ class Offer
         ATTRIBUTES = [:category_string, :keyword_string, :organization_names,
                       :organization_display_name, :location_address,
                       :next_steps]
-        FACETS = [:_tags, :_age_filters, :_language_filters]
+        FACETS = [:_tags, :_age_filters, :_language_filters, :_section_filters]
         add_attribute(*ATTRIBUTES)
         add_attribute(*FACETS)
         add_attribute :_geoloc
@@ -103,7 +103,7 @@ class Offer
       end
 
       # filter indexing methods
-      %w(age audience language).each do |filter|
+      %w(age audience language section).each do |filter|
         define_method "_#{filter}_filters" do
           send("#{filter}_filters").pluck(:identifier)
         end
