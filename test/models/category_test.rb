@@ -36,14 +36,16 @@ describe Category do
   end
 
   describe 'methods' do
-    describe '#name_with_optional_asterisk' do
+    describe '#name_with_world_suffix_and_optional_asterisk' do
       it 'should return name with asterisk for a main category' do
         category.assign_attributes icon: 'x', name: 'a'
-        category.name_with_optional_asterisk.must_equal 'a*'
+        category.section_filters = [filters(:family)]
+        category.name_with_world_suffix_and_optional_asterisk.must_equal 'a(F)*'
       end
       it 'should return name without asterisk for a non-main category' do
         category.name = 'a'
-        category.name_with_optional_asterisk.must_equal 'a'
+        category.section_filters = [filters(:family)]
+        category.name_with_world_suffix_and_optional_asterisk.must_equal 'a(F)'
       end
     end
     describe '#validate_section_filter_presence' do

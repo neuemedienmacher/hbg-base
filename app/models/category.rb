@@ -35,15 +35,33 @@ class Category < ActiveRecord::Base
   singleton_class.send :alias_method, :arrange, :hash_tree
 
   # cached hash_tree, prepared for use in offers#index
-  def self.sorted_hash_tree
-    Rails.cache.fetch 'sorted_hash_tree' do
-      hash_tree.sort_by { |tree| tree.first.icon || '' }
+  def self.sorted_hash_tree section_filter_ident
+    # find every category that is not in the current world
+    # TODO: do this different (with fancy search query)?!
+    world_filter = SectionFilter.find_by identifier: section_filter_ident
+    invalid_categories = []
+    Category.all.find_each do |category|
+      invalid_categories << category unless
+                            category.section_filters.include? world_filter
+    end
+
+    Rails.cache.fetch "sorted_hash_tree_#{section_filter_ident}" do
+      current_tree = hash_tree
+      # remove all invalid (without current world filter) categories
+      invalid_categories.each do |invalid_category|
+        current_tree = current_tree.deep_reject_key!(invalid_category)
+      end
+      current_tree.sort_by { |tree| tree.first.icon || '' }
     end
   end
 
-  # display name: main categories get an asterisk
-  def name_with_optional_asterisk
-    name + (icon ? '*' : '') if name
+  # display name: each category gets suffixes for each worlds and
+  # main categories get an additional asterisk
+  def name_with_world_suffix_and_optional_asterisk
+    worlds_suffix = '('
+    section_filters.map { |filter| worlds_suffix += filter.name.first }
+    worlds_suffix += ')'
+    name + (icon ? "#{worlds_suffix}*" : worlds_suffix) if name
   end
 
   # custom validation methods
