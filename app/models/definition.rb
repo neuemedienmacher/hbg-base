@@ -36,7 +36,7 @@ class Definition < ActiveRecord::Base
   def key_occurrences_in string
     occurences = {}
     keys.each do |key|
-      occurence = string.downcase.index(key.downcase)
+      occurence = string.downcase.index(/\b(#{key.downcase})\b/i)
       occurences[key] = occurence if occurence
     end
     occurences

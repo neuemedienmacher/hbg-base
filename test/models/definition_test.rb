@@ -68,6 +68,18 @@ describe Definition do
           ' dog.'
         )
       end
+
+      it 'should find plural words although singular words are included and '\
+         'first in key list' do
+        FactoryGirl.create :definition, key: 'Weisung, Weisungen',
+                                        explanation: 'Eine Weisung ist...'
+
+        string = 'Die Weisungen'
+
+        Definition.infuse(string).must_equal(
+          "Die <dfn class='JS-tooltip' data-id='1'>Weisungen</dfn>"
+        )
+      end
     end
   end
 end
