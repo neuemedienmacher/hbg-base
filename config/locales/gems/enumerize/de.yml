@@ -35,7 +35,7 @@ de:
         bkd: 'Bund der Kriegsblinden Deutschlands'
         church: 'Kirche'
         hospital: 'Krankenhaus'
-        public_authority: 'Öffentliche Hand'
+        public: 'Öffentliche Hand'
         other: 'Sonstige'
 
     contact_person:
