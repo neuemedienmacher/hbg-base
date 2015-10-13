@@ -35,7 +35,7 @@ class Category < ActiveRecord::Base
   singleton_class.send :alias_method, :arrange, :hash_tree
 
   # cached hash_tree, prepared for use in offers#index
-  def self.sorted_hash_tree section_filter_ident
+  def self.sorted_hash_tree section_filter_ident = 'family'
     # find every category that is not in the current world
     # TODO: do this different (with fancy search query)?!
     world_filter = SectionFilter.find_by identifier: section_filter_ident
