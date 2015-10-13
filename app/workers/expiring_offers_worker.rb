@@ -27,7 +27,7 @@ class ExpiringOffersWorker
 
   def update_indices expiring
     # has to work on model because the expiring array is not updated!!
-    expiring.find_each do |expiring_offer|
+    expiring.to_a.each do |expiring_offer|
       Offer.find(expiring_offer.id).index!
     end
   end
