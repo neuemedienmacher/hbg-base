@@ -77,6 +77,7 @@ class Organization < ActiveRecord::Base
   # handled in observer before save
   def generate_html!
     self.description_html = MarkdownRenderer.render description
+    self.description_html = Definition.infuse description_html
   end
 
   def gmaps_info

@@ -6,20 +6,26 @@ class RegenerateHtmlWorker
 
   def perform
     Offer.approved.find_each do |offer|
-      old = {
-        description_html: offer.description_html,
-        next_steps_html: offer.next_steps_html,
-        opening_specification_html: offer.opening_specification_html
-      }
-
+      old = { description_html: offer.description_html,
+              next_steps_html: offer.next_steps_html,
+              opening_specification_html: offer.opening_specification_html }
       offer.generate_html!
+      check_and_update(offer, old)
+    end
 
-      actual_changes = changes(offer, old)
-      offer.update_columns actual_changes if actual_changes
+    Organization.approved.find_each do |orga|
+      old = { description_html: orga.description_html }
+      orga.generate_html!
+      check_and_update(orga, old)
     end
   end
 
   private
+
+  def check_and_update object, old
+    actual_changes = changes(object, old)
+    object.update_columns actual_changes if actual_changes
+  end
 
   def changes object, old
     news = {}
