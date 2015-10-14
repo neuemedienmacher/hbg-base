@@ -18,10 +18,16 @@ class ExpiringOffersWorker
     # Info E-Mail
     OfferMailer.expiring_mail(expiring.count, expiring.pluck(:id)).deliver
 
+    # Expire offers and trigger manual indexing for algolia search
+    expire_and_reindex_offers expiring
+  end
+
+  def expire_and_reindex_offers expiring
+    # Save ids because the expiring relation does not work after update_all
+    expiring_ids = expiring.pluck(:id)
     # Set to expired
     expiring.update_all aasm_state: 'expired' # TODO: should this be event?
-
-    # trigger manual indexing for algolia search
-    expiring.find_each(&:index!)
+    # Work on updated model with saved ids to sync algolia via manual index
+    Offer.find(expiring_ids).each(&:index!)
   end
 end
