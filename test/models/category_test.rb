@@ -16,11 +16,11 @@ describe Category do
     describe 'always' do
       it { subject.must validate_presence_of :name }
       it { subject.must validate_uniqueness_of :name }
-      it 'should have a section filter' do
+      it 'must validate the presence of a section_filter' do
         category.expects(:validate_section_filter_presence)
         category.save
       end
-      it 'should have the same section filter as the parent' do
+      it 'must validate the section_filters of the parent' do
         category.expects(:validate_section_filters_with_parent)
         category.save
       end

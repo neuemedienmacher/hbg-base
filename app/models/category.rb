@@ -58,9 +58,7 @@ class Category < ActiveRecord::Base
   # display name: each category gets suffixes for each worlds and
   # main categories get an additional asterisk
   def name_with_world_suffix_and_optional_asterisk
-    worlds_suffix = '('
-    section_filters.map { |filter| worlds_suffix += filter.name.first }
-    worlds_suffix += ')'
+    worlds_suffix = "(#{section_filters.map { |f| f.name.first }.join(',')})"
     name + (icon ? "#{worlds_suffix}*" : worlds_suffix) if name
   end
 

@@ -10,3 +10,9 @@ sub1_refugees:
 sub2_family:
   filter_id: 8
   category_id: 4
+main3_family:
+  filter_id: 8
+  category_id: 5
+main3_refugees:
+  filter_id: 9
+  category_id: 5

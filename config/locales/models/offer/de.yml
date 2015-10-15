@@ -31,3 +31,5 @@ de:
       contact_person_not_choosable: |
         müssen alle zu einer der ausgewählten Organisationen gehören oder
         als SPoC markiert sein
+      section_filter_not_found_in_category:  |
+        '%{world}' nicht in der ausgewählten Kategorie '%{category}' enthalten

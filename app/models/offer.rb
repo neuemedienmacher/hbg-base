@@ -4,7 +4,7 @@ class Offer < ActiveRecord::Base
   has_paper_trail
 
   # Modules
-  include Validations, Associations, Search, StateMachine
+  include Validations, CustomValidations, Associations, Search, StateMachine
 
   # Concerns
   include Creator, CustomValidatable, Notable

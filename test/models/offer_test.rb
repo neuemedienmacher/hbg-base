@@ -176,6 +176,72 @@ describe Offer do
       end
     end
 
+    describe '#section_filters_must_match_categories_section_filters' do
+      it 'should fail when single filter does not match' do
+        offer = offers(:basic)
+        category = categories(:main1)
+        offer.section_filters << filters(:refugees)
+        offer.categories << category
+        offer.expects(:fail_validation).with :section_filters,
+                                             'section_filter_not_found_in_cate'\
+                                             'gory',
+                                             world: 'Refugees',
+                                             category: category.name
+        offer.section_filters_must_match_categories_section_filters
+      end
+
+      it 'should fail when multiple filters do not match' do
+        off = offers(:basic)
+        category = categories(:main2)
+        off.section_filters = [filters(:refugees), filters(:family)]
+        off.categories << category
+        off.expects(:fail_validation).with :section_filters,
+                                           'section_filter_not_found_in_cate'\
+                                           'gory',
+                                           world: 'Family',
+                                           category: category.name
+        off.section_filters_must_match_categories_section_filters
+      end
+
+      it 'should fail only on mismatching categories' do
+        off = offers(:basic)
+        category = categories(:main2)
+        off.section_filters = [filters(:refugees), filters(:family)]
+        off.categories << category
+        off.categories << categories(:main3)
+        off.expects(:fail_validation).with :section_filters,
+                                           'section_filter_not_found_in_cate'\
+                                           'gory',
+                                           world: 'Family',
+                                           category: category.name
+        off.section_filters_must_match_categories_section_filters
+      end
+
+      it 'should succeed when single family world matches' do
+        off = offers(:basic)
+        off.section_filters = [filters(:family)]
+        off.categories << categories(:main1)
+        off.expects(:fail_validation).never
+        off.section_filters_must_match_categories_section_filters
+      end
+
+      it 'should succeed when single refugee world matches on multiple' do
+        off = offers(:basic)
+        off.section_filters = [filters(:refugees)]
+        off.categories << categories(:main3)
+        off.expects(:fail_validation).never
+        off.section_filters_must_match_categories_section_filters
+      end
+
+      it 'should succeed when multiple worlds match' do
+        off = offers(:basic)
+        off.section_filters = [filters(:refugees), filters(:family)]
+        off.categories << categories(:main3)
+        off.expects(:fail_validation).never
+        off.section_filters_must_match_categories_section_filters
+      end
+    end
+
     describe '::per_env_index' do
       it 'should return Offer_envname for a non-development env' do
         Offer.per_env_index.must_equal 'Offer_test'
