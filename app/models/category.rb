@@ -34,49 +34,29 @@ class Category < ActiveRecord::Base
   # alias for rails_admin_nestable
   singleton_class.send :alias_method, :arrange, :hash_tree
 
-  # cached hash_tree, prepared for use in offers#index
-  def self.sorted_hash_tree section_filter_ident = 'family'
-    # find every category that is not in the current world
-    # TODO: do this different (with fancy search query)?!
-    world_filter = SectionFilter.find_by identifier: section_filter_ident
-    invalid_categories = []
-    Category.all.find_each do |category|
-      invalid_categories << category unless
-                            category.section_filters.include? world_filter
-    end
-
-    Rails.cache.fetch "sorted_hash_tree_#{section_filter_ident}" do
-      current_tree = hash_tree
-      # remove all invalid (without current world filter) categories
-      invalid_categories.each do |invalid_category|
-        current_tree = current_tree.deep_reject_key!(invalid_category)
-      end
-      current_tree.sort_by { |tree| tree.first.icon || '' }
-    end
-  end
-
-  # display name: each category gets suffixes for each worlds and
+  # display name: each category gets suffixes for each section and
   # main categories get an additional asterisk
   def name_with_world_suffix_and_optional_asterisk
-    worlds_suffix = "(#{section_filters.map { |f| f.name.first }.join(',')})"
-    name + (icon ? "#{worlds_suffix}*" : worlds_suffix) if name
+    return unless name
+    sections_suffix = "(#{section_filters.map { |f| f.name.first }.join(',')})"
+    name + (icon ? "#{sections_suffix}*" : sections_suffix)
   end
 
   # custom validation methods
   def validate_section_filter_presence
-    fail_validation(:section_filters, 'needs_section_filters') if
-      send(:section_filters).empty?
+    return unless send(:section_filters).empty?
+    fail_validation(:section_filters, 'needs_section_filters')
   end
 
   def validate_section_filters_with_parent
     if parent_id
       section_filters.each do |filter|
         parent = Category.find(parent_id)
+        next if parent.section_filters.pluck(:id).include? filter.id
         fail_validation(:section_filters,
                         'parent_needs_same_section_filter',
                         parent_name: parent.name,
-                        filter_name: filter.name) unless
-                        parent.section_filters.pluck(:id).include? filter.id
+                        filter_name: filter.name)
       end
     end
   end
