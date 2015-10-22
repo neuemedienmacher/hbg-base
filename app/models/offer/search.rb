@@ -48,7 +48,8 @@ class Offer
           attributesToIndex INDEX
           add_attribute(*ATTRIBUTES)
           add_attribute(*FACETS)
-          add_attribute :area_minlat, :area_maxlat, :area_minlong, :area_maxlong
+          add_attribute :area_minlat, :area_maxlat, :area_minlong,
+                        :area_maxlong, :encounter
           attributesForFaceting FACETS
           optionalWords STOPWORDS
 
