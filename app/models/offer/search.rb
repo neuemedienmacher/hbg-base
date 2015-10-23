@@ -47,10 +47,11 @@ class Offer
                                            if: :remote_indexable? do
           attributesToIndex INDEX
           add_attribute(*ATTRIBUTES)
-          add_attribute(*FACETS)
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
-                        :area_maxlong, :encounter
-          attributesForFaceting FACETS
+                        :area_maxlong
+          remote_facets = FACETS + [:encounter]
+          add_attribute(*remote_facets)
+          attributesForFaceting remote_facets
           optionalWords STOPWORDS
 
           # no geo necessary
