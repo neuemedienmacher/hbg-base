@@ -43,7 +43,7 @@ class Offer < ActiveRecord::Base
 
   # Customize duplication.
   # Lots of configs here, so we are OK with a longer method:
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def partial_dup
     self.dup.tap do |offer|
       offer.comment = ''
@@ -59,11 +59,10 @@ class Offer < ActiveRecord::Base
       offer.websites = self.websites
       offer.contact_people = self.contact_people
       offer.keywords = self.keywords
-      offer.expires_at = Time.zone.now + 1.year
       offer.aasm_state = 'initialized'
     end
   end
-  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   # handled in observer before save
   def generate_html!
