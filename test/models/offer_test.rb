@@ -49,7 +49,7 @@ describe Offer do
       end
       it do
         subject.must validate_numericality_of(:age_to).only_integer
-          .is_greater_than(0).is_less_than_or_equal_to(18)
+          .is_greater_than(0).is_less_than_or_equal_to(17)
       end
     end
 
