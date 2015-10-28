@@ -22,3 +22,7 @@
   ancestor_id: 2
   descendant_id: 2
   generations: 0
+7:
+  ancestor_id: 5
+  descendant_id: 5
+  generations: 0
