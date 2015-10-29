@@ -8,9 +8,10 @@ class Category < ActiveRecord::Base
   include CustomValidatable
 
   # associtations
-  has_and_belongs_to_many :offers
   has_and_belongs_to_many :section_filters,
                           association_foreign_key: 'filter_id'
+  has_many :categories_offers
+  has_many :offers, through: :categories_offers
   has_many :organizations, through: :offers
   # To order with closure_tree
   has_closure_tree order: 'sort_order'
