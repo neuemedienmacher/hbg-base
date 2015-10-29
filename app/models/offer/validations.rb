@@ -61,7 +61,9 @@ class Offer
         validate_associated_presence :organizations
         validate_associated_presence :section_filters
         validate_associated_presence :language_filters
-        validate_associated_presence :target_audience_filters
+        if in_family_section?
+          validate_associated_presence :target_audience_filters
+        end
       end
 
       def validate_associated_presence field
