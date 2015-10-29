@@ -176,6 +176,28 @@ describe Offer do
       end
     end
 
+    describe '#target_audience_filters?' do
+      it 'should behave correctly in family section' do
+        offer = offers(:basic)
+        offer.section_filters = [filters(:family)]
+        offer.expects(:fail_validation).never
+        offer.send :validate_associated_fields
+        offer.target_audience_filters = []
+        offer.expects(:fail_validation).with :target_audience_filters,
+                                             'needs_target_audience_filters'
+        offer.send :validate_associated_fields
+      end
+
+      it 'should behave correctly in refugees section' do
+        offer = offers(:basic)
+        offer.section_filters = [filters(:refugees)]
+        offer.expects(:fail_validation).never
+        offer.send :validate_associated_fields
+        offer.target_audience_filters = []
+        offer.send :validate_associated_fields
+      end
+    end
+
     describe '#section_filters_must_match_categories_section_filters' do
       it 'should fail when single filter does not match' do
         offer = offers(:basic)
