@@ -12,7 +12,8 @@ class AsanaCommunicator
       '/tasks',
       workspace: '41140436022602', projects: %w(44856824806357),
       name: "#{organization_names}-#{offer.expires_at}-#{offer.name}",
-      notes: "Expired: http://www.clarat.org/admin/offer/#{offer.id}/edit"
+      notes: "Expired: http://claradmin.herokuapp.com/admin/offer/#{offer.id}"\
+             '/edit'
     )
   end
 

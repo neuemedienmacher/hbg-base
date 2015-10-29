@@ -24,13 +24,12 @@ ActiveRecord::Schema.define(version: 20151028112851) do
   end
 
   create_table "categories", force: true do |t|
-    t.string   "name",                                 null: false
+    t.string   "name",                  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "icon",       limit: 12
     t.integer  "parent_id"
     t.integer  "sort_order"
-    t.boolean  "visible",               default: true
   end
 
   add_index "categories", ["name"], name: "index_categories_on_name"
