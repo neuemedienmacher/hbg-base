@@ -16,6 +16,7 @@ class Organization < ActiveRecord::Base
   has_many :contact_people
   has_many :offers, through: :organization_offers, inverse_of: :organizations
   has_many :emails, through: :contact_people, inverse_of: :organizations
+  has_many :section_filters, through: :offers
 
   # Enumerization
   extend Enumerize

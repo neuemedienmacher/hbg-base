@@ -46,6 +46,7 @@ describe Organization do
     it { subject.must have_many :locations }
     it { subject.must have_many :hyperlinks }
     it { subject.must have_many :websites }
+    it { subject.must have_many(:section_filters).through :offers }
   end
 
   describe 'Observer' do
