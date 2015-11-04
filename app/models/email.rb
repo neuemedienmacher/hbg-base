@@ -19,8 +19,7 @@ class Email < ActiveRecord::Base
   # State Machine
   aasm do
     state :uninformed, initial: true # E-Mail was created, owner doesn't know
-    state :informed, # An offer has been approved and the owner got sent info
-          after_enter: :send_information
+    state :informed # An offer has been approved
     state :subscribed # Email recipient has subscribed to further updates
     state :unsubscribed # Email recipient was subscribed but is no longer
     state :blocked # Email is blocked from receiving mailings
