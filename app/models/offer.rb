@@ -30,9 +30,6 @@ class Offer < ActiveRecord::Base
 
   # Scopes
   scope :approved, -> { where(aasm_state: 'approved') }
-  scope :by_mailings_enabled_organization, lambda {
-    joins(:organizations).where('organizations.mailings_enabled = ?', true)
-  }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
 
