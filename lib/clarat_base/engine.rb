@@ -25,8 +25,7 @@ module ClaratBase
 
     # Activate observers that should always be running.
     config.active_record.observers = %w(
-      LocationObserver SubscriptionObserver
-      ContactObserver OfferObserver
+      LocationObserver SubscriptionObserver ContactObserver OfferObserver
       OrganizationObserver
     )
 

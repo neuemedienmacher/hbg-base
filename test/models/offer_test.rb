@@ -90,9 +90,6 @@ describe Offer do
       it { subject.must have_and_belong_to_many :openings }
       it { subject.must have_many :hyperlinks }
       it { subject.must have_many :websites }
-
-      it { subject.must have_many :offer_mailings }
-      it { subject.must have_many(:informed_emails).through :offer_mailings }
     end
   end
 

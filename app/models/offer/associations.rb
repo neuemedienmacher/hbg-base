@@ -31,9 +31,6 @@ class Offer
       # but there can also be offers without locations
       has_many :hyperlinks, as: :linkable, dependent: :destroy
       has_many :websites, through: :hyperlinks
-      has_many :offer_mailings, inverse_of: :offer
-      has_many :informed_emails, source: :email, through: :offer_mailings,
-                                 inverse_of: :known_offers
     end
   end
 end
