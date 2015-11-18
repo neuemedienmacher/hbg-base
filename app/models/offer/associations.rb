@@ -7,19 +7,22 @@ class Offer
       belongs_to :location, inverse_of: :offers
       belongs_to :area, inverse_of: :offers
       has_and_belongs_to_many :categories
-      has_and_belongs_to_many :filters
-      has_and_belongs_to_many :section_filters,
-                              association_foreign_key: 'filter_id',
-                              join_table: 'filters_offers'
-      has_and_belongs_to_many :language_filters,
-                              association_foreign_key: 'filter_id',
-                              join_table: 'filters_offers'
-      has_and_belongs_to_many :age_filters,
-                              association_foreign_key: 'filter_id',
-                              join_table: 'filters_offers'
-      has_and_belongs_to_many :target_audience_filters,
-                              association_foreign_key: 'filter_id',
-                              join_table: 'filters_offers'
+
+      has_many :filters_offers
+      has_many :filters, through: :filters_offers, source: :filter
+      has_many :section_filters,
+               class_name: 'SectionFilter',
+               through: :filters_offers,
+               source: :filter
+      has_many :language_filters,
+               class_name: 'LanguageFilter',
+               through: :filters_offers,
+               source: :filter
+      has_many :target_audience_filters,
+               class_name: 'TargetAudienceFilter',
+               through: :filters_offers,
+               source: :filter
+
       has_and_belongs_to_many :openings
       has_and_belongs_to_many :keywords, inverse_of: :offers
       has_many :contact_person_offers, inverse_of: :offer

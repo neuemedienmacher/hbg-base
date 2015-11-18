@@ -28,7 +28,8 @@ describe Filter do
 
   describe '::Base' do
     describe 'associations' do
-      it { subject.must have_and_belong_to_many :offers }
+      it { subject.must have_many :filters_offers }
+      it { subject.must have_many(:offers).through :filters_offers }
     end
   end
 end
