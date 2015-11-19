@@ -43,6 +43,17 @@ class Location < ActiveRecord::Base
     self.display_name = display + " #{zip} #{city}"
   end
 
+  def partial_dup
+    self.dup.tap do |location|
+      location.hq = false
+      location.offers = []
+      location.longitude = nil
+      location.latitude = nil
+      location.organization = self.organization
+      location.federal_state = self.federal_state
+    end
+  end
+
   def address
     "#{street}, #{zip} #{city}"
   end
