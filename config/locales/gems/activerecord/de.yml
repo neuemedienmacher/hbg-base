@@ -61,9 +61,6 @@ de:
       encounter_filter:
         one: Kontaktfilter
         other: Kontaktfilter
-      age_filter:
-        one: Altersfilter
-        other: Altersfilter
       area:
         one: Gebiet
         other: Gebiete
