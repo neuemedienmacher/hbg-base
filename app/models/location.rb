@@ -47,8 +47,6 @@ class Location < ActiveRecord::Base
     self.dup.tap do |location|
       location.hq = false
       location.offers = []
-      location.longitude = nil
-      location.latitude = nil
       location.organization = self.organization
       location.federal_state = self.federal_state
     end
