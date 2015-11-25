@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20151124141547) do
     t.string   "name"
     t.string   "email"
     t.text     "message"
-    t.text     "url",        limit: 1000
+    t.string   "url",        limit: 1000
     t.datetime "created_at"
     t.datetime "updated_at"
   end
