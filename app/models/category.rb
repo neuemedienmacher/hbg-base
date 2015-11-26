@@ -28,7 +28,10 @@ class Category < ActiveRecord::Base
   auto_sanitize :name
 
   # Scope
-  scope :mains, -> { where.not(icon: nil).order(:icon).limit(5) }
+  scope :mains, -> { where.not(icon: nil).order(:icon).limit(6) }
+  scope :in_section, ->(section) {
+    joins(:section_filters).where(filters: {identifier: section})
+  }
 
   # Methods
 
