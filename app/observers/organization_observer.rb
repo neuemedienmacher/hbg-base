@@ -1,6 +1,6 @@
 class OrganizationObserver < ActiveRecord::Observer
-  def before_save orga
-    orga.generate_html!
+  def after_save orga
+    orga.generate_translations!
   end
 
   def before_create orga

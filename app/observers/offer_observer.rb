@@ -3,8 +3,8 @@ class OfferObserver < ActiveRecord::Observer
     offer.expires_at ||= (Time.zone.now + 1.year) if offer.new_record?
   end
 
-  def before_save offer
-    offer.generate_html!
+  def after_save offer
+    offer.generate_translations!
   end
 
   def before_create offer

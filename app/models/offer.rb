@@ -7,7 +7,7 @@ class Offer < ActiveRecord::Base
   include Validations, CustomValidations, Associations, Search, StateMachine
 
   # Concerns
-  include Creator, CustomValidatable, Notable
+  include Creator, CustomValidatable, Notable, Translation
 
   # Enumerization
   extend Enumerize
@@ -20,6 +20,9 @@ class Offer < ActiveRecord::Base
   # Friendly ID
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged]
+
+  # Translation
+  translate :name, :description, :next_steps, :opening_specification
 
   def slug_candidates
     [
@@ -66,13 +69,13 @@ class Offer < ActiveRecord::Base
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   # handled in observer before save
-  def generate_html!
-    self.description_html = MarkdownRenderer.render description
-    self.description_html = Definition.infuse description_html
-    self.next_steps_html = MarkdownRenderer.render next_steps
-    if opening_specification
-      self.opening_specification_html =
-        MarkdownRenderer.render opening_specification
+  def generate_translations!
+    I18n.available_locales.each do |locale|
+      if locale == :de # German translation is needed and thus done immediately
+        TranslationGenerationWorker.new.perform(locale, 'Offer', id)
+      else
+        TranslationGenerationWorker.perform_async(locale, 'Offer', id)
+      end
     end
     true
   end

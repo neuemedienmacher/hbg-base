@@ -6,7 +6,7 @@ class Organization < ActiveRecord::Base
   include StateMachine
 
   # Concerns
-  include Creator, CustomValidatable, Notable
+  include Creator, CustomValidatable, Notable, Translation
 
   # Associtations
   has_many :locations
@@ -32,6 +32,9 @@ class Organization < ActiveRecord::Base
   # Friendly ID
   extend FriendlyId
   friendly_id :name, use: [:slugged]
+
+  # Translation
+  translate :description
 
   # Scopes
   scope :approved, -> { where(aasm_state: 'approved') }
@@ -70,7 +73,7 @@ class Organization < ActiveRecord::Base
   end
 
   # handled in observer before save
-  def generate_html!
+  def generate_translations!
     self.description_html = MarkdownRenderer.render description
     self.description_html = Definition.infuse description_html
   end

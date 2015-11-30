@@ -273,5 +273,34 @@ describe Offer do
         Offer.per_env_index.must_equal 'Offer_development_foobar'
       end
     end
+
+    describe 'translation' do
+      it 'should get translated name, description, and next_steps' do
+        Offer.any_instance.stubs(:generate_translations!)
+        offer = FactoryGirl.create :offer
+        offer.translations <<
+          FactoryGirl.create(:offer_translation, locale: :de, name: 'de name',
+                                                 description: 'de desc',
+                                                 next_steps: 'de next')
+        offer.translations <<
+          FactoryGirl.create(:offer_translation, locale: :en, name: 'en name',
+                                                 description: 'en desc',
+                                                 next_steps: 'en next')
+        old_locale = I18n.locale
+
+        I18n.locale = :de
+        offer.name.must_equal 'de name'
+        offer.description.must_equal 'de desc'
+        offer.next_steps.must_equal 'de next'
+
+        I18n.locale = :en
+        offer = Offer.find(offer.id) # clear memoization
+        offer.name.must_equal 'en name'
+        offer.description.must_equal 'en desc'
+        offer.next_steps.must_equal 'en next'
+
+        I18n.locale = old_locale
+      end
+    end
   end
 end

@@ -1,11 +1,11 @@
-# Hierarchical categorier to sort offers.
+# Hierarchical categories to sort offers.
 class Category < ActiveRecord::Base
   # AwesomeNestedSet
   # acts_as_nested_set counter_cache: :children_count, depth_column: :depth
   has_closure_tree
 
   # Concerns
-  include CustomValidatable
+  include CustomValidatable, Translation
 
   # associtations
   has_and_belongs_to_many :section_filters,
@@ -26,6 +26,9 @@ class Category < ActiveRecord::Base
   # Sanitization
   extend Sanitization
   auto_sanitize :name
+
+  # Translation
+  translate :name
 
   # Scope
   scope :mains, -> { where.not(icon: nil).order(:icon).limit(6) }
