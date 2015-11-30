@@ -110,4 +110,8 @@ class Offer < ActiveRecord::Base
       organization_display_name: organization_display_name
     }
   end
+
+  def in_section? section
+    section_filters.where(identifier: section).count > 0
+  end
 end
