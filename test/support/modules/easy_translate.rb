@@ -1,5 +1,3 @@
-# require 'easy_translate'
-
 module EasyTranslate
   def self.translate *attrs
     standard_translation = 'GET READY FOR CANADA'

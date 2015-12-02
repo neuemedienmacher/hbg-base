@@ -72,12 +72,6 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  # handled in observer before save
-  def generate_translations!
-    self.description_html = MarkdownRenderer.render description
-    self.description_html = Definition.infuse description_html
-  end
-
   def gmaps_info
     {
       title: name,

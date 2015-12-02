@@ -68,18 +68,6 @@ class Offer < ActiveRecord::Base
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-  # handled in observer before save
-  def generate_translations!
-    I18n.available_locales.each do |locale|
-      if locale == :de # German translation is needed and thus done immediately
-        TranslationGenerationWorker.new.perform(locale, 'Offer', id)
-      else
-        TranslationGenerationWorker.perform_async(locale, 'Offer', id)
-      end
-    end
-    true
-  end
-
   # Get an array of websites, ordered as follows: (1) own non-pdf (2) own pdf
   # (3+) remaining HOSTS in order, except "other"
   def structured_websites

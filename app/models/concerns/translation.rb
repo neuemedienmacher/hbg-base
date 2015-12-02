@@ -44,5 +44,17 @@ module Translation
     def cache_key
       super + I18n.locale.to_s
     end
+
+    # handled in observer before save
+    def generate_translations!
+      I18n.available_locales.each do |locale|
+        if locale == :de # German translation is needed and thus done right away
+          TranslationGenerationWorker.new.perform(locale, self.class.name, id)
+        else
+          TranslationGenerationWorker.perform_async(locale, self.class.name, id)
+        end
+      end
+      true
+    end
   end
 end
