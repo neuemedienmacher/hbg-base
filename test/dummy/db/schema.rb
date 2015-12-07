@@ -160,23 +160,22 @@ ActiveRecord::Schema.define(version: 20151130091854) do
   add_index "keywords_offers", ["offer_id"], name: "index_keywords_offers_on_offer_id"
 
   create_table "locations", force: true do |t|
-    t.string   "street",                                     null: false
+    t.string   "street",                      null: false
     t.text     "addition"
-    t.string   "zip",                                        null: false
-    t.string   "city",                                       null: false
+    t.string   "zip",                         null: false
+    t.string   "city",                        null: false
     t.boolean  "hq"
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "organization_id",                            null: false
-    t.integer  "federal_state_id",                           null: false
+    t.integer  "organization_id",             null: false
+    t.integer  "federal_state_id",            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.string   "display_name",                               null: false
+    t.string   "display_name",                null: false
     t.string   "area_code",        limit: 6
     t.string   "local_number",     limit: 32
     t.string   "email"
-    t.boolean  "visible",                     default: true
   end
 
   add_index "locations", ["created_at"], name: "index_locations_on_created_at"
