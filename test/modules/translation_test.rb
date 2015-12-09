@@ -33,6 +33,13 @@ describe Translation do
     end
   end
 
+  describe 'field getter for specific translation' do
+    it 'should find a specific translation' do
+      subject.expect_chain(:translations, :where, :select).returns [translation]
+      subject.somefield_en.must_equal 'some translation'
+    end
+  end
+
   describe 'automated translation check' do
     it 'should call the check on the current translation' do
       translation = OfferTranslation.new(source: 'GoogleTranslate')

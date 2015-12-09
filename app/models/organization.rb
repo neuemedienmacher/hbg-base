@@ -43,7 +43,7 @@ class Organization < ActiveRecord::Base
 
   # Validations
   validates :name, length: { maximum: 100 }, presence: true, uniqueness: true
-  validates :description, length: { maximum: 400 }, presence: true
+  validates :description, presence: true
   validates :legal_form, presence: true
   validates :founded, length: { is: 4 }, allow_blank: true
   validates :comment, length: { maximum: 800 }

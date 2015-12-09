@@ -2,12 +2,14 @@ class TranslationGenerationWorker
   include Sidekiq::Worker
 
   def perform locale, object_type, object_id
+    object = object_type.constantize.find(object_id)
     translation = find_or_initialize_translation(locale, object_type, object_id)
 
     translation.assign_attributes(
-      generate_field_translations(locale, object_type, object_id)
+      generate_field_translations(locale, object)
     )
     translation.save!
+    reindex object, locale
   end
 
   private
@@ -28,8 +30,7 @@ class TranslationGenerationWorker
     )
   end
 
-  def generate_field_translations locale, object_type, object_id
-    object = object_type.constantize.find(object_id)
+  def generate_field_translations locale, object
     translations_hash = direct_translate_to_html object
 
     if locale == :de
@@ -63,6 +64,14 @@ class TranslationGenerationWorker
       MarkdownRenderer.render object.send(field)
     else
       raise "TranslationGenerationWorker: #{field} needs translation strategy"
+    end
+  end
+
+  def reindex object, locale
+    if object.is_a? Offer
+      object.index!(locale)
+    else
+      object.offers.each(&:index!)
     end
   end
 end

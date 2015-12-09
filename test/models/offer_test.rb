@@ -26,12 +26,9 @@ describe Offer do
   describe 'validations' do
     describe 'always' do
       it { subject.must validate_presence_of :name }
-      it { subject.must validate_length_of(:name).is_at_most 80 }
       it { subject.must validate_presence_of :description }
-      it { subject.must validate_length_of(:description).is_at_most 450 }
       it { subject.must validate_presence_of :next_steps }
       it { subject.must validate_presence_of :encounter }
-      it { subject.must validate_length_of(:next_steps).is_at_most 500 }
       it { subject.must validate_length_of(:comment).is_at_most 800 }
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
@@ -271,6 +268,17 @@ describe Offer do
           .returns ActiveSupport::StringInquirer.new('development')
         ENV.stubs(:[]).returns 'foobar'
         Offer.per_env_index.must_equal 'Offer_development_foobar'
+      end
+    end
+
+    describe 'Algolia overwrites: ::reindex' do
+      it 'should call the algolia original multiple times' do
+        Offer.expects(:algolia_reindex).times(I18n.available_locales.length)
+        Offer.reindex
+      end
+
+      it 'should run without errors' do
+        Offer.reindex
       end
     end
 

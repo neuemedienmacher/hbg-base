@@ -2,34 +2,21 @@ module Translation
   extend ActiveSupport::Concern
 
   included do
-    # rubocop:disable Style/MethodLength
-    # because this is essentially many separate small methods
     def self.translate *fields
       fields.each do |field|
-        # :name -> translated #name getter
-        define_method field do
-          if translation && !translation.send(field).blank?
-            translation.send(field)
-          else
-            send("untranslated_#{field}")
-          end
-        end
-
-        # :name -> #untranslated_name as regular #name getter
-        define_method "untranslated_#{field}" do
-          attributes[field.to_s]
-        end
-
-        # simple getter for all fields that are translated for this object
-        define_method :translated_fields do
-          fields
+        define_field_getter(field)
+        define_untranslated_field_getter(field)
+        I18n.available_locales.each do |locale|
+          define_specific_locale_field_getter(field, locale)
         end
       end
+
+      define_translated_fields_list_getter(fields)
     end
-    # rubocop:enable Style/MethodLength
 
     has_many :translations, class_name: "#{self.name}Translation",
-                            inverse_of: self.name.downcase
+                            inverse_of: self.name.downcase,
+                            dependent: :destroy
 
     def translation_automated?
       return false unless translation
@@ -55,6 +42,42 @@ module Translation
         end
       end
       true
+    end
+
+    private
+
+    # :name -> translated #name getter in currently set locale
+    def self.define_field_getter field
+      define_method field do
+        if translation && !translation.send(field).blank?
+          translation.send(field)
+        else
+          send("untranslated_#{field}")
+        end
+      end
+    end
+
+    # :name -> #untranslated_name as regular #name getter
+    def self.define_untranslated_field_getter field
+      define_method "untranslated_#{field}" do
+        attributes[field.to_s]
+      end
+    end
+
+    # :name, :de -> translated #name_de getter in specific given locale
+    def self.define_specific_locale_field_getter field, locale
+      define_method "#{field}_#{locale}" do
+        translation = translations.where(locale: locale).select(field).first
+        return nil unless translation
+        translation.send(field)
+      end
+    end
+
+    # simple getter for all fields that are translated for this object
+    def self.define_translated_fields_list_getter fields
+      define_method :translated_fields do
+        fields
+      end
     end
   end
 end

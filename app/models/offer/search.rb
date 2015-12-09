@@ -13,43 +13,46 @@ class Offer
         end
       end
 
-      def self.personal_index_name
-        "#{per_env_index}_personal"
+      def self.personal_index_name locale
+        "#{per_env_index}_personal_#{locale}"
       end
 
-      def self.remote_index_name
-        "#{per_env_index}_remote"
+      def self.remote_index_name locale
+        "#{per_env_index}_remote_#{locale}"
       end
 
-      algoliasearch index_name: personal_index_name,
-                    disable_indexing: Rails.env.test?,
-                    if: :personal_indexable? do
-        INDEX = %w(
-          name description category_string keyword_string organization_names
-          next_steps
+      algoliasearch do
+        index = %w(
+          name description next_steps keyword_string organization_names
         )
-        attributesToIndex INDEX
-        ranking %w(
-          typo geo words proximity attribute exact custom
-        )
-        ATTRIBUTES = [:category_string, :keyword_string, :organization_names,
-                      :organization_display_name, :location_address,
-                      :next_steps]
-        FACETS = [:_tags, :_age_filters, :_language_filters, :_section_filters,
-                  :_target_audience_filters, :_exclusive_gender_filters]
-        add_attribute(*ATTRIBUTES)
-        add_attribute(*FACETS)
-        add_attribute :_geoloc
-        attributesForFaceting FACETS
-        optionalWords STOPWORDS
+        # :category_string,
+        attributes = [:organization_display_name, :location_address] + index
+        facets = [:_tags, :_age_filters, :_language_filters,
+                  :_section_filters, :_target_audience_filters,
+                  :_exclusive_gender_filters]
 
-        add_index Offer.remote_index_name, disable_indexing: Rails.env.test?,
-                                           if: :remote_indexable? do
-          attributesToIndex INDEX
-          add_attribute(*ATTRIBUTES)
+        add_index Offer.personal_index_name(I18n.locale),
+                  disable_indexing: Rails.env.test?,
+                  if: :personal_indexable? do
+          attributesToIndex index
+          ranking %w(
+            typo geo words proximity attribute exact custom
+          )
+          add_attribute(*attributes)
+          add_attribute(*facets)
+          add_attribute :_geoloc
+          attributesForFaceting facets
+          optionalWords STOPWORDS
+        end
+
+        add_index Offer.remote_index_name(I18n.locale),
+                  disable_indexing: Rails.env.test?,
+                  if: :remote_indexable? do
+          attributesToIndex index
+          add_attribute(*attributes)
           add_attribute :area_minlat, :area_maxlat, :area_minlong,
                         :area_maxlong
-          remote_facets = FACETS + [:encounter]
+          remote_facets = facets + [:encounter]
           add_attribute(*remote_facets)
           attributesForFaceting remote_facets
           optionalWords STOPWORDS
@@ -91,9 +94,10 @@ class Offer
       # additional searchable string made from categories
       # TODO: Ueberhaupt notwendig, wenn es fuer Kategorien keine Synonyme mehr
       # gibt?
-      def category_string
-        categories.pluck(:name).flatten.compact.uniq.join(', ')
-      end
+      # "category_string_#{locale}",
+      # def category_string
+      #   categories.pluck(:name).flatten.compact.uniq.join(', ')
+      # end
 
       # additional searchable string made from categories
       def keyword_string
@@ -118,6 +122,25 @@ class Offer
 
       def _exclusive_gender_filters
         [exclusive_gender]
+      end
+
+      ### Overwrite Algolia methods to fit our localization logic ###
+
+      def self.reindex
+        I18n.available_locales.each do |locale|
+          I18n.with_locale(locale) do
+            algolia_reindex
+          end
+        end
+      end
+      singleton_class.send(:alias_method, :reindex!, :reindex)
+
+      def index!(locale = nil)
+        if locale
+          I18n.with_locale(locale) { algolia_index! }
+        else
+          I18n.available_locales.each { |al| index!(al) } # recursion!
+        end
       end
     end
   end

@@ -23,6 +23,7 @@ class Offer < ActiveRecord::Base
 
   # Translation
   translate :name, :description, :next_steps, :opening_specification
+  # keywords ?
 
   def slug_candidates
     [

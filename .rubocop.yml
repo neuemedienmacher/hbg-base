@@ -39,5 +39,8 @@ Style/IfUnlessModifier:
 Metrics/MethodLength:
   Max: 13
 
+Metrics/ModuleLength:
+  Max: 110
+
 Metrics/AbcSize:
   Max: 16
