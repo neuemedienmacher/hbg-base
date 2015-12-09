@@ -15,7 +15,6 @@ describe Category do
   describe 'validations' do
     describe 'always' do
       it { subject.must validate_presence_of :name }
-      it { subject.must validate_uniqueness_of :name }
       it 'must validate the presence of a section_filter' do
         category.expects(:validate_section_filter_presence)
         category.save
