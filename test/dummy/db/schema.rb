@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130091854) do
+ActiveRecord::Schema.define(version: 20151210113954) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -59,6 +59,18 @@ ActiveRecord::Schema.define(version: 20151130091854) do
 
   add_index "category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "category_anc_desc_idx", unique: true
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx"
+
+  create_table "category_translations", force: true do |t|
+    t.integer  "category_id",              null: false
+    t.string   "locale",                   null: false
+    t.string   "source",      default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",        default: "", null: false
+  end
+
+  add_index "category_translations", ["category_id"], name: "index_category_translations_on_category_id"
+  add_index "category_translations", ["locale"], name: "index_category_translations_on_locale"
 
   create_table "contact_people", force: true do |t|
     t.integer  "organization_id",                             null: false
@@ -160,22 +172,23 @@ ActiveRecord::Schema.define(version: 20151130091854) do
   add_index "keywords_offers", ["offer_id"], name: "index_keywords_offers_on_offer_id"
 
   create_table "locations", force: true do |t|
-    t.string   "street",                      null: false
+    t.string   "street",                                     null: false
     t.text     "addition"
-    t.string   "zip",                         null: false
-    t.string   "city",                        null: false
+    t.string   "zip",                                        null: false
+    t.string   "city",                                       null: false
     t.boolean  "hq"
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "organization_id",             null: false
-    t.integer  "federal_state_id",            null: false
+    t.integer  "organization_id",                            null: false
+    t.integer  "federal_state_id",                           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.string   "display_name",                null: false
+    t.string   "display_name",                               null: false
     t.string   "area_code",        limit: 6
     t.string   "local_number",     limit: 32
     t.string   "email"
+    t.boolean  "visible",                     default: true
   end
 
   add_index "locations", ["created_at"], name: "index_locations_on_created_at"
@@ -208,6 +221,20 @@ ActiveRecord::Schema.define(version: 20151130091854) do
 
   add_index "offer_mailings", ["email_id"], name: "index_offer_mailings_on_email_id"
   add_index "offer_mailings", ["offer_id"], name: "index_offer_mailings_on_offer_id"
+
+  create_table "offer_translations", force: true do |t|
+    t.integer  "offer_id",                            null: false
+    t.string   "locale",                              null: false
+    t.string   "source",                 default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",        limit: 80, default: "", null: false
+    t.text     "description",            default: "", null: false
+    t.text     "next_steps"
+  end
+
+  add_index "offer_translations", ["locale"], name: "index_offer_translations_on_locale"
+  add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id"
 
   create_table "offers", force: true do |t|
     t.string   "name",                       limit: 80,                 null: false
@@ -271,6 +298,19 @@ ActiveRecord::Schema.define(version: 20151130091854) do
 
   add_index "organization_offers", ["offer_id"], name: "index_organization_offers_on_offer_id"
   add_index "organization_offers", ["organization_id"], name: "index_organization_offers_on_organization_id"
+
+  create_table "organization_translations", force: true do |t|
+    t.integer  "organization_id",              null: false
+    t.string   "locale",                       null: false
+    t.string   "source",          default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",            default: "", null: false
+    t.text     "description",     default: "", null: false
+  end
+
+  add_index "organization_translations", ["locale"], name: "index_organization_translations_on_locale"
+  add_index "organization_translations", ["organization_id"], name: "index_organization_translations_on_organization_id"
 
   create_table "organizations", force: true do |t|
     t.string   "name",                                              null: false

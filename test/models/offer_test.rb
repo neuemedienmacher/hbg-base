@@ -14,7 +14,6 @@ describe Offer do
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :opening_specification }
-    it { subject.must_respond_to :comment }
     it { subject.must_respond_to :aasm_state }
     it { subject.must_respond_to :legal_information }
     it { subject.must_respond_to :age_from }
@@ -32,7 +31,6 @@ describe Offer do
       it { subject.must validate_presence_of :next_steps }
       it { subject.must validate_presence_of :encounter }
       it { subject.must validate_length_of(:next_steps).is_at_most 500 }
-      it { subject.must validate_length_of(:comment).is_at_most 800 }
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
       it do

@@ -43,7 +43,6 @@ class Organization < ActiveRecord::Base
   validates :description, length: { maximum: 400 }, presence: true
   validates :legal_form, presence: true
   validates :founded, length: { is: 4 }, allow_blank: true
-  validates :comment, length: { maximum: 800 }
   validates :slug, uniqueness: true
   # Custom Validations
   validate :validate_hq_location, on: :update

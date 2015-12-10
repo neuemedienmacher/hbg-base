@@ -21,7 +21,6 @@ describe Organization do
     it { subject.must_respond_to :slug }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
-    it { subject.must_respond_to :comment }
     it { subject.must_respond_to :aasm_state }
     it { subject.must_respond_to :mailings_enabled }
   end
@@ -35,7 +34,6 @@ describe Organization do
       it { subject.must validate_presence_of :description }
       it { subject.must validate_length_of(:description).is_at_most 400 }
       it { subject.must validate_presence_of :legal_form }
-      it { subject.must validate_length_of(:comment).is_at_most 800 }
       it { subject.must validate_uniqueness_of :slug }
     end
   end
