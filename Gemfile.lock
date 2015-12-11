@@ -122,6 +122,9 @@ GEM
     dotenv-rails (2.0.2)
       dotenv (= 2.0.2)
       railties (~> 4.0)
+    email_spec (1.6.0)
+      launchy (~> 2.1)
+      mail (~> 2.2)
     enumerize (1.1.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
@@ -353,6 +356,7 @@ DEPENDENCIES
   coveralls
   database_cleaner
   dotenv-rails
+  email_spec
   factory_girl_rails
   fakeredis!
   fakeweb (~> 1.3)

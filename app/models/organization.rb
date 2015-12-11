@@ -60,25 +60,10 @@ class Organization < ActiveRecord::Base
     @location ||= locations.hq.first
   end
 
-  def partial_dup
-    self.dup.tap do |orga|
-      orga.name = nil
-      orga.founded = nil
-      orga.aasm_state = 'initialized'
-    end
-  end
-
   # handled in observer before save
   def generate_html!
     self.description_html = MarkdownRenderer.render description
     self.description_html = Definition.infuse description_html
-  end
-
-  def gmaps_info
-    {
-      title: name,
-      address: location.address
-    }
   end
 
   def homepage

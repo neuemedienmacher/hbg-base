@@ -26,6 +26,15 @@ describe Category do
     end
   end
 
+  describe 'scopes' do
+    describe 'in_section' do
+      it 'should scope to a specific section filter' do
+        Category.in_section('family').count.must_equal 3 # from fixtures
+        Category.in_section('refugees').count.must_equal 3 # from fixtures
+      end
+    end
+  end
+
   describe '::Base' do
     describe 'associations' do
       it { subject.must have_many :categories_offers }

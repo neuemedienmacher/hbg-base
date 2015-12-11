@@ -14,3 +14,6 @@ gemspec
 # gem 'debugger'
 
 gem 'fakeredis', github: 'guilleiguaran/fakeredis', branch: 'master'
+
+# testing emails
+gem 'email_spec'

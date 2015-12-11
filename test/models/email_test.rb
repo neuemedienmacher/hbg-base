@@ -131,4 +131,46 @@ describe Email do
       end
     end
   end
+
+  describe 'Methods' do
+    describe '#should_be_blocked?' do
+      it 'should return true if it has SPoC contact_people' do
+        email = FactoryGirl.create :email
+        FactoryGirl.create :contact_person, spoc: true, email: email
+        email.send(:should_be_blocked?).must_equal true
+      end
+
+      it 'should return false if it has no SPoC contact_people' do
+        email = FactoryGirl.create :email
+        FactoryGirl.create :contact_person, spoc: false, email: email
+        email.send(:should_be_blocked?).must_equal false
+      end
+    end
+
+    describe '#informable?' do
+      it 'should be true if it has approved offers & a mailings_enabled orga' do
+        email = FactoryGirl.create :email
+        offer = FactoryGirl.create :offer, :approved
+        offer.contact_people.first.update_column :email_id, email.id
+        email.organizations.first.update_column :mailings_enabled, true
+        email.send(:informable?).must_equal true
+      end
+
+      it 'should be false if it has no approved offers' do
+        email = FactoryGirl.create :email
+        offer = FactoryGirl.create :offer
+        offer.contact_people.first.update_column :email_id, email.id
+        email.organizations.first.update_column :mailings_enabled, true
+        email.send(:informable?).must_equal false
+      end
+
+      it 'should be false if it has no mailings_enabled orga' do
+        email = FactoryGirl.create :email
+        offer = FactoryGirl.create :offer, :approved
+        offer.contact_people.first.update_column :email_id, email.id
+        email.organizations.first.update_column :mailings_enabled, false
+        email.send(:informable?).must_equal false
+      end
+    end
+  end
 end
