@@ -4,7 +4,7 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter "/test/"
   add_filter "/app/policies/application_policy.rb"
-  add_filter "/lib/clarat_base/engine.rb"
+  add_filter "/lib/clarat_base/"
   minimum_coverage 99 # TODO: increase to 100 again
 end
 
