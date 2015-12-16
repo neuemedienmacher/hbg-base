@@ -46,6 +46,16 @@ describe Organization do
         FactoryGirl.create :location, organization: orga, hq: true
         orga.reload.valid?.must_equal false
       end
+
+      it 'should ensure that there are only own-websites connected' do
+        orga.websites.destroy_all
+        orga.reload.valid?.must_equal true
+        orga.websites << FactoryGirl.create(:website, :social)
+        orga.reload.valid?.must_equal false
+        orga.websites.destroy_all
+        orga.websites << FactoryGirl.create(:website, :own)
+        orga.reload.valid?.must_equal true
+      end
     end
   end
 
