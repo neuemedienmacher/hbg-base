@@ -5,4 +5,4 @@ de:
       incomplete: |
         kann nicht angehakt werden, wenn nicht auch "Completed" gesetzt ist
       hq_location: "Es muss genau eine HQ-Location zugeordnet werden"
-      hq_location: "'%{website}' ist nicht Host 'own'"
+      website_host: "'%{website}' ist nicht Host 'own'"
