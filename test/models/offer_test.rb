@@ -26,7 +26,7 @@ describe Offer do
   describe 'validations' do
     describe 'always' do
       it { subject.must validate_presence_of :name }
-      it { subject.must validate_length_of(:name).is_at_most 80 }
+      it { subject.must validate_length_of(:name).is_at_most 120 }
       it { subject.must validate_presence_of :description }
       it { subject.must validate_length_of(:description).is_at_most 450 }
       it { subject.must validate_presence_of :next_steps }
