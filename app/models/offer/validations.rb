@@ -11,7 +11,6 @@ class Offer
       validates :next_steps, presence: true
       validates :opening_specification, length: { maximum: 400 }
       validates :legal_information, length: { maximum: 400 }
-      validates :comment, length: { maximum: 800 }
       validates :slug, uniqueness: true
       validates :encounter, presence: true
       validates :expires_at, presence: true

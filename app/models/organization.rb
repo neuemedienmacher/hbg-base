@@ -46,7 +46,6 @@ class Organization < ActiveRecord::Base
   validates :description, presence: true
   validates :legal_form, presence: true
   validates :founded, length: { is: 4 }, allow_blank: true
-  validates :comment, length: { maximum: 800 }
   validates :slug, uniqueness: true
   # Custom Validations
   validate :validate_hq_location, on: :update
@@ -62,21 +61,6 @@ class Organization < ActiveRecord::Base
   # finds the main (HQ) location of this organization
   def location
     @location ||= locations.hq.first
-  end
-
-  def partial_dup
-    self.dup.tap do |orga|
-      orga.name = nil
-      orga.founded = nil
-      orga.aasm_state = 'initialized'
-    end
-  end
-
-  def gmaps_info
-    {
-      title: name,
-      address: location.address
-    }
   end
 
   def homepage

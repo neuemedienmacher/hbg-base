@@ -27,10 +27,11 @@ Gem::Specification.new do |s|
   #########   DEPENDENCIES   #########
   ####################################
 
-  s.add_dependency 'rails', '~> 4.1.12'
+  s.add_dependency 'rails', '>= 4.1.12'
   s.add_dependency 'bundler', '>= 1.8.4'
 
   s.add_dependency 'rails-i18n'
+  s.add_dependency 'web-console', '~> 2.0'
   s.add_dependency 'rails-observers' # observers got extracted since rails 4
   s.add_dependency 'enumerize'
   s.add_dependency 'paper_trail'

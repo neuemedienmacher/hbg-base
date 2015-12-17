@@ -4,7 +4,8 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter "/test/"
   add_filter "/app/policies/application_policy.rb"
-  minimum_coverage 90 # TODO: increase to 100 again
+  add_filter "/lib/clarat_base/"
+  minimum_coverage 99 # TODO: increase to 100 again
 end
 
 # test requires
@@ -55,6 +56,9 @@ Dir[File.expand_path('../../test/support/spec_helpers/*.rb', __FILE__)]
   .each { |f| require f }
 Dir[File.expand_path('../../test/factories/*.rb', __FILE__)]
   .each { |f| require f }
+# require additional folders?
+Dir[Rails.root.join('test/workers/*.rb')].each { |f| require f }
+Dir[Rails.root.join('test/mailers/*.rb')].each { |f| require f }
 
 # Redis
 Redis.current = Redis.new

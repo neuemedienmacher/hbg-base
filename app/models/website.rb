@@ -34,8 +34,4 @@ class Website < ActiveRecord::Base
   def shorten_url
     URI.parse(self.url).host
   end
-
-  def pdf_appendix
-    url.ends_with?('.pdf') ? ' (PDF)' : ''
-  end
 end

@@ -2,6 +2,7 @@ require_relative '../test_helper'
 
 describe Offer do
   let(:offer) { Offer.new }
+  let(:basicOffer) { offers(:basic) }
 
   subject { offer }
 
@@ -14,7 +15,6 @@ describe Offer do
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :opening_specification }
-    it { subject.must_respond_to :comment }
     it { subject.must_respond_to :aasm_state }
     it { subject.must_respond_to :legal_information }
     it { subject.must_respond_to :age_from }
@@ -35,6 +35,70 @@ describe Offer do
       it do
         subject.must validate_length_of(:opening_specification).is_at_most 400
       end
+
+      it 'should ensure that age_from fits age_to' do
+        basicOffer.age_from = 9
+        basicOffer.age_to = 1
+        basicOffer.wont_be :valid?
+        basicOffer.age_to = 10
+        basicOffer.must_be :valid?
+      end
+
+      it 'should ensure a personal offer has a location' do
+        basicOffer.encounter = 'personal'
+        basicOffer.location_id = nil
+        basicOffer.wont_be :valid?
+        basicOffer.location_id = 1
+        basicOffer.must_be :valid?
+      end
+
+      it 'should ensure a remote offer has no location but an area' do
+        basicOffer.encounter = 'hotline'
+        basicOffer.location_id = 1
+        basicOffer.area_id = 1
+        basicOffer.wont_be :valid?
+        basicOffer.location_id = 1
+        basicOffer.area_id = nil
+        basicOffer.wont_be :valid?
+        basicOffer.location_id = nil
+        basicOffer.area_id = nil
+        basicOffer.wont_be :valid?
+
+        basicOffer.location_id = nil
+        basicOffer.area_id = 1
+        basicOffer.must_be :valid? # !
+      end
+
+      it 'should ensure locations and organizations fit together (personal)' do
+        location = FactoryGirl.create(:location)
+        basicOffer.location_id = location.id
+        basicOffer.wont_be :valid?
+        location.update_column :organization_id, organizations(:basic).id
+        basicOffer.location.reload
+        basicOffer.must_be :valid?
+      end
+
+      it 'should ensure all chosen organizations are approved' do
+        basicOffer.organizations.update_all aasm_state: 'expired'
+        basicOffer.reload.wont_be :valid?
+        basicOffer.organizations.update_all aasm_state: 'approved'
+        basicOffer.reload.must_be :valid?
+      end
+
+      it 'should ensure chosen contact people are SPoC or belong to orga' do
+        cp = FactoryGirl.create :contact_person, spoc: false,
+                                                 offers: [basicOffer]
+        basicOffer.reload.wont_be :valid?
+        cp.update_column :spoc, true
+        basicOffer.reload.must_be :valid?
+        cp.update_columns spoc: false, organization_id: organizations(:basic).id
+        basicOffer.reload.must_be :valid?
+      end
+
+      # it 'should ensure chosen contact people belong to a chosen orga' do
+      #   basicOffer.reload.wont_be :valid?
+      #   basicOffer.reload.must_be :valid?
+      # end
     end
 
     describe 'when in family section' do
@@ -198,11 +262,10 @@ describe Offer do
         category = categories(:main1)
         offer.section_filters << filters(:refugees)
         offer.categories << category
-        offer.expects(:fail_validation).with :section_filters,
-                                             'section_filter_not_found_in_cate'\
-                                             'gory',
-                                             world: 'Refugees',
-                                             category: category.name
+        offer.expects(:fail_validation).with(
+          :section_filters, 'section_filter_not_found_in_category',
+          world: 'Refugees', category: category.name
+        )
         offer.section_filters_must_match_categories_section_filters
       end
 
@@ -211,11 +274,10 @@ describe Offer do
         category = categories(:main2)
         off.section_filters = [filters(:refugees), filters(:family)]
         off.categories << category
-        off.expects(:fail_validation).with :section_filters,
-                                           'section_filter_not_found_in_cate'\
-                                           'gory',
-                                           world: 'Family',
-                                           category: category.name
+        off.expects(:fail_validation).with(
+          :section_filters, 'section_filter_not_found_in_category',
+          world: 'Family', category: category.name
+        )
         off.section_filters_must_match_categories_section_filters
       end
 
@@ -225,11 +287,10 @@ describe Offer do
         off.section_filters = [filters(:refugees), filters(:family)]
         off.categories << category
         off.categories << categories(:main3)
-        off.expects(:fail_validation).with :section_filters,
-                                           'section_filter_not_found_in_cate'\
-                                           'gory',
-                                           world: 'Family',
-                                           category: category.name
+        off.expects(:fail_validation).with(
+          :section_filters, 'section_filter_not_found_in_category',
+          world: 'Family', category: category.name
+        )
         off.section_filters_must_match_categories_section_filters
       end
 
@@ -271,6 +332,7 @@ describe Offer do
       end
     end
 
+<<<<<<< HEAD
     describe 'Algolia overwrites: ::reindex' do
       it 'should call the algolia original multiple times' do
         Offer.expects(:algolia_reindex).times(I18n.available_locales.length)
@@ -308,6 +370,41 @@ describe Offer do
         offer.next_steps.must_equal 'en next'
 
         I18n.locale = old_locale
+=======
+    describe 'State Machine' do
+      describe '#different_actor?' do
+        it 'should return true when created_by differs from current_actor' do
+          offer.created_by = 99
+          offer.send(:different_actor?).must_equal true
+        end
+
+        it 'should return false when created_by is the same as current_actor' do
+          offer.created_by = offer.current_actor
+          offer.send(:different_actor?).must_equal false
+        end
+
+        it 'should return falsy when created_by is nil' do
+          offer.send(:different_actor?).must_equal nil
+        end
+
+        it 'should return false when current_actor is nil' do
+          offer.created_by = 1
+          offer.stubs(:current_actor).returns(nil)
+          offer.send(:different_actor?).must_equal nil
+        end
+      end
+    end
+
+    describe '#opening_details?' do
+      it 'should return false when there are no openings / opening specs' do
+        offer.opening_details?.must_equal false
+      end
+
+      it 'should return true when there are openings and opening specs' do
+        offer.openings = Opening.limit(1)
+        offer.opening_specification = 'chunky bacon'
+        offer.opening_details?.must_equal true
+>>>>>>> master
       end
     end
   end
