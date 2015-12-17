@@ -3,7 +3,7 @@ class Offer
     extend ActiveSupport::Concern
 
     included do
-      validates :name, length: { maximum: 80 }, presence: true
+      validates :name, length: { maximum: 120 }, presence: true
       validates :name,
                 uniqueness: { scope: :location_id },
                 unless: ->(offer) { offer.location.nil? }
