@@ -29,7 +29,6 @@ describe Offer do
       it { subject.must validate_presence_of :description }
       it { subject.must validate_presence_of :next_steps }
       it { subject.must validate_presence_of :encounter }
-      it { subject.must validate_length_of(:comment).is_at_most 800 }
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
       it do
@@ -332,7 +331,6 @@ describe Offer do
       end
     end
 
-<<<<<<< HEAD
     describe 'Algolia overwrites: ::reindex' do
       it 'should call the algolia original multiple times' do
         Offer.expects(:algolia_reindex).times(I18n.available_locales.length)
@@ -370,7 +368,9 @@ describe Offer do
         offer.next_steps.must_equal 'en next'
 
         I18n.locale = old_locale
-=======
+      end
+    end
+
     describe 'State Machine' do
       describe '#different_actor?' do
         it 'should return true when created_by differs from current_actor' do
@@ -404,7 +404,40 @@ describe Offer do
         offer.openings = Opening.limit(1)
         offer.opening_specification = 'chunky bacon'
         offer.opening_details?.must_equal true
->>>>>>> master
+      end
+    end
+
+    describe 'search' do
+      it 'should correctly return geolocation hash for algolia' do
+        loc = FactoryGirl.create(:location)
+        basicOffer.location_id = loc.id
+        basicOffer._geoloc.must_equal('lat' => 10, 'lng' => 20)
+      end
+
+      it 'should correctly return keywords_string' do
+        basicOffer.keywords << keywords(:basic)
+        basicOffer.keyword_string.must_equal 'test, synonym'
+      end
+
+      it 'should correctly return age_filters' do
+        basicOffer._age_filters.must_equal((0..17).to_a)
+      end
+
+      it 'should correctly return organization_names' do
+        basicOffer.organization_names.must_equal 'foobar'
+      end
+
+      it 'should correctly return _exclusive_gender_filters' do
+        basicOffer.exclusive_gender = 'boys_only'
+        basicOffer._exclusive_gender_filters.must_equal(['boys_only'])
+      end
+
+      it 'should correctly return target_audience_filters' do
+        basicOffer._target_audience_filters.must_equal(['children'])
+      end
+
+      it 'should correctly return language_filters' do
+        basicOffer._language_filters.must_equal(['deu'])
       end
     end
   end
