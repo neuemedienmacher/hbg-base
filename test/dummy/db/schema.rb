@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217093957) do
+ActiveRecord::Schema.define(version: 20160104142514) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -237,8 +237,8 @@ ActiveRecord::Schema.define(version: 20151217093957) do
   add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id"
 
   create_table "offers", force: :cascade do |t|
-    t.string   "name",                       limit: 120,                 null: false
-    t.text     "description",                                            null: false
+    t.string   "name",                       limit: 80, null: false
+    t.text     "description",                           null: false
     t.text     "next_steps"
     t.string   "encounter"
     t.string   "slug"
@@ -246,13 +246,11 @@ ActiveRecord::Schema.define(version: 20151217093957) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "opening_specification"
-    t.text     "comment"
     t.datetime "approved_at"
     t.text     "legal_information"
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.boolean  "renewed",                                default: false
-    t.date     "expires_at",                                             null: false
+    t.date     "expires_at",                            null: false
     t.integer  "area_id"
     t.text     "description_html"
     t.text     "next_steps_html"
@@ -322,13 +320,11 @@ ActiveRecord::Schema.define(version: 20151217093957) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "comment"
     t.datetime "approved_at"
     t.integer  "offers_count",                      default: 0
     t.integer  "locations_count",                   default: 0
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.boolean  "renewed",                           default: false
     t.boolean  "accredited_institution",            default: false
     t.text     "description_html"
     t.boolean  "mailings_enabled",                  default: false
