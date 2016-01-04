@@ -17,7 +17,7 @@ class Category < ActiveRecord::Base
   has_closure_tree order: 'sort_order'
 
   # Validations
-  validates :name, uniqueness: true, presence: true
+  validates :name, presence: true
 
   # Custom Validations
   validate :validate_section_filter_presence

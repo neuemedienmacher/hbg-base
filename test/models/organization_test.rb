@@ -21,7 +21,6 @@ describe Organization do
     it { subject.must_respond_to :slug }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
-    it { subject.must_respond_to :comment }
     it { subject.must_respond_to :aasm_state }
     it { subject.must_respond_to :mailings_enabled }
   end
@@ -35,8 +34,28 @@ describe Organization do
       it { subject.must validate_presence_of :description }
       it { subject.must validate_length_of(:description).is_at_most 400 }
       it { subject.must validate_presence_of :legal_form }
-      it { subject.must validate_length_of(:comment).is_at_most 800 }
       it { subject.must validate_uniqueness_of :slug }
+
+      it 'should ensure there is exactly one hq location' do
+        orga.locations.destroy_all
+        orga.reload.valid?.must_equal false
+        FactoryGirl.create :location, organization: orga, hq: false
+        orga.reload.valid?.must_equal false
+        FactoryGirl.create :location, organization: orga, hq: true
+        orga.reload.valid?.must_equal true
+        FactoryGirl.create :location, organization: orga, hq: true
+        orga.reload.valid?.must_equal false
+      end
+
+      it 'should ensure that there are only own-websites connected' do
+        orga.websites.destroy_all
+        orga.reload.valid?.must_equal true
+        orga.websites << FactoryGirl.create(:website, :social)
+        orga.reload.valid?.must_equal false
+        orga.websites.destroy_all
+        orga.websites << FactoryGirl.create(:website, :own)
+        orga.reload.valid?.must_equal true
+      end
     end
   end
 
@@ -238,6 +257,44 @@ describe Organization do
         orga.reactivate_offers!
         offer.reload.must_be :organization_deactivated?
       end
+    end
+
+    describe '#different_actor?' do
+      it 'should return true when created_by differs from current_actor' do
+        orga.created_by = 99
+        orga.send(:different_actor?).must_equal true
+      end
+
+      it 'should return false when created_by is the same as current_actor' do
+        orga.created_by = orga.current_actor
+        orga.send(:different_actor?).must_equal false
+      end
+
+      it 'should return falsy when created_by is nil' do
+        orga.created_by = nil
+        orga.send(:different_actor?).must_equal nil
+      end
+
+      it 'should return false when current_actor is nil' do
+        orga.created_by = 1
+        orga.stubs(:current_actor).returns(nil)
+        orga.send(:different_actor?).must_equal nil
+      end
+    end
+  end
+
+  describe '#homepage' do
+    it 'should return the own website of the orga' do
+      own_website = orga.websites.create! host: 'own', url: 'http://foo.bar'
+      orga.websites.create! host: 'facebook', url: 'http://baz.fuz'
+      orga.homepage.must_equal own_website
+    end
+  end
+
+  describe '#location' do
+    it 'should return the hq location of the orga' do
+      FactoryGirl.create :location, organization: orga, hq: false # decoy
+      orga.location.must_equal locations(:basic)
     end
   end
 end

@@ -43,14 +43,23 @@ class Organization < ActiveRecord::Base
   validates :description, length: { maximum: 400 }, presence: true
   validates :legal_form, presence: true
   validates :founded, length: { is: 4 }, allow_blank: true
-  validates :comment, length: { maximum: 800 }
   validates :slug, uniqueness: true
   # Custom Validations
   validate :validate_hq_location, on: :update
+  validate :validate_websites_hosts
 
   def validate_hq_location
     if locations.to_a.count(&:hq) != 1
       errors.add(:base, I18n.t('organization.validations.hq_location'))
+    end
+  end
+
+  def validate_websites_hosts
+    websites.where.not(host: 'own').each do |website|
+      errors.add(
+        :base,
+        I18n.t('organization.validations.website_host', website: website.url)
+      )
     end
   end
 
@@ -61,25 +70,10 @@ class Organization < ActiveRecord::Base
     @location ||= locations.hq.first
   end
 
-  def partial_dup
-    self.dup.tap do |orga|
-      orga.name = nil
-      orga.founded = nil
-      orga.aasm_state = 'initialized'
-    end
-  end
-
   # handled in observer before save
   def generate_html!
     self.description_html = MarkdownRenderer.render description
     self.description_html = Definition.infuse description_html
-  end
-
-  def gmaps_info
-    {
-      title: name,
-      address: location.address
-    }
   end
 
   def homepage

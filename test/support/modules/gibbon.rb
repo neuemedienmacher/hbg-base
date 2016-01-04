@@ -1,6 +1,6 @@
 module Gibbon
   class API
-    def lists
+    def self.lists
       Gibbon::ClaratListStub.new
     end
   end

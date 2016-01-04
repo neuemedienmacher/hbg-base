@@ -15,7 +15,6 @@ describe Category do
   describe 'validations' do
     describe 'always' do
       it { subject.must validate_presence_of :name }
-      it { subject.must validate_uniqueness_of :name }
       it 'must validate the presence of a section_filter' do
         category.expects(:validate_section_filter_presence)
         category.save
@@ -23,6 +22,15 @@ describe Category do
       it 'must validate the section_filters of the parent' do
         category.expects(:validate_section_filters_with_parent)
         category.save
+      end
+    end
+  end
+
+  describe 'scopes' do
+    describe 'in_section' do
+      it 'should scope to a specific section filter' do
+        Category.in_section('family').count.must_equal 3 # from fixtures
+        Category.in_section('refugees').count.must_equal 3 # from fixtures
       end
     end
   end
