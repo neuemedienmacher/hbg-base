@@ -316,6 +316,16 @@ describe Offer do
         off.expects(:fail_validation).never
         off.section_filters_must_match_categories_section_filters
       end
+
+      it 'should correctly reply to in_section? call' do
+        off = offers(:basic)
+        off.in_section?('family').must_equal true
+        off.in_section?('refugees').must_equal false
+      end
+
+      it 'should correctly retrieve offers with in_section scope' do
+        Offer.in_section('family').must_equal [offers(:basic)]
+      end
     end
 
     describe '::per_env_index' do
