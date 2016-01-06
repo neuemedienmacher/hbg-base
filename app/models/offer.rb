@@ -32,6 +32,9 @@ class Offer < ActiveRecord::Base
   scope :approved, -> { where(aasm_state: 'approved') }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
+  scope :in_section, lambda { |section|
+    joins(:section_filters).where(filters: { identifier: section })
+  }
 
   # Methods
 
@@ -63,5 +66,9 @@ class Offer < ActiveRecord::Base
     elsif organizations.any?
       organizations.first.name
     end
+  end
+
+  def in_section? section
+    section_filters.where(identifier: section).count > 0
   end
 end

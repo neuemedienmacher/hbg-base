@@ -26,7 +26,7 @@ describe Offer do
   describe 'validations' do
     describe 'always' do
       it { subject.must validate_presence_of :name }
-      it { subject.must validate_length_of(:name).is_at_most 80 }
+      it { subject.must validate_length_of(:name).is_at_most 120 }
       it { subject.must validate_presence_of :description }
       it { subject.must validate_length_of(:description).is_at_most 450 }
       it { subject.must validate_presence_of :next_steps }
@@ -318,6 +318,16 @@ describe Offer do
         off.categories << categories(:main3)
         off.expects(:fail_validation).never
         off.section_filters_must_match_categories_section_filters
+      end
+
+      it 'should correctly reply to in_section? call' do
+        off = offers(:basic)
+        off.in_section?('family').must_equal true
+        off.in_section?('refugees').must_equal false
+      end
+
+      it 'should correctly retrieve offers with in_section scope' do
+        Offer.in_section('family').must_equal [offers(:basic)]
       end
     end
 

@@ -46,10 +46,20 @@ class Organization < ActiveRecord::Base
   validates :slug, uniqueness: true
   # Custom Validations
   validate :validate_hq_location, on: :update
+  validate :validate_websites_hosts
 
   def validate_hq_location
     if locations.to_a.count(&:hq) != 1
       errors.add(:base, I18n.t('organization.validations.hq_location'))
+    end
+  end
+
+  def validate_websites_hosts
+    websites.where.not(host: 'own').each do |website|
+      errors.add(
+        :base,
+        I18n.t('organization.validations.website_host', website: website.url)
+      )
     end
   end
 
