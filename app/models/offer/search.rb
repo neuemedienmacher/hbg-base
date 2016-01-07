@@ -23,7 +23,7 @@ class Offer
 
       algoliasearch do
         index = %w(
-          name description next_steps keyword_string organization_names
+          name description next_steps_concat keyword_string organization_names
         )
         # :category_string,
         attributes = [:organization_display_name, :location_address] + index
@@ -107,6 +107,10 @@ class Offer
       # concatenated organization name for search index
       def organization_names
         organizations.pluck(:name).join(', ')
+      end
+
+      def next_steps_concat
+        next_steps.pluck("text_#{I18n.locale}").join(' ')
       end
 
       # filter indexing methods

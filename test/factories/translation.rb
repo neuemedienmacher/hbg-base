@@ -7,7 +7,6 @@ FactoryGirl.define do
     factory :offer_translation, class: 'OfferTranslation' do
       name 'default offer_translation name'
       description 'default offer_translation description'
-      next_steps 'default offer_translation next_steps'
     end
 
     factory :organization_translation do

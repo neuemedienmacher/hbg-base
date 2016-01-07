@@ -20,10 +20,14 @@ class Offer
       has_and_belongs_to_many :openings
       has_and_belongs_to_many :keywords, inverse_of: :offers
       has_many :contact_person_offers, inverse_of: :offer
-      has_many :contact_people, through: :contact_person_offers, inverse_of: :offers
+      has_many :contact_people, through: :contact_person_offers,
+                                inverse_of: :offers
       has_many :emails, through: :contact_people, inverse_of: :offers
       has_many :organization_offers, dependent: :destroy
-      has_many :organizations, through: :organization_offers, inverse_of: :offers
+      has_many :organizations, through: :organization_offers,
+                               inverse_of: :offers
+      has_many :next_steps_offers, inverse_of: :offer
+      has_many :next_steps, through: :next_steps_offers, inverse_of: :offers
       # Attention: former has_one :organization, through: :locations
       # but there can also be offers without locations
       has_many :hyperlinks, as: :linkable, dependent: :destroy

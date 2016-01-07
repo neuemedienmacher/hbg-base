@@ -7,7 +7,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
   describe '#perform' do
     it 'should work for an offer in German' do
       Offer.find(1).update_columns(
-        name: '*foo*', description: '*foo*', next_steps: '*foo*',
+        name: '*foo*', description: '*foo*', old_next_steps: '*foo*',
         opening_specification: '*foo*'
       )
       FactoryGirl.create :definition, key: 'foo'
@@ -16,7 +16,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       translation.name.must_equal '*foo*'
       translation.description.must_equal(
         "<p><em><dfn class='JS-tooltip' data-id='1'>foo</dfn></em></p>\n")
-      translation.next_steps.must_equal "<p><em>foo</em></p>\n"
+      translation.old_next_steps.must_equal "<p><em>foo</em></p>\n"
       translation.opening_specification.must_equal "<p><em>foo</em></p>\n"
     end
 
@@ -25,7 +25,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       translation = OfferTranslation.last
       translation.name.must_equal 'GET READY FOR CANADA'
       translation.description.must_equal 'GET READY FOR CANADA'
-      translation.next_steps.must_equal 'GET READY FOR CANADA'
+      translation.old_next_steps.must_equal 'GET READY FOR CANADA'
       translation.opening_specification.must_equal 'GET READY FOR CANADA'
     end
 
@@ -59,10 +59,10 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       worker.send(:direct_translate_via_strategy, OpenStruct.new, :description)
     end
 
-    it 'should check for markdown but not definitions in next_steps' do
+    it 'should check for markdown but not definitions in old_next_steps' do
       MarkdownRenderer.expects(:render)
       Definition.expects(:infuse).never
-      worker.send(:direct_translate_via_strategy, OpenStruct.new, :next_steps)
+      worker.send(:direct_translate_via_strategy, OpenStruct.new, :old_next_steps)
     end
 
     it 'should check for md but not definitions in opening_specification' do

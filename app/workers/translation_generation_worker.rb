@@ -60,7 +60,7 @@ class TranslationGenerationWorker
       object.name
     when :description
       Definition.infuse MarkdownRenderer.render(object.description)
-    when :next_steps, :opening_specification
+    when :old_next_steps, :opening_specification
       MarkdownRenderer.render object.send(field)
     else
       raise "TranslationGenerationWorker: #{field} needs translation strategy"

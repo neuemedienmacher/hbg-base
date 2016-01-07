@@ -8,7 +8,6 @@ class Offer
                 uniqueness: { scope: :location_id },
                 unless: ->(offer) { offer.location.nil? }
       validates :description, presence: true
-      validates :next_steps, presence: true
       validates :opening_specification, length: { maximum: 400 }
       validates :legal_information, length: { maximum: 400 }
       validates :slug, uniqueness: true

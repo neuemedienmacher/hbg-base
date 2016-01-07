@@ -10,7 +10,7 @@ describe Offer do
     it { subject.must_respond_to :id }
     it { subject.must_respond_to :name }
     it { subject.must_respond_to :description }
-    it { subject.must_respond_to :next_steps }
+    it { subject.must_respond_to :old_next_steps }
     it { subject.must_respond_to :slug }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
@@ -27,7 +27,6 @@ describe Offer do
     describe 'always' do
       it { subject.must validate_presence_of :name }
       it { subject.must validate_presence_of :description }
-      it { subject.must validate_presence_of :next_steps }
       it { subject.must validate_presence_of :encounter }
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
@@ -353,29 +352,29 @@ describe Offer do
     end
 
     describe 'translation' do
-      it 'should get translated name, description, and next_steps' do
+      it 'should get translated name, description, and old_next_steps' do
         Offer.any_instance.stubs(:generate_translations!)
         offer = FactoryGirl.create :offer
         offer.translations <<
           FactoryGirl.create(:offer_translation, locale: :de, name: 'de name',
                                                  description: 'de desc',
-                                                 next_steps: 'de next')
+                                                 old_next_steps: 'de next')
         offer.translations <<
           FactoryGirl.create(:offer_translation, locale: :en, name: 'en name',
                                                  description: 'en desc',
-                                                 next_steps: 'en next')
+                                                 old_next_steps: 'en next')
         old_locale = I18n.locale
 
         I18n.locale = :de
         offer.name.must_equal 'de name'
         offer.description.must_equal 'de desc'
-        offer.next_steps.must_equal 'de next'
+        offer.old_next_steps.must_equal 'de next'
 
         I18n.locale = :en
         offer = Offer.find(offer.id) # clear memoization
         offer.name.must_equal 'en name'
         offer.description.must_equal 'en desc'
-        offer.next_steps.must_equal 'en next'
+        offer.old_next_steps.must_equal 'en next'
 
         I18n.locale = old_locale
       end
@@ -435,6 +434,12 @@ describe Offer do
 
       it 'should correctly return organization_names' do
         basicOffer.organization_names.must_equal 'foobar'
+      end
+
+      it 'should correctly return next_steps_concat' do
+        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
+        basicOffer.next_steps << NextStep.create(text_de: 'bar.')
+        basicOffer.next_steps_concat.must_equal 'foo. bar.'
       end
 
       it 'should correctly return _exclusive_gender_filters' do

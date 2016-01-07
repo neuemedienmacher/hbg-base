@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104142514) do
+ActiveRecord::Schema.define(version: 20160107112024) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -195,6 +195,26 @@ ActiveRecord::Schema.define(version: 20160104142514) do
   add_index "locations", ["federal_state_id"], name: "index_locations_on_federal_state_id"
   add_index "locations", ["organization_id"], name: "index_locations_on_organization_id"
 
+  create_table "next_steps", force: :cascade do |t|
+    t.string "text_de", null: false
+    t.string "text_en"
+    t.string "text_ar"
+    t.string "text_fr"
+    t.string "text_pl"
+    t.string "text_tr"
+    t.string "text_ru"
+  end
+
+  add_index "next_steps", ["text_de"], name: "index_next_steps_on_text_de"
+
+  create_table "next_steps_offers", force: :cascade do |t|
+    t.integer "next_step_id", null: false
+    t.integer "offer_id",     null: false
+  end
+
+  add_index "next_steps_offers", ["next_step_id"], name: "index_next_steps_offers_on_next_step_id"
+  add_index "next_steps_offers", ["offer_id"], name: "index_organization_translations_on_offer_id"
+
   create_table "notes", force: :cascade do |t|
     t.text     "text",                         null: false
     t.string   "topic",             limit: 32
@@ -230,7 +250,7 @@ ActiveRecord::Schema.define(version: 20160104142514) do
     t.datetime "updated_at"
     t.string   "name",                  limit: 80, default: "", null: false
     t.text     "description",                      default: "", null: false
-    t.text     "next_steps"
+    t.text     "old_next_steps"
     t.text     "opening_specification"
   end
 
@@ -238,9 +258,9 @@ ActiveRecord::Schema.define(version: 20160104142514) do
   add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id"
 
   create_table "offers", force: :cascade do |t|
-    t.string   "name",                       limit: 120,                 null: false
-    t.text     "description",                                            null: false
-    t.text     "next_steps"
+    t.string   "name",                       limit: 120, null: false
+    t.text     "description",                            null: false
+    t.text     "old_next_steps"
     t.string   "encounter"
     t.string   "slug"
     t.integer  "location_id"
@@ -251,8 +271,7 @@ ActiveRecord::Schema.define(version: 20160104142514) do
     t.text     "legal_information"
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.boolean  "renewed",                                default: false
-    t.date     "expires_at",                                             null: false
+    t.date     "expires_at",                             null: false
     t.integer  "area_id"
     t.text     "description_html"
     t.text     "next_steps_html"
@@ -326,7 +345,6 @@ ActiveRecord::Schema.define(version: 20160104142514) do
     t.integer  "locations_count",                   default: 0
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.boolean  "renewed",                           default: false
     t.boolean  "accredited_institution",            default: false
     t.text     "description_html"
     t.boolean  "mailings_enabled",                  default: false

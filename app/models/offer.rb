@@ -22,7 +22,7 @@ class Offer < ActiveRecord::Base
   friendly_id :slug_candidates, use: [:slugged]
 
   # Translation
-  translate :name, :description, :next_steps, :opening_specification
+  translate :name, :description, :old_next_steps, :opening_specification
   # keywords ?
 
   def slug_candidates
