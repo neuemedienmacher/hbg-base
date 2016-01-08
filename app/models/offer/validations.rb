@@ -14,7 +14,7 @@ class Offer
       validates :slug, uniqueness: true
       validates :encounter, presence: true
       validates :expires_at, presence: true
-      validates :expires_at, later_date: true, on: :create
+      validates :expires_at, later_date: true
 
       MIN_AGE = 0
       MAX_AGE = 17
