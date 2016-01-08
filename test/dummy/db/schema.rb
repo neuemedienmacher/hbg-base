@@ -60,18 +60,6 @@ ActiveRecord::Schema.define(version: 20160104142514) do
   add_index "category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "category_anc_desc_idx", unique: true
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx"
 
-  create_table "category_translations", force: :cascade do |t|
-    t.integer  "category_id",              null: false
-    t.string   "locale",                   null: false
-    t.string   "source",      default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",        default: "", null: false
-  end
-
-  add_index "category_translations", ["category_id"], name: "index_category_translations_on_category_id"
-  add_index "category_translations", ["locale"], name: "index_category_translations_on_locale"
-
   create_table "contact_people", force: :cascade do |t|
     t.integer  "organization_id",                             null: false
     t.datetime "created_at"
@@ -222,23 +210,9 @@ ActiveRecord::Schema.define(version: 20160104142514) do
   add_index "offer_mailings", ["email_id"], name: "index_offer_mailings_on_email_id"
   add_index "offer_mailings", ["offer_id"], name: "index_offer_mailings_on_offer_id"
 
-  create_table "offer_translations", force: :cascade do |t|
-    t.integer  "offer_id",                            null: false
-    t.string   "locale",                              null: false
-    t.string   "source",                 default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",        limit: 80, default: "", null: false
-    t.text     "description",            default: "", null: false
-    t.text     "next_steps"
-  end
-
-  add_index "offer_translations", ["locale"], name: "index_offer_translations_on_locale"
-  add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id"
-
   create_table "offers", force: :cascade do |t|
-    t.string   "name",                       limit: 120,                 null: false
-    t.text     "description",                                            null: false
+    t.string   "name",                       limit: 120, null: false
+    t.text     "description",                            null: false
     t.text     "next_steps"
     t.string   "encounter"
     t.string   "slug"
@@ -250,8 +224,7 @@ ActiveRecord::Schema.define(version: 20160104142514) do
     t.text     "legal_information"
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.boolean  "renewed",                                default: false
-    t.date     "expires_at",                                             null: false
+    t.date     "expires_at",                             null: false
     t.integer  "area_id"
     t.text     "description_html"
     t.text     "next_steps_html"
@@ -298,19 +271,6 @@ ActiveRecord::Schema.define(version: 20160104142514) do
   add_index "organization_offers", ["offer_id"], name: "index_organization_offers_on_offer_id"
   add_index "organization_offers", ["organization_id"], name: "index_organization_offers_on_organization_id"
 
-  create_table "organization_translations", force: :cascade do |t|
-    t.integer  "organization_id",              null: false
-    t.string   "locale",                       null: false
-    t.string   "source",          default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",            default: "", null: false
-    t.text     "description",     default: "", null: false
-  end
-
-  add_index "organization_translations", ["locale"], name: "index_organization_translations_on_locale"
-  add_index "organization_translations", ["organization_id"], name: "index_organization_translations_on_organization_id"
-
   create_table "organizations", force: :cascade do |t|
     t.string   "name",                                              null: false
     t.text     "description",                                       null: false
@@ -326,7 +286,6 @@ ActiveRecord::Schema.define(version: 20160104142514) do
     t.integer  "locations_count",                   default: 0
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.boolean  "renewed",                           default: false
     t.boolean  "accredited_institution",            default: false
     t.text     "description_html"
     t.boolean  "mailings_enabled",                  default: false
