@@ -9,9 +9,4 @@ describe NextStepsOffer do
     it { subject.must_respond_to :offer_id }
     it { subject.must_respond_to :next_step_id }
   end
-
-  describe 'validations' do
-    it { subject.must validate_presence_of :offer_id }
-    it { subject.must validate_presence_of :next_step_id }
-  end
 end
