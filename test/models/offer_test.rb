@@ -93,6 +93,15 @@ describe Offer do
         basicOffer.reload.must_be :valid?
       end
 
+      it 'should ensure that no more than 10 next steps are chosen' do
+        11.times do |i|
+          basicOffer.next_steps << NextStep.create(text_de: i)
+        end
+        basicOffer.reload.wont_be :valid?
+        NextStepsOffer.last.destroy!
+        basicOffer.reload.must_be :valid?
+      end
+
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
       #   basicOffer.reload.must_be :valid?

@@ -33,3 +33,5 @@ de:
         als SPoC markiert sein
       section_filter_not_found_in_category:  |
         '%{world}' nicht in der ausgewählten Kategorie '%{category}' enthalten
+      no_more_than_10_next_steps: |
+        dürfen nicht mehr als 10 sein
