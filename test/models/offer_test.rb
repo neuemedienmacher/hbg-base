@@ -102,6 +102,14 @@ describe Offer do
         basicOffer.reload.must_be :valid?
       end
 
+      it 'should validate expiration date' do
+        subject.expires_at = Time.zone.now
+        subject.valid?
+        subject.errors.messages[:expires_at].must_include(
+          I18n.t('shared.validations.later_date')
+        )
+      end
+
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
       #   basicOffer.reload.must_be :valid?
@@ -131,16 +139,6 @@ describe Offer do
       it do
         subject.must validate_numericality_of(:age_to).only_integer
           .is_greater_than(0) # no less_than_or_equal_to
-      end
-    end
-
-    describe 'custom' do
-      it 'should validate expiration date' do
-        subject.expires_at = Time.zone.now
-        subject.valid?
-        subject.errors.messages[:expires_at].must_include(
-          I18n.t('shared.validations.later_date')
-        )
       end
     end
   end
