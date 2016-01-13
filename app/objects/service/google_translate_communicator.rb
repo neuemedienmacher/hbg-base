@@ -2,7 +2,8 @@
 class GoogleTranslateCommunicator
   def self.get_translations original_texts_hash, to_locale, from_locale = 'de'
     results = EasyTranslate.translate(
-      original_texts_hash.values, from: from_locale, to: to_locale)
+      original_texts_hash.values, from: from_locale, to: to_locale,
+                                  quotaUser: random_user)
 
     result_hash = {}
 
@@ -11,5 +12,12 @@ class GoogleTranslateCommunicator
     end
 
     result_hash
+  end
+
+  private
+
+  # Provide GoogleAPI with a randomized string as user to prevent quota overflow
+  def self.random_user
+    rand().to_s[2..40]
   end
 end
