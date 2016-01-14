@@ -60,6 +60,14 @@ class Offer < ActiveRecord::Base
     end
   end
 
+  def next_steps_for_current_locale
+    next_steps_for_locale I18n.locale
+  end
+
+  def next_steps_for_locale locale
+    next_steps.select("text_#{locale}").map(&:"text_#{locale}").join(' ')
+  end
+
   def in_section? section
     section_filters.where(identifier: section).count > 0
   end
