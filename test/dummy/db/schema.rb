@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104142514) do
+ActiveRecord::Schema.define(version: 20160114155653) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20160104142514) do
     t.string   "responsibility"
     t.integer  "email_id"
     t.boolean  "spoc",                        default: false, null: false
+    t.boolean  "visible",                     default: true
   end
 
   add_index "contact_people", ["email_id"], name: "index_contact_people_on_email_id"

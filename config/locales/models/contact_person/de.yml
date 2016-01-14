@@ -4,3 +4,4 @@ de:
       incomplete: |
         Entweder "First name", "Last name", "Operational Name",
         "Local Number 1" oder "Email" muss ausgefüllt werden.
+      spoc_invisible: "SPoC's müssen sichtbar sein."
