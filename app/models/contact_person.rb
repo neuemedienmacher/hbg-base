@@ -25,7 +25,6 @@ class ContactPerson < ActiveRecord::Base
   validates :fax_area_code, format: /\A\d*\z/, length: { maximum: 6 }
   validates :fax_number, format: /\A\d*\z/, length: { maximum: 32 }
   validate :at_least_one_field_present
-  validate :spoc_must_be_visible
 
   def at_least_one_field_present
     one_field_blank = %w(first_name last_name operational_name local_number_1
@@ -35,12 +34,6 @@ class ContactPerson < ActiveRecord::Base
 
     if one_field_blank
       errors.add :base, I18n.t('contact_person.validations.incomplete')
-    end
-  end
-
-  def spoc_must_be_visible
-    if !visible && spoc
-      errors.add :base, I18n.t('contact_person.validations.spoc_invisible')
     end
   end
 

@@ -20,7 +20,6 @@ describe ContactPerson do
     it { subject.must_respond_to :fax_number }
     it { subject.must_respond_to :email_id }
     it { subject.must_respond_to :spoc } # SPoC = Single Point of Contact
-    it { subject.must_respond_to :visible }
   end
 
   describe 'validations' do
@@ -95,14 +94,6 @@ describe ContactPerson do
             contact_person.operational_name = nil
             contact_person.local_number_1 = nil
             contact_person.fax_number = '123'
-            contact_person.valid?.must_equal true
-          end
-
-          it 'should behave correctly with spoc and visible flag' do
-            contact_person.spoc = true
-            contact_person.visible = false
-            contact_person.valid?.must_equal false
-            contact_person.visible = true
             contact_person.valid?.must_equal true
           end
         end
