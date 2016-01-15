@@ -21,6 +21,7 @@ describe Offer do
     it { subject.must_respond_to :age_to }
     it { subject.must_respond_to :exclusive_gender }
     it { subject.must_respond_to :target_audience }
+    it { subject.must_respond_to :hide_contact_people }
   end
 
   describe 'validations' do
