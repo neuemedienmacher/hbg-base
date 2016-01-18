@@ -6,10 +6,9 @@ class LocationObserver < ActiveRecord::Observer
       GeocodingWorker.perform_async l.id
     end
 
-    # TODO: write Test for new LocationObserver functionality!!!
     # update algolia indices of offers (for location_visible) if changed
     if l.visible_changed?
-      l.offers.find_each(&:index!)
+      l.offers.approved.find_each(&:index!)
     end
   end
 end
