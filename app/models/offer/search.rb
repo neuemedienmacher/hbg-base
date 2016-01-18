@@ -27,7 +27,7 @@ class Offer
             name description next_steps keyword_string organization_names
           )
           # :category_string,
-          attributes = [:organization_display_name, :location_address,
+          attributes = [:organization_display_name, :location_address, :slug,
                         :keyword_string, :organization_names]
           facets = [:_tags, :_age_filters, :_language_filters,
                     :_section_filters, :_target_audience_filters,
