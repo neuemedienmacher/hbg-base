@@ -28,7 +28,7 @@ class Offer
           )
           # :category_string,
           attributes = [:organization_display_name, :location_address, :slug,
-                        :keyword_string, :organization_names]
+                        :encounter, :keyword_string, :organization_names]
           facets = [:_tags, :_age_filters, :_language_filters,
                     :_section_filters, :_target_audience_filters,
                     :_exclusive_gender_filters]
@@ -67,9 +67,8 @@ class Offer
             add_attribute(*attributes)
             add_attribute :area_minlat, :area_maxlat, :area_minlong,
                           :area_maxlong
-            remote_facets = facets + [:encounter]
-            add_attribute(*remote_facets)
-            attributesForFaceting remote_facets
+            add_attribute(*facets)
+            attributesForFaceting facets + [:encounter]
             optionalWords STOPWORDS
 
             # no geo necessary
