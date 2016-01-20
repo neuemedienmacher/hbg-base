@@ -14,10 +14,8 @@ class GoogleTranslateCommunicator
     result_hash
   end
 
-  private
-
   # Provide GoogleAPI with a randomized string as user to prevent quota overflow
   def self.random_user
-    rand().to_s[2..40]
+    rand.to_s[2..40]
   end
 end

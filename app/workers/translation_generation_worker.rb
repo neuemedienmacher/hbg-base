@@ -9,7 +9,7 @@ class TranslationGenerationWorker
       generate_field_translations(locale, object)
     )
     translation.save!
-    reindex object, locale
+    reindex object
   end
 
   private
@@ -67,11 +67,11 @@ class TranslationGenerationWorker
     end
   end
 
-  def reindex object, locale
+  def reindex object
     if object.is_a? Offer
-      object.index!(locale)
+      object.algolia_index!
     else
-      object.offers.each(&:index!)
+      object.offers.each(&:algolia_index!)
     end
   end
 end

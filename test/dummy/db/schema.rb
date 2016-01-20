@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160113135307) do
+ActiveRecord::Schema.define(version: 20160115110729) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -258,8 +258,8 @@ ActiveRecord::Schema.define(version: 20160113135307) do
   add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id"
 
   create_table "offers", force: :cascade do |t|
-    t.string   "name",                       limit: 120, null: false
-    t.text     "description",                            null: false
+    t.string   "name",                       limit: 120,                 null: false
+    t.text     "description",                                            null: false
     t.text     "old_next_steps"
     t.string   "encounter"
     t.string   "slug"
@@ -271,7 +271,7 @@ ActiveRecord::Schema.define(version: 20160113135307) do
     t.text     "legal_information"
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.date     "expires_at",                             null: false
+    t.date     "expires_at",                                             null: false
     t.integer  "area_id"
     t.text     "description_html"
     t.text     "next_steps_html"
@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(version: 20160113135307) do
     t.integer  "age_to"
     t.string   "target_audience"
     t.string   "aasm_state",                 limit: 32
+    t.boolean  "hide_contact_people",                    default: false
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"

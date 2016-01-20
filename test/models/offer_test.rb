@@ -21,6 +21,7 @@ describe Offer do
     it { subject.must_respond_to :age_to }
     it { subject.must_respond_to :exclusive_gender }
     it { subject.must_respond_to :target_audience }
+    it { subject.must_respond_to :hide_contact_people }
   end
 
   describe 'validations' do
@@ -347,17 +348,6 @@ describe Offer do
       end
     end
 
-    describe 'Algolia overwrites: ::reindex' do
-      it 'should call the algolia original multiple times' do
-        Offer.expects(:algolia_reindex).times(I18n.available_locales.length)
-        Offer.reindex
-      end
-
-      it 'should run without errors' do
-        Offer.reindex
-      end
-    end
-
     describe 'translation' do
       it 'should get translated name, description, and old_next_steps' do
         Offer.any_instance.stubs(:generate_translations!)
@@ -443,11 +433,11 @@ describe Offer do
         basicOffer.organization_names.must_equal 'foobar'
       end
 
-      it 'should correctly return next_steps_concat' do
-        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
-        basicOffer.next_steps << NextStep.create(text_de: 'bar.')
-        basicOffer.next_steps_concat.must_equal 'foo. bar.'
-      end
+      # it 'should correctly return next_steps_concat' do
+      #   basicOffer.next_steps << NextStep.create(text_de: 'foo.')
+      #   basicOffer.next_steps << NextStep.create(text_de: 'bar.')
+      #   basicOffer.next_steps_concat.must_equal 'foo. bar.'
+      # end
 
       it 'should correctly return _exclusive_gender_filters' do
         basicOffer.exclusive_gender = 'boys_only'

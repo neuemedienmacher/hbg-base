@@ -28,7 +28,8 @@ class Offer
           )
           # :category_string,
           attributes = [:organization_display_name, :location_address, :slug,
-                        :encounter, :keyword_string, :organization_names]
+                        :encounter, :keyword_string, :organization_names,
+                        :location_visible]
           facets = [:_tags, :_age_filters, :_language_filters,
                     :_section_filters, :_target_audience_filters,
                     :_exclusive_gender_filters]
@@ -56,7 +57,6 @@ class Offer
           add_index Offer.remote_index_name(locale),
                     disable_indexing: Rails.env.test?,
                     if: :remote_indexable? do
-
             attributesToIndex index
             attribute(:name) { send("name_#{locale}") }
             attribute(:description) { send("description_#{locale}") }
@@ -122,6 +122,10 @@ class Offer
       # concatenated organization name for search index
       def organization_names
         organizations.pluck(:name).join(', ')
+      end
+
+      def location_visible
+        location ? location.visible : false
       end
 
       # filter indexing methods

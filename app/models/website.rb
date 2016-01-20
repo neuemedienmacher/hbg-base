@@ -10,7 +10,9 @@ class Website < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  HOSTS = %w(own facebook twitter youtube gplus pinterest document other)
+  HOSTS = %w(own facebook twitter youtube gplus pinterest document
+             online_consulting chat forum online_course application_form
+             contact_form other)
   enumerize :host, in: HOSTS
 
   # Validations
@@ -18,16 +20,10 @@ class Website < ActiveRecord::Base
   validates :url, format: %r{\Ahttps?://\S+\.\S+\z}, uniqueness: true,
                   presence: true
 
-  # Scopes
-  scope :own, -> { where(host: 'own') }
-  scope :facebook, -> { where(host: 'facebook') }
-  scope :twitter, -> { where(host: 'twitter') }
-  scope :youtube, -> { where(host: 'youtube') }
-  scope :gplus, -> { where(host: 'gplus') }
-  scope :pinterest, -> { where(host: 'pinterest') }
-  scope :document, -> { where(host: 'document') }
-  scope :other, -> { where(host: 'other') }
-
+  # Scopes..
+  # .. by hostname
+  HOSTS.each { |host_name| scope host_name, -> { where(host: host_name) } }
+  # .. by url
   scope :pdf, -> { where('websites.url LIKE ?', '%.pdf') }
   scope :non_pdf, -> { where.not('websites.url LIKE ?', '%.pdf') }
 
