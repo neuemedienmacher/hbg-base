@@ -43,10 +43,7 @@ class Offer
             )
             attribute(:name) { send("name_#{locale}") }
             attribute(:description) { send("description_#{locale}") }
-            attribute(:next_steps) do
-              string = next_steps_for_locale(locale)
-              string.empty? ? send("old_next_steps_#{locale}") : string
-            end
+            attribute(:next_steps)  { _next_steps locale }
             add_attribute(*attributes)
             add_attribute(*facets)
             add_attribute :_geoloc
@@ -60,10 +57,7 @@ class Offer
             attributesToIndex index
             attribute(:name) { send("name_#{locale}") }
             attribute(:description) { send("description_#{locale}") }
-            attribute(:next_steps) do
-              string = next_steps_for_locale(locale)
-              string.empty? ? send("old_next_steps_#{locale}") : string
-            end
+            attribute(:next_steps)  { _next_steps locale }
             add_attribute(*attributes)
             add_attribute :area_minlat, :area_maxlat, :area_minlong,
                           :area_maxlong
@@ -141,6 +135,11 @@ class Offer
 
       def _exclusive_gender_filters
         [exclusive_gender]
+      end
+
+      def _next_steps locale
+        string = next_steps_for_locale(locale)
+        string.empty? ? send("old_next_steps_#{locale}") : string
       end
     end
   end

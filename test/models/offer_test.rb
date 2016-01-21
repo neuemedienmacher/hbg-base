@@ -433,11 +433,38 @@ describe Offer do
         basicOffer.organization_names.must_equal 'foobar'
       end
 
-      # it 'should correctly return next_steps_concat' do
-      #   basicOffer.next_steps << NextStep.create(text_de: 'foo.')
-      #   basicOffer.next_steps << NextStep.create(text_de: 'bar.')
-      #   basicOffer.next_steps_concat.must_equal 'foo. bar.'
-      # end
+      it 'should correctly return visible boolean' do
+        loc = FactoryGirl.create(:location)
+        basicOffer.location_id = loc.id
+
+        basicOffer.location.visible = false
+        basicOffer.location_visible.must_equal false
+
+        basicOffer.location.visible = true
+        basicOffer.location_visible.must_equal true
+
+        basicOffer.location = nil
+        basicOffer.location_visible.must_equal false
+      end
+
+      it 'should correctly return next_steps for german locale' do
+        old_locale = I18n.locale
+        I18n.locale = :de
+        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
+        basicOffer.next_steps << NextStep.create(text_de: 'bar.')
+        basicOffer.next_steps_for_current_locale.must_equal 'foo. bar.'
+        I18n.locale = old_locale
+      end
+
+      it 'should correctly respond to _next_steps' do
+        basicOffer.next_steps = []
+        basicOffer.expects(:send).with("old_next_steps_#{I18n.locale}")
+        basicOffer._next_steps I18n.locale
+
+        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
+        basicOffer.expects(:send).with("old_next_steps_#{I18n.locale}").never
+        basicOffer._next_steps(I18n.locale).must_equal 'foo.'
+      end
 
       it 'should correctly return _exclusive_gender_filters' do
         basicOffer.exclusive_gender = 'boys_only'
