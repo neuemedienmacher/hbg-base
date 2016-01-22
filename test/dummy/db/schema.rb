@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160115110729) do
+ActiveRecord::Schema.define(version: 20160121134028) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -235,6 +235,7 @@ ActiveRecord::Schema.define(version: 20160115110729) do
     t.string   "target_audience"
     t.string   "aasm_state",                 limit: 32
     t.boolean  "hide_contact_people",                    default: false
+    t.boolean  "age_visible",                            default: false
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
