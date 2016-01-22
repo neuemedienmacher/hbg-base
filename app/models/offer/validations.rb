@@ -15,7 +15,7 @@ class Offer
       validates :encounter, presence: true
       validates :expires_at, presence: true
       validates :expires_at, later_date: true
-      validates :code_word, presence: true, length: { maximum: 140}
+      validates :code_word, length: { maximum: 140 }
 
       MIN_AGE = 0
       MAX_AGE = 17

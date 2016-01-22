@@ -36,7 +36,6 @@ describe Offer do
       it { subject.must validate_length_of(:next_steps).is_at_most 500 }
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
-      it { subject.must validate_presence_of :code_word }
       it { subject.must validate_length_of(:code_word).is_at_most 140 }
       it do
         subject.must validate_length_of(:opening_specification).is_at_most 400
