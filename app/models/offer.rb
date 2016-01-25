@@ -17,8 +17,8 @@ class Offer < ActiveRecord::Base
   PARTICIPANT_STRUCTURES = %w(target_audience_alone target_audience_and_others)
   enumerize :encounter, in: ENCOUNTERS
   enumerize :exclusive_gender, in: EXCLUSIVE_GENDERS
-  enumerize :treatment_type, in: ENCOUNTERS
-  enumerize :participant_structure, in: ENCOUNTERS
+  enumerize :treatment_type, in: TREATMENT_TYPES
+  enumerize :participant_structure, in: PARTICIPANT_STRUCTURES
   CONTACT_TYPES = %w(personal remote)
 
   # Friendly ID
