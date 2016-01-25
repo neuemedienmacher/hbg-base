@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121150540) do
+ActiveRecord::Schema.define(version: 20160125150829) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -122,12 +122,15 @@ ActiveRecord::Schema.define(version: 20160121150540) do
   end
 
   create_table "filters", force: :cascade do |t|
-    t.string   "name",                  null: false
-    t.string   "identifier", limit: 20, null: false
+    t.string   "name",                         null: false
+    t.string   "identifier",        limit: 20, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type",                  null: false
+    t.string   "type",                         null: false
+    t.integer  "section_filter_id"
   end
+
+  add_index "filters", ["section_filter_id"], name: "index_filters_on_section_filter_id"
 
   create_table "filters_offers", id: false, force: :cascade do |t|
     t.integer "filter_id", null: false

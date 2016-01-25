@@ -1,4 +1,7 @@
 class TargetAudienceFilter < Filter
+  # Associtations
+  belongs_to :section_filter
+
   IDENTIFIER = %w(children parents nuclear_family acquaintances pregnant_woman
                   everyone refugees refugees_children refugees_adolescents
                   refugees refugees_children_and_adolescents refugees_umf
