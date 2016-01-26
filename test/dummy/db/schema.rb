@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125150829) do
+ActiveRecord::Schema.define(version: 20160126082343) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 20160125150829) do
 
   create_table "filters", force: :cascade do |t|
     t.string   "name",                         null: false
-    t.string   "identifier",        limit: 20, null: false
+    t.string   "identifier",        limit: 35, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type",                         null: false
