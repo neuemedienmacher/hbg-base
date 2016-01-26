@@ -128,6 +128,8 @@ describe Offer do
   describe '::Base' do
     describe 'associations' do
       it { subject.must belong_to :location }
+      it { subject.must belong_to :area }
+      it { subject.must belong_to :solution_category }
       it { subject.must have_many :organization_offers }
       it { subject.must have_many(:organizations).through :organization_offers }
       it { subject.must have_and_belong_to_many :categories }
@@ -135,6 +137,7 @@ describe Offer do
       it { subject.must have_and_belong_to_many :section_filters }
       it { subject.must have_and_belong_to_many :language_filters }
       it { subject.must have_and_belong_to_many :target_audience_filters }
+      it { subject.must have_and_belong_to_many :trait_filters }
       it { subject.must have_and_belong_to_many :openings }
       it { subject.must have_many :hyperlinks }
       it { subject.must have_many :websites }
