@@ -18,33 +18,20 @@ class Offer
       validates :code_word, length: { maximum: 140 }
 
       MIN_AGE = 0
-      MAX_AGE = 17
-      # Family section filtered validations
+      MAX_AGE = 99
+      # Age validation by section
       validates :age_from,
                 numericality: { greater_than_or_equal_to: MIN_AGE,
                                 only_integer: true,
-                                less_than_or_equal_to: MAX_AGE,
+                                less_than: MAX_AGE,
                                 allow_blank: false },
-                presence: true,
-                if: :in_family_section?
+                presence: true
       validates :age_to,
                 numericality: { greater_than: MIN_AGE,
                                 less_than_or_equal_to: MAX_AGE,
-                                only_integer: true, allow_blank: false },
-                presence: true,
-                if: :in_family_section?
-
-      # Non-family section filtered validations
-      validates :age_from,
-                numericality: { greater_than_or_equal_to: MIN_AGE,
-                                only_integer: true, allow_blank: false },
-                presence: true,
-                unless: :in_family_section?
-      validates :age_to,
-                numericality: { greater_than: MIN_AGE, only_integer: true,
+                                only_integer: true,
                                 allow_blank: false },
-                presence: true,
-                unless: :in_family_section?
+                presence: true
 
       # Needs to be true before approval possible. Called in custom validation.
       # def before_approve

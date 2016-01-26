@@ -15,7 +15,7 @@ class Offer
 
       # Age From has to be smaller than Age To
       def age_from_fits_age_to
-        return if !age_from || !age_to || age_from <= age_to
+        return if !age_from || !age_to || age_from < age_to
         errors.add :age_from, I18n.t('offer.validations.age_from_be_smaller')
       end
 
