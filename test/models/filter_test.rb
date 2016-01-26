@@ -31,4 +31,10 @@ describe Filter do
       it { subject.must have_and_belong_to_many :offers }
     end
   end
+
+  describe 'TraitFilter' do
+    it 'has an identifier array' do
+      TraitFilter::IDENTIFIER.wont_be :nil?
+    end
+  end
 end

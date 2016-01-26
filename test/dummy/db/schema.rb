@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121150540) do
+ActiveRecord::Schema.define(version: 20160125163228) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -236,6 +236,9 @@ ActiveRecord::Schema.define(version: 20160121150540) do
     t.string   "aasm_state",                 limit: 32
     t.boolean  "hide_contact_people",                    default: false
     t.string   "code_word",                  limit: 140
+    t.integer  "solution_category_id"
+    t.string   "treatment_type"
+    t.string   "participant_structure"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
@@ -243,6 +246,7 @@ ActiveRecord::Schema.define(version: 20160121150540) do
   add_index "offers", ["area_id"], name: "index_offers_on_area_id"
   add_index "offers", ["created_at"], name: "index_offers_on_created_at"
   add_index "offers", ["location_id"], name: "index_offers_on_location_id"
+  add_index "offers", ["solution_category_id"], name: "index_offers_on_solution_category_id"
 
   create_table "offers_openings", id: false, force: :cascade do |t|
     t.integer "offer_id",   null: false
@@ -316,6 +320,22 @@ ActiveRecord::Schema.define(version: 20160121150540) do
   end
 
   add_index "sitemaps", ["path"], name: "index_sitemaps_on_path", unique: true
+
+  create_table "solution_categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "parent_id"
+  end
+
+  create_table "solution_category_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "solution_category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "solution_category_anc_desc_idx", unique: true
+  add_index "solution_category_hierarchies", ["descendant_id"], name: "solution_category_desc_idx"
 
   create_table "statistics", force: :cascade do |t|
     t.string  "topic",   limit: 40, null: false
