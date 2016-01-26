@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126082343) do
+ActiveRecord::Schema.define(version: 20160126101327) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -233,8 +233,8 @@ ActiveRecord::Schema.define(version: 20160126082343) do
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
     t.string   "exclusive_gender"
-    t.integer  "age_from"
-    t.integer  "age_to"
+    t.integer  "age_from",                               default: 0
+    t.integer  "age_to",                                 default: 99
     t.string   "target_audience"
     t.string   "aasm_state",                 limit: 32
     t.boolean  "hide_contact_people",                    default: false
