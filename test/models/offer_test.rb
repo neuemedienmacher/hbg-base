@@ -25,8 +25,8 @@ describe Offer do
     it { subject.must_respond_to :code_word }
     it { subject.must_respond_to :treatment_type }
     it { subject.must_respond_to :participant_structure }
-    it { subject.must_respond_to :first_part_of_stamp }
-    it { subject.must_respond_to :second_part_of_stamp }
+    it { subject.must_respond_to :gender_first_part_of_stamp }
+    it { subject.must_respond_to :gender_second_part_of_stamp }
   end
 
   describe 'validations' do

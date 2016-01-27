@@ -214,8 +214,8 @@ ActiveRecord::Schema.define(version: 20160126141919) do
   add_index "offer_mailings", ["offer_id"], name: "index_offer_mailings_on_offer_id"
 
   create_table "offers", force: :cascade do |t|
-    t.string   "name",                       limit: 120,                 null: false
-    t.text     "description",                                            null: false
+    t.string   "name",                        limit: 120,                 null: false
+    t.text     "description",                                             null: false
     t.text     "next_steps"
     t.string   "encounter"
     t.string   "slug"
@@ -227,24 +227,24 @@ ActiveRecord::Schema.define(version: 20160126141919) do
     t.text     "legal_information"
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.date     "expires_at",                                             null: false
+    t.date     "expires_at",                                              null: false
     t.integer  "area_id"
     t.text     "description_html"
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
     t.string   "exclusive_gender"
-    t.integer  "age_from",                               default: 0
-    t.integer  "age_to",                                 default: 99
+    t.integer  "age_from",                                default: 0
+    t.integer  "age_to",                                  default: 99
     t.string   "target_audience"
-    t.string   "aasm_state",                 limit: 32
-    t.boolean  "hide_contact_people",                    default: false
-    t.boolean  "age_visible",                            default: false
-    t.string   "code_word",                  limit: 140
+    t.string   "aasm_state",                  limit: 32
+    t.boolean  "hide_contact_people",                     default: false
+    t.boolean  "age_visible",                             default: false
+    t.string   "code_word",                   limit: 140
     t.integer  "solution_category_id"
     t.string   "treatment_type"
     t.string   "participant_structure"
-    t.string   "first_part_of_stamp"
-    t.string   "second_part_of_stamp"
+    t.string   "gender_first_part_of_stamp"
+    t.string   "gender_second_part_of_stamp"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
