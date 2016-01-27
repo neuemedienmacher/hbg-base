@@ -11,6 +11,7 @@ describe Filter do
     it { subject.must_respond_to :identifier }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
+    it { subject.must_respond_to :section_filter_id }
   end
 
   describe 'validations' do
@@ -23,6 +24,14 @@ describe Filter do
 
     describe 'LanguageFilter' do
       it { LanguageFilter.new.must validate_length_of(:identifier).is_equal_to 3 }
+    end
+
+    describe 'TargetAudienceFilter' do
+      it { TargetAudienceFilter.new.must belong_to :section_filter }
+    end
+
+    describe 'SectionFilter' do
+      it { SectionFilter.new.must have_many :target_audience_filters }
     end
   end
 

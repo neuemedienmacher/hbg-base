@@ -23,6 +23,10 @@ describe Offer do
     it { subject.must_respond_to :target_audience }
     it { subject.must_respond_to :hide_contact_people }
     it { subject.must_respond_to :code_word }
+    it { subject.must_respond_to :treatment_type }
+    it { subject.must_respond_to :participant_structure }
+    it { subject.must_respond_to :gender_first_part_of_stamp }
+    it { subject.must_respond_to :gender_second_part_of_stamp }
   end
 
   describe 'validations' do
@@ -108,36 +112,20 @@ describe Offer do
         )
       end
 
+      it 'should validate age_from' do
+        subject.must validate_numericality_of(:age_from).only_integer
+          .is_greater_than_or_equal_to(0).is_less_than(99)
+      end
+
+      it 'should validate age_to' do
+        subject.must validate_numericality_of(:age_to).only_integer
+          .is_greater_than(0).is_less_than_or_equal_to(99)
+      end
+
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
       #   basicOffer.reload.must_be :valid?
       # end
-    end
-
-    describe 'when in family section' do
-      before { subject.section_filters = [filters(:family)] }
-
-      it do
-        subject.must validate_numericality_of(:age_from).only_integer
-          .is_greater_than_or_equal_to(0).is_less_than_or_equal_to(17)
-      end
-      it do
-        subject.must validate_numericality_of(:age_to).only_integer
-          .is_greater_than(0).is_less_than_or_equal_to(17)
-      end
-    end
-
-    describe 'when not in family section' do
-      before { subject.section_filters = [] }
-
-      it do
-        subject.must validate_numericality_of(:age_from).only_integer
-          .is_greater_than_or_equal_to(0) # no less_than_or_equal_to
-      end
-      it do
-        subject.must validate_numericality_of(:age_to).only_integer
-          .is_greater_than(0) # no less_than_or_equal_to
-      end
     end
   end
 
