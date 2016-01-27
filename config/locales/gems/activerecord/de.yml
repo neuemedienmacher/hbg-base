@@ -11,8 +11,8 @@ de:
         one: "Organisation"
         other: "Organisationen"
       category:
-        one: "Kategorie"
-        other: "Kategorien"
+        one: "Problem-Kategorie"
+        other: "Problem-Kategorien"
       solution_category:
         one: "Lösungs-Kategorie"
         other: "Lösungs-Kategorien"
