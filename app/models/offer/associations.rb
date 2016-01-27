@@ -7,6 +7,7 @@ class Offer
       belongs_to :location, inverse_of: :offers
       belongs_to :area, inverse_of: :offers
       belongs_to :solution_category, inverse_of: :offers
+      belongs_to :logic_version, inverse_of: :offers
       has_and_belongs_to_many :categories
       has_and_belongs_to_many :filters
       has_and_belongs_to_many :section_filters,

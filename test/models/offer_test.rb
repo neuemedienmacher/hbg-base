@@ -129,11 +129,25 @@ describe Offer do
     end
   end
 
+  describe 'observers' do
+    describe 'before validation' do
+      it 'should always get assigned to the latest logic version' do
+        offer.logic_version_id.must_equal nil
+        OfferObserver.send(:new).before_validation(offer)
+        offer.logic_version_id.must_equal logic_versions(:basic).id
+        new_logic = LogicVersion.create(name: 'Foo', version: 200)
+        OfferObserver.send(:new).before_validation(offer)
+        offer.logic_version_id.must_equal new_logic.id
+      end
+    end
+  end
+
   describe '::Base' do
     describe 'associations' do
       it { subject.must belong_to :location }
       it { subject.must belong_to :area }
       it { subject.must belong_to :solution_category }
+      it { subject.must belong_to :logic_version }
       it { subject.must have_many :organization_offers }
       it { subject.must have_many(:organizations).through :organization_offers }
       it { subject.must have_and_belong_to_many :categories }
