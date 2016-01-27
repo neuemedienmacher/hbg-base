@@ -8,6 +8,6 @@ class TargetAudienceFilter < Filter
                   refugees_umf refugees_ujf refugees_families
                   refugees_pre_asylum_procedure refugees_asylum_procedure
                   refugees_deportation_decision refugees_toleration_decision
-                  refugees_residence_permit)
+                  refugees_residence_permit refugees_registered)
   enumerize :identifier, in: TargetAudienceFilter::IDENTIFIER
 end
