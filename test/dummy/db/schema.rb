@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126141919) do
+ActiveRecord::Schema.define(version: 20160127110021) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -186,6 +186,11 @@ ActiveRecord::Schema.define(version: 20160126141919) do
   add_index "locations", ["federal_state_id"], name: "index_locations_on_federal_state_id"
   add_index "locations", ["organization_id"], name: "index_locations_on_organization_id"
 
+  create_table "logic_versions", force: :cascade do |t|
+    t.integer "version"
+    t.string  "name"
+  end
+
   create_table "notes", force: :cascade do |t|
     t.text     "text",                         null: false
     t.string   "topic",             limit: 32
@@ -245,6 +250,7 @@ ActiveRecord::Schema.define(version: 20160126141919) do
     t.string   "participant_structure"
     t.string   "gender_first_part_of_stamp"
     t.string   "gender_second_part_of_stamp"
+    t.integer  "logic_version_id"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
@@ -252,6 +258,7 @@ ActiveRecord::Schema.define(version: 20160126141919) do
   add_index "offers", ["area_id"], name: "index_offers_on_area_id"
   add_index "offers", ["created_at"], name: "index_offers_on_created_at"
   add_index "offers", ["location_id"], name: "index_offers_on_location_id"
+  add_index "offers", ["logic_version_id"], name: "index_offers_on_logic_version_id"
   add_index "offers", ["solution_category_id"], name: "index_offers_on_solution_category_id"
 
   create_table "offers_openings", id: false, force: :cascade do |t|
