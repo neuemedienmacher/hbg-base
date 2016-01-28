@@ -1,20 +1,17 @@
-# Hierarchical categories to sort offers.
+# Hierarchical problem categories to sort offers.
 class Category < ActiveRecord::Base
-  # AwesomeNestedSet
-  # acts_as_nested_set counter_cache: :children_count, depth_column: :depth
-  has_closure_tree
+  # Closure Tree
+  has_closure_tree order: 'sort_order'
 
   # Concerns
   include CustomValidatable, Translation
 
-  # associtations
+  # Associations
   has_and_belongs_to_many :section_filters,
                           association_foreign_key: 'filter_id'
   has_many :categories_offers
   has_many :offers, through: :categories_offers
   has_many :organizations, through: :offers
-  # To order with closure_tree
-  has_closure_tree order: 'sort_order'
 
   # Validations
   validates :name, presence: true
@@ -37,9 +34,6 @@ class Category < ActiveRecord::Base
   }
 
   # Methods
-
-  # alias for rails_admin_nestable
-  singleton_class.send :alias_method, :arrange, :hash_tree
 
   # display name: each category gets suffixes for each section and
   # main categories get an additional asterisk

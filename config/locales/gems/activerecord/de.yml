@@ -2,86 +2,89 @@ de:
   activerecord:
     models:
       offer:
-        one: Angebot
-        other: Angebote
+        one: "Angebot"
+        other: "Angebote"
       location:
-        one: Standort
-        other: Standorte
+        one: "Standort"
+        other: "Standorte"
       organization:
-        one: Organisation
-        other: Organisationen
+        one: "Organisation"
+        other: "Organisationen"
       category:
-        one: Kategorie
-        other: Kategorien
+        one: "Problem-Kategorie"
+        other: "Problem-Kategorien"
+      solution_category:
+        one: "Lösungs-Kategorie"
+        other: "Lösungs-Kategorien"
       keyword:
-        one: Keyword
-        other: Keywords
+        one: "Keyword"
+        other: "Keywords"
       federal_state:
-        one: Bundesland
-        other: Bundesländer
+        one: "Bundesland"
+        other: "Bundesländer"
       opening:
-        one: Öffnungszeit
-        other: Öffnungszeiten
+        one: "Öffnungszeit"
+        other: "Öffnungszeiten"
       user:
-        one: Nutzer
-        other: Nutzer
+        one: "Nutzer"
+        other: "Nutzer"
       contact:
-        one: Kontaktformular-Anfrage
-        other: Kontaktformular-Anfragen
+        one: "Kontaktformular-Anfrage"
+        other: "Kontaktformular-Anfragen"
       subscription:
-        one: Newsletter Abonnement
-        other: Newsletter Abonnements
+        one: "Newsletter Abonnement"
+        other: "Newsletter Abonnements"
       website:
-        one: Webseite
-        other: Webseiten
+        one: "Webseite"
+        other: "Webseiten"
       contact_person:
-        one: 'Kontaktperson'
-        other: 'Kontaktpersonen'
+        one: "Kontaktperson"
+        other: "Kontaktpersonen"
       hyperlink:
-        one: Hyperlink
-        other: Hyperlinks
+        one: "Hyperlink"
+        other: "Hyperlinks"
       search_location:
-        one: Search Location
-        other: Search Locations
+        one: "Search Location"
+        other: "Search Locations"
       update_request:
-        one: 'Update Request'
-        other: 'Update Requests'
+        one: "Update Request"
+        other: "Update Requests"
       filter:
-        one: Filter
-        other: Filter
+        one: "Filter"
+        other: "Filter"
       section_filter:
-        one: clarat-Welt
-        other: clarat-Welt
+        one: "clarat-Welt"
+        other: "clarat-Welt"
       language_filter:
-        one: Sprachfilter
-        other: Sprachfilter
+        one: "Sprachfilter"
+        other: "Sprachfilter"
       target_audience_filter:
-        one: Zielgruppenfilter
-        other: Zielgruppenfilter
+        one: "Zielgruppenfilter"
+        other: "Zielgruppenfilter"
       encounter_filter:
-        one: Kontaktfilter
-        other: Kontaktfilter
+        one: "Kontaktfilter"
+        other: "Kontaktfilter"
       area:
-        one: Gebiet
-        other: Gebiete
+        one: "Gebiet"
+        other: "Gebiete"
       note:
-        one: Notiz
-        other: Notizen
+        one: "Notiz"
+        other: "Notizen"
     attributes:
       note:
-        text: Inhalt
-        topic: Thema
-        user: Autor
-        notable: Notizträger
-        referencable: Referenzpunkt
-        created_at: Erstellungszeitpunkt
-        updated_at: Editierungszeitpunkt
+        text: "Inhalt"
+        topic: "Thema"
+        user: "Autor"
+        notable: "Notizträger"
+        referencable: "Referenzpunkt"
+        created_at: "Erstellungszeitpunkt"
+        updated_at: "Editierungszeitpunkt"
       contact_person:
-        spoc: SPoC
+        spoc: "SPoC"
       offer:
-        aasm_state: Zustand
-        section_filters: clarat-Welten
+        aasm_state: "Zustand"
+        section_filters: "clarat-Welten"
       organization:
-        aasm_state: Zustand
+        aasm_state: "Zustand"
       category:
-        section_filters: clarat-Welten
+        section_filters: "clarat-Welten"

@@ -6,6 +6,8 @@ class Offer
       # Associations
       belongs_to :location, inverse_of: :offers
       belongs_to :area, inverse_of: :offers
+      belongs_to :solution_category, inverse_of: :offers
+      belongs_to :logic_version, inverse_of: :offers
       has_and_belongs_to_many :categories
       has_and_belongs_to_many :filters
       has_and_belongs_to_many :section_filters,
@@ -15,6 +17,9 @@ class Offer
                               association_foreign_key: 'filter_id',
                               join_table: 'filters_offers'
       has_and_belongs_to_many :target_audience_filters,
+                              association_foreign_key: 'filter_id',
+                              join_table: 'filters_offers'
+      has_and_belongs_to_many :trait_filters,
                               association_foreign_key: 'filter_id',
                               join_table: 'filters_offers'
       has_and_belongs_to_many :openings

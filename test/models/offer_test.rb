@@ -22,6 +22,11 @@ describe Offer do
     it { subject.must_respond_to :exclusive_gender }
     it { subject.must_respond_to :target_audience }
     it { subject.must_respond_to :hide_contact_people }
+    it { subject.must_respond_to :code_word }
+    it { subject.must_respond_to :treatment_type }
+    it { subject.must_respond_to :participant_structure }
+    it { subject.must_respond_to :gender_first_part_of_stamp }
+    it { subject.must_respond_to :gender_second_part_of_stamp }
   end
 
   describe 'validations' do
@@ -31,6 +36,7 @@ describe Offer do
       it { subject.must validate_presence_of :encounter }
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
+      it { subject.must validate_length_of(:code_word).is_at_most 140 }
       it do
         subject.must validate_length_of(:opening_specification).is_at_most 400
       end
@@ -111,35 +117,32 @@ describe Offer do
         )
       end
 
+      it 'should validate age_from' do
+        subject.must validate_numericality_of(:age_from).only_integer
+          .is_greater_than_or_equal_to(0).is_less_than(99)
+      end
+
+      it 'should validate age_to' do
+        subject.must validate_numericality_of(:age_to).only_integer
+          .is_greater_than(0).is_less_than_or_equal_to(99)
+      end
+
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
       #   basicOffer.reload.must_be :valid?
       # end
     end
+  end
 
-    describe 'when in family section' do
-      before { subject.section_filters = [filters(:family)] }
-
-      it do
-        subject.must validate_numericality_of(:age_from).only_integer
-          .is_greater_than_or_equal_to(0).is_less_than_or_equal_to(17)
-      end
-      it do
-        subject.must validate_numericality_of(:age_to).only_integer
-          .is_greater_than(0).is_less_than_or_equal_to(17)
-      end
-    end
-
-    describe 'when not in family section' do
-      before { subject.section_filters = [] }
-
-      it do
-        subject.must validate_numericality_of(:age_from).only_integer
-          .is_greater_than_or_equal_to(0) # no less_than_or_equal_to
-      end
-      it do
-        subject.must validate_numericality_of(:age_to).only_integer
-          .is_greater_than(0) # no less_than_or_equal_to
+  describe 'observers' do
+    describe 'before validation' do
+      it 'should always get assigned to the latest logic version' do
+        offer.logic_version_id.must_equal nil
+        OfferObserver.send(:new).before_validation(offer)
+        offer.logic_version_id.must_equal logic_versions(:basic).id
+        new_logic = LogicVersion.create(name: 'Foo', version: 200)
+        OfferObserver.send(:new).before_validation(offer)
+        offer.logic_version_id.must_equal new_logic.id
       end
     end
   end
@@ -147,6 +150,9 @@ describe Offer do
   describe '::Base' do
     describe 'associations' do
       it { subject.must belong_to :location }
+      it { subject.must belong_to :area }
+      it { subject.must belong_to :solution_category }
+      it { subject.must belong_to :logic_version }
       it { subject.must have_many :organization_offers }
       it { subject.must have_many(:organizations).through :organization_offers }
       it { subject.must have_and_belong_to_many :categories }
@@ -154,6 +160,7 @@ describe Offer do
       it { subject.must have_and_belong_to_many :section_filters }
       it { subject.must have_and_belong_to_many :language_filters }
       it { subject.must have_and_belong_to_many :target_audience_filters }
+      it { subject.must have_and_belong_to_many :trait_filters }
       it { subject.must have_and_belong_to_many :openings }
       it { subject.must have_many :hyperlinks }
       it { subject.must have_many :websites }
