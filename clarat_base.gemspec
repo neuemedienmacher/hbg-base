@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'algoliasearch-rails' # indexing & search
 
   # Background processing
-  s.add_dependency 'sidekiq', '~> 3.4.2' # TODO: upgrade to Version 4
+  s.add_dependency 'sidekiq', '~> 4'
   s.add_dependency 'sinatra', '>= 1.3.0' # for sidekiq's web interface
   s.add_dependency 'sidetiq' # Sidekiq scheduling
 
