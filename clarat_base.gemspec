@@ -43,9 +43,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'algoliasearch-rails' # indexing & search
 
   # Background processing
-  s.add_dependency 'sidekiq', '~> 4'
+  s.add_dependency 'sidekiq', '< 4'
   s.add_dependency 'sinatra', '>= 1.3.0' # for sidekiq's web interface
-  s.add_dependency 'sidetiq' # Sidekiq scheduling
+  s.add_dependency 'sidetiq', '< 0.7' # Sidekiq scheduling
 
   s.add_development_dependency 'pry-rails' # pry is awsome
   s.add_development_dependency 'hirb' # hirb makes pry output even more awesome
