@@ -1,4 +1,7 @@
 class Offer
+  # This module provides a lot of search configurations that should stay
+  # together:
+  # rubocop:disable Metrics/ModuleLength
   module Search
     extend ActiveSupport::Concern
 
@@ -30,7 +33,7 @@ class Offer
           attributes = [:organization_display_name, :location_address, :slug,
                         :encounter, :keyword_string, :organization_names,
                         :location_visible]
-          facets = [:_tags, :_age_filters, :_language_filters,
+          facets = [:_age_filters, :_language_filters,
                     :_section_filters, :_target_audience_filters,
                     :_exclusive_gender_filters]
 
@@ -38,16 +41,15 @@ class Offer
                     disable_indexing: Rails.env.test?,
                     if: :personal_indexable? do
             attributesToIndex index
-            ranking %w(
-              typo geo words proximity attribute exact custom
-            )
+            ranking %w(typo geo words proximity attribute exact custom)
             attribute(:name) { send("name_#{locale}") }
             attribute(:description) { send("description_#{locale}") }
             attribute(:next_steps)  { _next_steps locale }
+            attribute(:_tags) { _tags(locale) }
             add_attribute(*attributes)
             add_attribute(*facets)
             add_attribute :_geoloc
-            attributesForFaceting facets
+            attributesForFaceting facets + [:_tags]
             optionalWords STOPWORDS
           end
 
@@ -58,11 +60,12 @@ class Offer
             attribute(:name) { send("name_#{locale}") }
             attribute(:description) { send("description_#{locale}") }
             attribute(:next_steps)  { _next_steps locale }
+            attribute(:_tags) { _tags(locale) }
             add_attribute(*attributes)
             add_attribute :area_minlat, :area_maxlat, :area_minlong,
                           :area_maxlong
             add_attribute(*facets)
-            attributesForFaceting facets + [:encounter]
+            attributesForFaceting facets + [:_tags, :encounter]
             optionalWords STOPWORDS
 
             # no geo necessary
@@ -92,10 +95,14 @@ class Offer
       end
 
       # Offer's categories for indexing
-      def _tags
+      def _tags locale = :de
         tags = []
         categories.find_each do |category|
-          tags << category.self_and_ancestors.pluck(:name)
+          if locale == :de
+            tags << category.self_and_ancestors.pluck(:name)
+          else
+            tags << category.self_and_ancestors.map(&:"name_#{locale}")
+          end
         end
         tags.flatten.uniq
       end
@@ -143,4 +150,5 @@ class Offer
       end
     end
   end
+  # rubocop:enable Metrics/ModuleLength
 end
