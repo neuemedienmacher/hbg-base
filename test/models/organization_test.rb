@@ -32,7 +32,6 @@ describe Organization do
       it { subject.must validate_length_of(:name).is_at_most 100 }
       it { subject.must validate_uniqueness_of :name }
       it { subject.must validate_presence_of :description }
-      it { subject.must validate_length_of(:description).is_at_most 400 }
       it { subject.must validate_presence_of :legal_form }
       it { subject.must validate_uniqueness_of :slug }
 

@@ -7,8 +7,8 @@ class OfferObserver < ActiveRecord::Observer
     offer.logic_version_id = LogicVersion.last.id
   end
 
-  def before_save offer
-    offer.generate_html!
+  def after_save offer
+    offer.generate_translations!
   end
 
   def before_create offer

@@ -1,6 +1,6 @@
 class LanguageFilter < Filter
   # Validations
-  validates :identifier, length: { is: 3 }
+  validates :identifier, length: { is: 3 }, presence: true, uniqueness: true
   # identifier: ISO 639-2 code
 
   IDENTIFIER = %w(deu ara eng fra pol rus tur 150 sqi amh aze ben bos bul zho

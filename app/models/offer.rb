@@ -7,7 +7,7 @@ class Offer < ActiveRecord::Base
   include Validations, CustomValidations, Associations, Search, StateMachine
 
   # Concerns
-  include Creator, CustomValidatable, Notable
+  include Creator, CustomValidatable, Notable, Translation
 
   # Enumerization
   extend Enumerize
@@ -27,6 +27,10 @@ class Offer < ActiveRecord::Base
   # Friendly ID
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged]
+
+  # Translation
+  translate :name, :description, :old_next_steps, :opening_specification
+  # keywords ?
 
   def slug_candidates
     [
@@ -51,18 +55,6 @@ class Offer < ActiveRecord::Base
   delegate :minlat, :maxlat, :minlong, :maxlong,
            to: :area, prefix: true, allow_nil: true
 
-  # handled in observer before save
-  def generate_html!
-    self.description_html = MarkdownRenderer.render description
-    self.description_html = Definition.infuse description_html
-    self.next_steps_html = MarkdownRenderer.render next_steps
-    if opening_specification
-      self.opening_specification_html =
-        MarkdownRenderer.render opening_specification
-    end
-    true
-  end
-
   def opening_details?
     !openings.blank? || !opening_specification.blank?
   end
@@ -73,6 +65,14 @@ class Offer < ActiveRecord::Base
     elsif organizations.any?
       organizations.first.name
     end
+  end
+
+  def next_steps_for_current_locale
+    next_steps_for_locale I18n.locale
+  end
+
+  def next_steps_for_locale locale
+    next_steps.select("text_#{locale}").map(&:"text_#{locale}").join(' ')
   end
 
   def in_section? section

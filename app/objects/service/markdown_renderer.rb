@@ -12,6 +12,7 @@ class MarkdownRenderer
   @markdown = Redcarpet::Markdown.new(@renderer, MARKDOWN_OPTIONS)
 
   def self.render markdown_string
+    return nil if markdown_string.nil?
     @markdown.render markdown_string
   end
 end

@@ -4,7 +4,7 @@ class Category < ActiveRecord::Base
   has_closure_tree order: 'sort_order'
 
   # Concerns
-  include CustomValidatable
+  include CustomValidatable, Translation
 
   # Associations
   has_and_belongs_to_many :section_filters,
@@ -23,6 +23,9 @@ class Category < ActiveRecord::Base
   # Sanitization
   extend Sanitization
   auto_sanitize :name
+
+  # Translation
+  translate :name
 
   # Scope
   scope :mains, -> { where.not(icon: nil).order(:icon).limit(7) }

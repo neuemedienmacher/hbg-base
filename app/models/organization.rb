@@ -6,7 +6,7 @@ class Organization < ActiveRecord::Base
   include StateMachine
 
   # Concerns
-  include Creator, CustomValidatable, Notable
+  include Creator, CustomValidatable, Notable, Translation
 
   # Associtations
   has_many :locations
@@ -33,6 +33,9 @@ class Organization < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged]
 
+  # Translation
+  translate :description
+
   # Scopes
   scope :approved, -> { where(aasm_state: 'approved') }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
@@ -40,7 +43,7 @@ class Organization < ActiveRecord::Base
 
   # Validations
   validates :name, length: { maximum: 100 }, presence: true, uniqueness: true
-  validates :description, length: { maximum: 400 }, presence: true
+  validates :description, presence: true
   validates :legal_form, presence: true
   validates :founded, length: { is: 4 }, allow_blank: true
   validates :slug, uniqueness: true
@@ -68,12 +71,6 @@ class Organization < ActiveRecord::Base
   # finds the main (HQ) location of this organization
   def location
     @location ||= locations.hq.first
-  end
-
-  # handled in observer before save
-  def generate_html!
-    self.description_html = MarkdownRenderer.render description
-    self.description_html = Definition.infuse description_html
   end
 
   def homepage

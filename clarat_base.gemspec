@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '>= 4.1.12'
   s.add_dependency 'bundler', '>= 1.8.4'
 
+  s.add_dependency 'rails-i18n'
   s.add_dependency 'web-console', '~> 2.0'
   s.add_dependency 'rails-observers' # observers got extracted since rails 4
   s.add_dependency 'enumerize'
@@ -41,6 +42,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'geocoder'
   s.add_dependency 'redcarpet' # Markdown processing
   s.add_dependency 'algoliasearch-rails' # indexing & search
+  s.add_dependency 'easy_translate'
 
   # Background processing
   s.add_dependency 'sidekiq', '~> 3.4.2'

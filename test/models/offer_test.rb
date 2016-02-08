@@ -10,7 +10,7 @@ describe Offer do
     it { subject.must_respond_to :id }
     it { subject.must_respond_to :name }
     it { subject.must_respond_to :description }
-    it { subject.must_respond_to :next_steps }
+    it { subject.must_respond_to :old_next_steps }
     it { subject.must_respond_to :slug }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
@@ -32,12 +32,8 @@ describe Offer do
   describe 'validations' do
     describe 'always' do
       it { subject.must validate_presence_of :name }
-      it { subject.must validate_length_of(:name).is_at_most 120 }
       it { subject.must validate_presence_of :description }
-      it { subject.must validate_length_of(:description).is_at_most 450 }
-      it { subject.must validate_presence_of :next_steps }
       it { subject.must validate_presence_of :encounter }
-      it { subject.must validate_length_of(:next_steps).is_at_most 500 }
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
       it { subject.must validate_length_of(:code_word).is_at_most 140 }
@@ -101,6 +97,15 @@ describe Offer do
         cp.update_column :spoc, true
         basicOffer.reload.must_be :valid?
         cp.update_columns spoc: false, organization_id: organizations(:basic).id
+        basicOffer.reload.must_be :valid?
+      end
+
+      it 'should ensure that no more than 10 next steps are chosen' do
+        11.times do |i|
+          basicOffer.next_steps << NextStep.create(text_de: i)
+        end
+        basicOffer.reload.wont_be :valid?
+        NextStepsOffer.last.destroy!
         basicOffer.reload.must_be :valid?
       end
 
@@ -350,6 +355,35 @@ describe Offer do
       end
     end
 
+    describe 'translation' do
+      it 'should get translated name, description, and old_next_steps' do
+        Offer.any_instance.stubs(:generate_translations!)
+        offer = FactoryGirl.create :offer
+        offer.translations <<
+          FactoryGirl.create(:offer_translation, locale: :de, name: 'de name',
+                                                 description: 'de desc',
+                                                 old_next_steps: 'de next')
+        offer.translations <<
+          FactoryGirl.create(:offer_translation, locale: :en, name: 'en name',
+                                                 description: 'en desc',
+                                                 old_next_steps: 'en next')
+        old_locale = I18n.locale
+
+        I18n.locale = :de
+        offer.name.must_equal 'de name'
+        offer.description.must_equal 'de desc'
+        offer.old_next_steps.must_equal 'de next'
+
+        I18n.locale = :en
+        offer = Offer.find(offer.id) # clear memoization
+        offer.name.must_equal 'en name'
+        offer.description.must_equal 'en desc'
+        offer.old_next_steps.must_equal 'en next'
+
+        I18n.locale = old_locale
+      end
+    end
+
     describe 'State Machine' do
       describe '#different_actor?' do
         it 'should return true when created_by differs from current_actor' do
@@ -383,6 +417,73 @@ describe Offer do
         offer.openings = Opening.limit(1)
         offer.opening_specification = 'chunky bacon'
         offer.opening_details?.must_equal true
+      end
+    end
+
+    describe 'search' do
+      it 'should correctly return geolocation hash for algolia' do
+        loc = FactoryGirl.create(:location)
+        basicOffer.location_id = loc.id
+        basicOffer._geoloc.must_equal('lat' => 10, 'lng' => 20)
+      end
+
+      it 'should correctly return keywords_string' do
+        basicOffer.keywords << keywords(:basic)
+        basicOffer.keyword_string.must_equal 'test, synonym'
+      end
+
+      it 'should correctly return age_filters' do
+        basicOffer._age_filters.must_equal((0..17).to_a)
+      end
+
+      it 'should correctly return organization_names' do
+        basicOffer.organization_names.must_equal 'foobar'
+      end
+
+      it 'should correctly return visible boolean' do
+        loc = FactoryGirl.create(:location)
+        basicOffer.location_id = loc.id
+
+        basicOffer.location.visible = false
+        basicOffer.location_visible.must_equal false
+
+        basicOffer.location.visible = true
+        basicOffer.location_visible.must_equal true
+
+        basicOffer.location = nil
+        basicOffer.location_visible.must_equal false
+      end
+
+      it 'should correctly return next_steps for german locale' do
+        old_locale = I18n.locale
+        I18n.locale = :de
+        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
+        basicOffer.next_steps << NextStep.create(text_de: 'bar.')
+        basicOffer.next_steps_for_current_locale.must_equal 'foo. bar.'
+        I18n.locale = old_locale
+      end
+
+      it 'should correctly respond to _next_steps' do
+        basicOffer.next_steps = []
+        basicOffer.expects(:send).with("old_next_steps_#{I18n.locale}")
+        basicOffer._next_steps I18n.locale
+
+        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
+        basicOffer.expects(:send).with("old_next_steps_#{I18n.locale}").never
+        basicOffer._next_steps(I18n.locale).must_equal 'foo.'
+      end
+
+      it 'should correctly return _exclusive_gender_filters' do
+        basicOffer.exclusive_gender = 'boys_only'
+        basicOffer._exclusive_gender_filters.must_equal(['boys_only'])
+      end
+
+      it 'should correctly return target_audience_filters' do
+        basicOffer._target_audience_filters.must_equal(['children'])
+      end
+
+      it 'should correctly return language_filters' do
+        basicOffer._language_filters.must_equal(['deu'])
       end
     end
   end

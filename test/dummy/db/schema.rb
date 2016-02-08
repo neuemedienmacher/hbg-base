@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 20160127110021) do
   add_index "category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "category_anc_desc_idx", unique: true
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx"
 
+  create_table "category_translations", force: :cascade do |t|
+    t.integer  "category_id",              null: false
+    t.string   "locale",                   null: false
+    t.string   "source",      default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",        default: "", null: false
+  end
+
+  add_index "category_translations", ["category_id"], name: "index_category_translations_on_category_id"
+  add_index "category_translations", ["locale"], name: "index_category_translations_on_locale"
+
   create_table "contact_people", force: :cascade do |t|
     t.integer  "organization_id",                             null: false
     t.datetime "created_at"
@@ -191,6 +203,27 @@ ActiveRecord::Schema.define(version: 20160127110021) do
     t.string  "name"
   end
 
+  create_table "next_steps", force: :cascade do |t|
+    t.string "text_de", null: false
+    t.string "text_en"
+    t.string "text_ar"
+    t.string "text_fr"
+    t.string "text_pl"
+    t.string "text_tr"
+    t.string "text_ru"
+  end
+
+  add_index "next_steps", ["text_de"], name: "index_next_steps_on_text_de"
+
+  create_table "next_steps_offers", force: :cascade do |t|
+    t.integer "next_step_id",             null: false
+    t.integer "offer_id",                 null: false
+    t.integer "sort_value",   default: 0
+  end
+
+  add_index "next_steps_offers", ["next_step_id"], name: "index_next_steps_offers_on_next_step_id"
+  add_index "next_steps_offers", ["offer_id"], name: "index_organization_translations_on_offer_id"
+
   create_table "notes", force: :cascade do |t|
     t.text     "text",                         null: false
     t.string   "topic",             limit: 32
@@ -218,10 +251,25 @@ ActiveRecord::Schema.define(version: 20160127110021) do
   add_index "offer_mailings", ["email_id"], name: "index_offer_mailings_on_email_id"
   add_index "offer_mailings", ["offer_id"], name: "index_offer_mailings_on_offer_id"
 
+  create_table "offer_translations", force: :cascade do |t|
+    t.integer  "offer_id",                                       null: false
+    t.string   "locale",                                         null: false
+    t.string   "source",                            default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",                  limit: 120, default: "", null: false
+    t.text     "description",                       default: "", null: false
+    t.text     "old_next_steps"
+    t.text     "opening_specification"
+  end
+
+  add_index "offer_translations", ["locale"], name: "index_offer_translations_on_locale"
+  add_index "offer_translations", ["offer_id"], name: "index_offer_translations_on_offer_id"
+
   create_table "offers", force: :cascade do |t|
     t.string   "name",                        limit: 120,                 null: false
     t.text     "description",                                             null: false
-    t.text     "next_steps"
+    t.text     "old_next_steps"
     t.string   "encounter"
     t.string   "slug"
     t.integer  "location_id"
@@ -289,6 +337,18 @@ ActiveRecord::Schema.define(version: 20160127110021) do
 
   add_index "organization_offers", ["offer_id"], name: "index_organization_offers_on_offer_id"
   add_index "organization_offers", ["organization_id"], name: "index_organization_offers_on_organization_id"
+
+  create_table "organization_translations", force: :cascade do |t|
+    t.integer  "organization_id",              null: false
+    t.string   "locale",                       null: false
+    t.string   "source",          default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "description",     default: "", null: false
+  end
+
+  add_index "organization_translations", ["locale"], name: "index_organization_translations_on_locale"
+  add_index "organization_translations", ["organization_id"], name: "index_organization_translations_on_organization_id"
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name",                                              null: false

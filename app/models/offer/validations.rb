@@ -3,13 +3,12 @@ class Offer
     extend ActiveSupport::Concern
 
     included do
-      validates :name, length: { maximum: 120 }, presence: true
+      validates :name, presence: true
       # TODO: replace with complicated custom validation OR save stamp text in model
       # validates :name,
       #           uniqueness: { scope: :location_id },
       #           unless: ->(offer) { offer.location.nil? }
-      validates :description, length: { maximum: 450 }, presence: true
-      validates :next_steps, length: { maximum: 500 }, presence: true
+      validates :description, presence: true
       validates :opening_specification, length: { maximum: 400 }
       validates :legal_information, length: { maximum: 400 }
       validates :slug, uniqueness: true

@@ -10,6 +10,7 @@ class Offer
       validate :location_fits_organization, on: :update
       validate :contact_people_are_choosable
       validate :section_filters_must_match_categories_section_filters
+      validate :no_more_than_10_next_steps
 
       ## Custom Validation Methods ##
 
@@ -81,6 +82,11 @@ class Offer
                             category.section_filters.include? filter
           end
         end
+      end
+
+      def no_more_than_10_next_steps
+        return if next_steps.to_a.size <= 10
+        fail_validation :next_steps, 'no_more_than_10_next_steps'
       end
     end
   end
