@@ -68,10 +68,7 @@ class TranslationGenerationWorker
   end
 
   def reindex object
-    if object.is_a? Offer
-      object.algolia_index!
-    else
-      object.offers.each(&:algolia_index!)
-    end
+    return unless object.is_a? Offer
+    object.algolia_index!
   end
 end
