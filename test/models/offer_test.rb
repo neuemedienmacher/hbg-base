@@ -183,12 +183,26 @@ describe Offer do
       it 'should return unique categories with ancestors of an offer' do
         offers(:basic).categories << categories(:sub1)
         offers(:basic).categories << categories(:sub2)
-        tags = offers(:basic)._tags
+        tags = offers(:basic)._tags(:de)
         tags.must_include 'sub1.1'
         tags.must_include 'sub1.2'
         tags.must_include 'main1'
         tags.count('main1').must_equal 1
         tags.wont_include 'main2'
+      end
+
+      it 'should return translated categories with ancestors when non-german' do
+        [
+          { category_id: 1, name: 'enmain1' },
+          { category_id: 3, name: 'ensub1.1' }
+        ].each do |obj|
+          CategoryTranslation.create! obj.merge(locale: :en, source: 'user')
+        end
+
+        offers(:basic).categories << categories(:sub1)
+        tags = offers(:basic)._tags(:en)
+        tags.must_include 'ensub1.1'
+        tags.must_include 'enmain1'
       end
     end
 
