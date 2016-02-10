@@ -53,10 +53,17 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
         .must_equal 'foo'
     end
 
-    it 'should check for definitions and markdown in descriptions' do
+    it 'should check for definitions and markdown in German descriptions' do
       MarkdownRenderer.expects(:render)
       Definition.expects(:infuse)
       worker.send(:direct_translate_via_strategy, OpenStruct.new, :description)
+    end
+
+    it 'should check only for markdown in non-German descriptions' do
+      MarkdownRenderer.expects(:render)
+      Definition.expects(:infuse).never
+      worker.send(
+        :direct_translate_via_strategy, OpenStruct.new, :description, :en)
     end
 
     it 'should check for markdown but not definitions in old_next_steps' do
