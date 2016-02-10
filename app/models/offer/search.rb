@@ -45,6 +45,7 @@ class Offer
             attribute(:name) { send("name_#{locale}") }
             attribute(:description) { send("description_#{locale}") }
             attribute(:next_steps)  { _next_steps locale }
+            attribute(:lang) { lang(locale) }
             attribute(:_tags) { _tags(locale) }
             add_attribute(*attributes)
             add_attribute(*facets)
@@ -60,6 +61,7 @@ class Offer
             attribute(:name) { send("name_#{locale}") }
             attribute(:description) { send("description_#{locale}") }
             attribute(:next_steps)  { _next_steps locale }
+            attribute(:lang) { lang(locale) }
             attribute(:_tags) { _tags(locale) }
             add_attribute(*attributes)
             add_attribute :area_minlat, :area_maxlat, :area_minlong,
@@ -105,6 +107,15 @@ class Offer
           end
         end
         tags.flatten.uniq
+      end
+
+      # lang attribute for translate markup
+      def lang locale
+        if translations.find_by(locale: locale).automated?
+          "#{locale}-x-mtfrom-de"
+        else
+          locale.to_s
+        end
       end
 
       # additional searchable string made from categories

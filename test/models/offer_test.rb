@@ -487,6 +487,20 @@ describe Offer do
         basicOffer._next_steps(I18n.locale).must_equal 'foo.'
       end
 
+      it 'should return a translation lang for automated translations' do
+        OfferTranslation.create!(
+          offer_id: 1, name: 'eng', description: 'eng', locale: :en,
+          source: 'GoogleTranslate')
+        basicOffer.lang(:en).must_equal 'en-x-mtfrom-de'
+      end
+
+      it 'should return a locale lang for manual translations' do
+        OfferTranslation.create!(
+          offer_id: 1, name: 'eng', description: 'eng', locale: :en,
+          source: 'researcher')
+        basicOffer.lang(:en).must_equal 'en'
+      end
+
       it 'should correctly return _exclusive_gender_filters' do
         basicOffer.exclusive_gender = 'boys_only'
         basicOffer._exclusive_gender_filters.must_equal(['boys_only'])
