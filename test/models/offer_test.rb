@@ -183,12 +183,26 @@ describe Offer do
       it 'should return unique categories with ancestors of an offer' do
         offers(:basic).categories << categories(:sub1)
         offers(:basic).categories << categories(:sub2)
-        tags = offers(:basic)._tags
+        tags = offers(:basic)._tags(:de)
         tags.must_include 'sub1.1'
         tags.must_include 'sub1.2'
         tags.must_include 'main1'
         tags.count('main1').must_equal 1
         tags.wont_include 'main2'
+      end
+
+      it 'should return translated categories with ancestors when non-german' do
+        [
+          { category_id: 1, name: 'enmain1' },
+          { category_id: 3, name: 'ensub1.1' }
+        ].each do |obj|
+          CategoryTranslation.create! obj.merge(locale: :en, source: 'user')
+        end
+
+        offers(:basic).categories << categories(:sub1)
+        tags = offers(:basic)._tags(:en)
+        tags.must_include 'ensub1.1'
+        tags.must_include 'enmain1'
       end
     end
 
@@ -467,6 +481,20 @@ describe Offer do
         basicOffer.next_steps << NextStep.create(text_de: 'foo.')
         basicOffer.expects(:send).with("old_next_steps_#{I18n.locale}").never
         basicOffer._next_steps(I18n.locale).must_equal 'foo.'
+      end
+
+      it 'should return a translation lang for automated translations' do
+        OfferTranslation.create!(
+          offer_id: 1, name: 'eng', description: 'eng', locale: :en,
+          source: 'GoogleTranslate')
+        basicOffer.lang(:en).must_equal 'en-x-mtfrom-de'
+      end
+
+      it 'should return a locale lang for manual translations' do
+        OfferTranslation.create!(
+          offer_id: 1, name: 'eng', description: 'eng', locale: :en,
+          source: 'researcher')
+        basicOffer.lang(:en).must_equal 'en'
       end
 
       it 'should correctly return _exclusive_gender_filters' do

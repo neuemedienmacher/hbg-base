@@ -6,7 +6,7 @@ class TranslationGenerationWorker
     translation = find_or_initialize_translation(locale, object_type, object_id)
 
     translation.assign_attributes(
-      generate_field_translations(locale, object)
+      generate_field_translations(object, locale)
     )
     translation.save!
     reindex object
@@ -30,8 +30,8 @@ class TranslationGenerationWorker
     )
   end
 
-  def generate_field_translations locale, object
-    translations_hash = direct_translate_to_html object
+  def generate_field_translations object, locale
+    translations_hash = direct_translate_to_html object, locale
 
     if locale == :de
       translations_hash['source'] = 'researcher'
@@ -44,22 +44,25 @@ class TranslationGenerationWorker
     translations_hash
   end
 
-  def direct_translate_to_html object
+  def direct_translate_to_html object, locale
     translations_hash = {}
 
     object.translated_fields.each do |field|
-      translations_hash[field] = direct_translate_via_strategy(object, field)
+      translations_hash[field] =
+        direct_translate_via_strategy(object, field, locale)
     end
 
     translations_hash
   end
 
-  def direct_translate_via_strategy object, field
+  def direct_translate_via_strategy object, field, locale = :de
     case field
     when :name
       object.name
     when :description
-      Definition.infuse MarkdownRenderer.render(object.description)
+      output = MarkdownRenderer.render(object.description)
+      output = Definition.infuse output if locale == :de
+      output
     when :old_next_steps, :opening_specification
       MarkdownRenderer.render object.send(field)
     else
@@ -68,10 +71,7 @@ class TranslationGenerationWorker
   end
 
   def reindex object
-    if object.is_a? Offer
-      object.algolia_index!
-    else
-      object.offers.each(&:algolia_index!)
-    end
+    return unless object.is_a? Offer
+    object.algolia_index!
   end
 end
