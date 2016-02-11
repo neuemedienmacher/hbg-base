@@ -59,12 +59,8 @@ class Offer < ActiveRecord::Base
     !openings.blank? || !opening_specification.blank?
   end
 
-  def organization_display_name
-    if organizations.count > 1
-      I18n.t 'offer.organization_display_name.cooperation'
-    elsif organizations.any?
-      organizations.first.name
-    end
+  def organization_count
+    organizations.count
   end
 
   def next_steps_for_current_locale

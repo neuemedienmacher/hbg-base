@@ -1,8 +1,5 @@
 de:
   offer:
-    organization_display_name:
-      cooperation: "Kooperationsprojekt"
-
     validations:
       location_fits_organization:
         organization_error: |

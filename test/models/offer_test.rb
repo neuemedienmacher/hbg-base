@@ -192,18 +192,14 @@ describe Offer do
       end
     end
 
-    describe '#organization_display_name' do
-      it "should return the first organization's name if there is only one" do
-        offers(:basic).organization_display_name.must_equal(
-          organizations(:basic).name
-        )
+    describe '#organization_count' do
+      it "should return 1 if there is only one" do
+        offers(:basic).organization_count.must_equal(1)
       end
 
-      it 'should return a string when there are multiple organizations' do
+      it 'should return 2 if there are two organizations' do
         offers(:basic).organizations << FactoryGirl.create(:organization)
-        offers(:basic).organization_display_name.must_equal(
-          I18n.t('offer.organization_display_name.cooperation')
-        )
+        offers(:basic).organization_count.must_equal(2)
       end
     end
 
