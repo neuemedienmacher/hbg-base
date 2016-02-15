@@ -112,7 +112,7 @@ class Offer
 
       # lang attribute for translate markup
       def lang locale
-        if translations.find_by(locale: locale).automated?
+        if translations.find_by(locale: locale).try(:automated?)
           "#{locale}-x-mtfrom-de"
         else
           locale.to_s
