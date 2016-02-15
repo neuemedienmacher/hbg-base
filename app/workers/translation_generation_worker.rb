@@ -61,7 +61,7 @@ class TranslationGenerationWorker
       object.name
     when :description
       output = MarkdownRenderer.render(object.description)
-      output = Definition.infuse output if locale == :de
+      output = Definition.infuse(output) if locale.to_sym == :de
       output
     when :old_next_steps, :opening_specification
       MarkdownRenderer.render object.send(field)
@@ -72,6 +72,6 @@ class TranslationGenerationWorker
 
   def reindex object
     return unless object.is_a? Offer
-    object.algolia_index!
+    object.reload.algolia_index!
   end
 end
