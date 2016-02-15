@@ -207,7 +207,7 @@ describe Offer do
     end
 
     describe '#organization_count' do
-      it "should return 1 if there is only one" do
+      it 'should return 1 if there is only one' do
         offers(:basic).organization_count.must_equal(1)
       end
 
