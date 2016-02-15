@@ -58,13 +58,13 @@ class TranslationGenerationWorker
   def direct_translate_via_strategy object, field, locale = :de
     case field
     when :name
-      object.name
+      object.untranslated_name
     when :description
-      output = MarkdownRenderer.render(object.description)
+      output = MarkdownRenderer.render(object.untranslated_description)
       output = Definition.infuse(output) if locale.to_sym == :de
       output
     when :old_next_steps, :opening_specification
-      MarkdownRenderer.render object.send(field)
+      MarkdownRenderer.render object.send("untranslated_#{field}")
     else
       raise "TranslationGenerationWorker: #{field} needs translation strategy"
     end

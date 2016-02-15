@@ -46,7 +46,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
 
   describe '#direct_translate_via_strategy' do
     it 'should take the name unchanged' do
-      object = OpenStruct.new(name: 'foo')
+      object = OpenStruct.new(untranslated_name: 'foo')
       MarkdownRenderer.expects(:render).never
       Definition.expects(:infuse).never
       worker.send(:direct_translate_via_strategy, object, :name)
