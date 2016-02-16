@@ -20,6 +20,7 @@ describe ContactPerson do
     it { subject.must_respond_to :fax_number }
     it { subject.must_respond_to :email_id }
     it { subject.must_respond_to :spoc } # SPoC = Single Point of Contact
+    it { subject.must_respond_to :position }
   end
 
   describe 'validations' do

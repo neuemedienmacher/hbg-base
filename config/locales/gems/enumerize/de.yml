@@ -45,3 +45,8 @@ de:
       academic_title:
         dr: Dr.
         prof_dr: Prof. Dr.
+      position:
+        chef: Chef
+        public_relations: Öffentlichkeitsarbeit
+        secretary: Sekretariat
+        other: Sonstiges
