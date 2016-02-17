@@ -33,7 +33,9 @@ class Offer
           # :category_string,
           attributes = [:organization_count, :location_address, :slug,
                         :encounter, :keyword_string, :organization_names,
-                        :location_visible, :code_word]
+                        :location_visible, :code_word,
+                        :gender_first_part_of_stamp,
+                        :gender_second_part_of_stamp]
           facets = [:_age_filters, :_language_filters,
                     :_section_filters, :_target_audience_filters,
                     :_exclusive_gender_filters]
