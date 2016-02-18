@@ -500,7 +500,7 @@ describe Offer do
       end
 
       it 'should correctly return target_audience_filters' do
-        basicOffer._target_audience_filters.must_equal(['children'])
+        basicOffer._target_audience_filters.must_equal(['family_children'])
       end
 
       it 'should correctly return language_filters' do
