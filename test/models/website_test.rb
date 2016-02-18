@@ -23,14 +23,6 @@ describe Website do
     end
   end
 
-  describe 'Methods' do
-    describe '#shorten_url' do
-      it 'should return only the url essence' do
-        website.shorten_url.must_equal 'www.clarat.org'
-      end
-    end
-  end
-
   describe '::Base' do
     describe 'associations' do
       it { subject.must have_many :hyperlinks }

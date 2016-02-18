@@ -26,8 +26,4 @@ class Website < ActiveRecord::Base
   # .. by url
   scope :pdf, -> { where('websites.url LIKE ?', '%.pdf') }
   scope :non_pdf, -> { where.not('websites.url LIKE ?', '%.pdf') }
-
-  def shorten_url
-    URI.parse(self.url).host
-  end
 end
