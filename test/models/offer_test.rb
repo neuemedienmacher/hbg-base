@@ -124,6 +124,32 @@ describe Offer do
           .is_greater_than(0).is_less_than_or_equal_to(99)
       end
 
+      it 'should validate that section filters of offer and categories fit' do
+        category = FactoryGirl.create(:category)
+        category.section_filters = [filters(:family)]
+        basicOffer.categories = [category]
+        basicOffer.section_filters = [filters(:refugees)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_include(
+          "benötigt mindestens eine 'Refugees' Kategorie\n"
+        )
+        basicOffer.errors.messages[:categories].wont_include(
+          "benötigt mindestens eine 'Family' Kategorie\n"
+        )
+        basicOffer.section_filters = [filters(:family), filters(:refugees)]
+        category.section_filters = [filters(:refugees)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_include(
+          "benötigt mindestens eine 'Family' Kategorie\n"
+        )
+        basicOffer.errors.messages[:categories].wont_include(
+          "benötigt mindestens eine 'Refugees' Kategorie\n"
+        )
+        category.section_filters = [filters(:refugees), filters(:family)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_be :nil?
+      end
+
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
       #   basicOffer.reload.must_be :valid?
@@ -276,74 +302,15 @@ describe Offer do
       end
     end
 
-    describe '#section_filters_must_match_categories_section_filters' do
-      it 'should fail when single filter does not match' do
-        offer = offers(:basic)
-        category = categories(:main1)
-        offer.section_filters << filters(:refugees)
-        offer.categories << category
-        offer.expects(:fail_validation).with(
-          :section_filters, 'section_filter_not_found_in_category',
-          world: 'Refugees', category: category.name
-        )
-        offer.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should fail when multiple filters do not match' do
-        off = offers(:basic)
-        category = categories(:main2)
-        off.section_filters = [filters(:refugees), filters(:family)]
-        off.categories << category
-        off.expects(:fail_validation).with(
-          :section_filters, 'section_filter_not_found_in_category',
-          world: 'Family', category: category.name
-        )
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should fail only on mismatching categories' do
-        off = offers(:basic)
-        category = categories(:main2)
-        off.section_filters = [filters(:refugees), filters(:family)]
-        off.categories << category
-        off.categories << categories(:main3)
-        off.expects(:fail_validation).with(
-          :section_filters, 'section_filter_not_found_in_category',
-          world: 'Family', category: category.name
-        )
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should succeed when single family world matches' do
-        off = offers(:basic)
-        off.section_filters = [filters(:family)]
-        off.categories << categories(:main1)
-        off.expects(:fail_validation).never
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should succeed when single refugee world matches on multiple' do
-        off = offers(:basic)
-        off.section_filters = [filters(:refugees)]
-        off.categories << categories(:main3)
-        off.expects(:fail_validation).never
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should succeed when multiple worlds match' do
-        off = offers(:basic)
-        off.section_filters = [filters(:refugees), filters(:family)]
-        off.categories << categories(:main3)
-        off.expects(:fail_validation).never
-        off.section_filters_must_match_categories_section_filters
-      end
-
+    describe '#in_section?' do
       it 'should correctly reply to in_section? call' do
         off = offers(:basic)
         off.in_section?('family').must_equal true
         off.in_section?('refugees').must_equal false
       end
+    end
 
+    describe '::in_section?' do
       it 'should correctly retrieve offers with in_section scope' do
         Offer.in_section('family').must_equal [offers(:basic)]
       end
