@@ -234,7 +234,7 @@ describe Organization do
 
       it 'should raise an error when deactivation fails for an offer' do
         Offer.any_instance.expects(:deactivate_through_organization!)
-          .returns(false)
+             .returns(false)
 
         assert_raise(RuntimeError) { orga.deactivate_offers! }
       end

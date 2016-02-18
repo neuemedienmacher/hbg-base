@@ -15,14 +15,14 @@ class SearchLocation < ActiveRecord::Base
 
   # Methods
 
+  def self.normalize query
+    query.strip.titleize
+  end
+
   private
 
   def normalize_query
     self.query = SearchLocation.normalize(self.query) if self.query
-  end
-
-  def self.normalize query
-    query.strip.titleize
   end
 
   def set_geoloc
