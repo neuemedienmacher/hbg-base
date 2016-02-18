@@ -20,7 +20,7 @@ class TranslationGenerationWorker
 
     # return existing translation if one is found
     translation =
-      translation_class.find_by locale: locale, object_id_field =>  object_id
+      translation_class.find_by locale: locale, object_id_field => object_id
     return translation if translation
 
     # otherwise create a new one

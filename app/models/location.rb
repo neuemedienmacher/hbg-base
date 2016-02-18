@@ -36,7 +36,7 @@ class Location < ActiveRecord::Base
 
   before_validation :generate_display_name
   def generate_display_name
-    display = "#{organization_name}"
+    display = organization_name.to_s
     display += ", #{name}" unless name.blank?
     display += " | #{street}"
     display += ", #{addition}," unless addition.blank?

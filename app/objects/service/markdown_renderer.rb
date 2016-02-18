@@ -5,8 +5,8 @@ class MarkdownRenderer
       target: '_blank'
     },
     hard_wrap: true
-  }
-  MARKDOWN_OPTIONS = {}
+  }.freeze
+  MARKDOWN_OPTIONS = {}.freeze
 
   @renderer = Redcarpet::Render::HTML.new RENDERER_OPTIONS
   @markdown = Redcarpet::Markdown.new(@renderer, MARKDOWN_OPTIONS)

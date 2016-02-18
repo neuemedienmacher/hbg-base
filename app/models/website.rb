@@ -12,7 +12,7 @@ class Website < ActiveRecord::Base
   extend Enumerize
   HOSTS = %w(own facebook twitter youtube gplus pinterest document
              online_consulting chat forum online_course application_form
-             contact_form other)
+             contact_form other).freeze
   enumerize :host, in: HOSTS
 
   # Validations

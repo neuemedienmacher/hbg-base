@@ -323,7 +323,7 @@ describe Offer do
 
       it 'should attach the user name to the development env' do
         Rails.stubs(:env)
-          .returns ActiveSupport::StringInquirer.new('development')
+             .returns ActiveSupport::StringInquirer.new('development')
         ENV.stubs(:[]).returns 'foobar'
         Offer.per_env_index.must_equal 'Offer_development_foobar'
       end

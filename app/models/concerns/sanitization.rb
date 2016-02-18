@@ -4,6 +4,17 @@ module Sanitization
   extend ActiveSupport::Concern
   require 'cgi'
 
+  # Clean sanitization with further string modification
+  # @api public
+  # @param field [String] The content to sanitize
+  # @param remove_spaces [Boolean] for stricter modification
+  # @return [String] The sanitized content
+  def self.sanitize_clean field, remove_spaces
+    field = field.first if field.class == Array
+    field = Sanitize.clean(field) if field
+    reverse_encoding modify field, remove_spaces
+  end
+
   protected ####################################################################
 
   # Sanitize specific fields automatically before the validation step
@@ -44,17 +55,6 @@ module Sanitization
     end
   end
 
-  # Clean sanitization with further string modification
-  # @api private
-  # @param field [String] The content to sanitize
-  # @param remove_spaces [Boolean] for stricter modification
-  # @return [String] The sanitized content
-  def self.sanitize_clean field, remove_spaces
-    field = field.first if field.class == Array
-    field = Sanitize.clean(field) if field
-    reverse_encoding modify field, remove_spaces
-  end
-
   # Modify sanitized strings even further
   # @api private
   # @param string [String, nil] The string to modify
@@ -66,6 +66,7 @@ module Sanitization
       .gsub(/\s+/, (remove_spaces ? '' : ' '))
     # Either multiple whitespaces become one, or all whitespaces are removed
   end
+  private_class_method :modify
 
   # Clean sanitized fields get HTML entities encoded, which we need to revert
   # @api private
@@ -74,4 +75,5 @@ module Sanitization
   def self.reverse_encoding string
     string.is_a?(String) ? CGI.unescapeHTML(string) : string
   end
+  private_class_method :reverse_encoding
 end

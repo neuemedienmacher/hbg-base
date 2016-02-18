@@ -103,11 +103,11 @@ class Offer
       def _tags locale = :de
         tags = []
         categories.find_each do |category|
-          if locale == :de
-            tags << category.self_and_ancestors.pluck(:name)
-          else
-            tags << category.self_and_ancestors.map(&:"name_#{locale}")
-          end
+          tags << if locale == :de
+                    category.self_and_ancestors.pluck(:name)
+                  else
+                    category.self_and_ancestors.map(&:"name_#{locale}")
+                  end
         end
         tags.flatten.uniq
       end
