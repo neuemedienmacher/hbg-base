@@ -157,19 +157,6 @@ describe Offer do
     end
   end
 
-  describe 'observers' do
-    describe 'before validation' do
-      it 'should always get assigned to the latest logic version' do
-        offer.logic_version_id.must_equal nil
-        OfferObserver.send(:new).before_validation(offer)
-        offer.logic_version_id.must_equal logic_versions(:basic).id
-        new_logic = LogicVersion.create(name: 'Foo', version: 200)
-        OfferObserver.send(:new).before_validation(offer)
-        offer.logic_version_id.must_equal new_logic.id
-      end
-    end
-  end
-
   describe '::Base' do
     describe 'associations' do
       it { subject.must belong_to :location }
@@ -378,6 +365,19 @@ describe Offer do
           offer.created_by = 1
           offer.stubs(:current_actor).returns(nil)
           offer.send(:different_actor?).must_equal nil
+        end
+      end
+
+      describe '#LogicVersion' do
+        it 'should have the latest LogicVersion after :complete and :approve' do
+          offer.created_by = 99
+          offer.aasm_state = 'initialized'
+          offer.logic_version_id.must_equal nil
+          offer.send(:complete)
+          offer.logic_version_id.must_equal logic_versions(:basic).id
+          new_logic = LogicVersion.create(name: 'Foo', version: 200)
+          offer.send(:approve)
+          offer.logic_version_id.must_equal new_logic.id
         end
       end
     end
