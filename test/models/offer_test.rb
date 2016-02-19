@@ -157,6 +157,17 @@ describe Offer do
     end
   end
 
+  describe 'observers' do
+    describe 'after initialize' do
+      it 'should get assigned the latest LogicVersion' do
+        offer.logic_version_id.must_equal logic_versions(:basic).id
+        new_logic = LogicVersion.create(name: 'Foo', version: 200)
+        OfferObserver.send(:new).after_initialize(offer)
+        offer.logic_version_id.must_equal new_logic.id
+      end
+    end
+  end
+
   describe '::Base' do
     describe 'associations' do
       it { subject.must belong_to :location }
@@ -372,12 +383,13 @@ describe Offer do
         it 'should have the latest LogicVersion after :complete and :approve' do
           offer.created_by = 99
           offer.aasm_state = 'initialized'
-          offer.logic_version_id.must_equal nil
-          offer.send(:complete)
           offer.logic_version_id.must_equal logic_versions(:basic).id
-          new_logic = LogicVersion.create(name: 'Foo', version: 200)
+          new_logic1 = LogicVersion.create(name: 'Foo', version: 200)
+          offer.send(:complete)
+          offer.logic_version_id.must_equal new_logic1.id
+          new_logic2 = LogicVersion.create(name: 'Bar', version: 201)
           offer.send(:approve)
-          offer.logic_version_id.must_equal new_logic.id
+          offer.logic_version_id.must_equal new_logic2.id
         end
       end
     end
