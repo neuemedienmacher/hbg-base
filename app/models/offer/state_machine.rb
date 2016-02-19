@@ -21,7 +21,7 @@ class Offer
 
         ## Transitions
 
-        event :complete do
+        event :complete, before: :set_completed_information do
           transitions from: :initialized, to: :completed
         end
 
@@ -82,6 +82,13 @@ class Offer
       def set_approved_information
         self.approved_at = Time.zone.now
         self.approved_by = current_actor
+        # update to current LogicVersion
+        self.logic_version_id = LogicVersion.last.id
+      end
+
+      def set_completed_information
+        # update to current LogicVersion
+        self.logic_version_id = LogicVersion.last.id
       end
 
       def different_actor?

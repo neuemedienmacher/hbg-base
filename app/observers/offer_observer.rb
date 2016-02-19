@@ -3,10 +3,6 @@ class OfferObserver < ActiveRecord::Observer
     offer.expires_at ||= (Time.zone.now + 1.year) if offer.new_record?
   end
 
-  def before_validation offer
-    offer.logic_version_id = LogicVersion.last.id
-  end
-
   def after_save offer
     offer.generate_translations!
   end
