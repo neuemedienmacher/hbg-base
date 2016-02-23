@@ -9,7 +9,6 @@ class Offer
       #           uniqueness: { scope: :location_id },
       #           unless: ->(offer) { offer.location.nil? }
       validates :description, presence: true
-      validates :opening_specification, length: { maximum: 400 }
       validates :legal_information, length: { maximum: 400 }
       validates :slug, uniqueness: true
       validates :encounter, presence: true
@@ -40,26 +39,6 @@ class Offer
       #   validate_associated_fields
       #   validate_target_audience
       # end
-
-      private
-
-      # Uses method from CustomValidatable concern.
-      def validate_associated_fields
-        validate_associated_presence :organizations
-        validate_associated_presence :section_filters
-        validate_associated_presence :language_filters
-        if in_family_section?
-          validate_associated_presence :target_audience_filters
-        end
-      end
-
-      def validate_associated_presence field
-        fail_validation field, "needs_#{field}" if send(field).empty?
-      end
-
-      def in_family_section?
-        section_filters.to_a.any? { |filter| filter.identifier == 'family' }
-      end
     end
   end
 end

@@ -37,9 +37,6 @@ describe Offer do
       it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
       it { subject.must validate_length_of(:code_word).is_at_most 140 }
-      it do
-        subject.must validate_length_of(:opening_specification).is_at_most 400
-      end
 
       it 'should ensure that age_from fits age_to' do
         basicOffer.age_from = 9
@@ -127,6 +124,32 @@ describe Offer do
           .is_greater_than(0).is_less_than_or_equal_to(99)
       end
 
+      it 'should validate that section filters of offer and categories fit' do
+        category = FactoryGirl.create(:category)
+        category.section_filters = [filters(:family)]
+        basicOffer.categories = [category]
+        basicOffer.section_filters = [filters(:refugees)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_include(
+          "benötigt mindestens eine 'Refugees' Kategorie\n"
+        )
+        basicOffer.errors.messages[:categories].wont_include(
+          "benötigt mindestens eine 'Family' Kategorie\n"
+        )
+        basicOffer.section_filters = [filters(:family), filters(:refugees)]
+        category.section_filters = [filters(:refugees)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_include(
+          "benötigt mindestens eine 'Family' Kategorie\n"
+        )
+        basicOffer.errors.messages[:categories].wont_include(
+          "benötigt mindestens eine 'Refugees' Kategorie\n"
+        )
+        category.section_filters = [filters(:refugees), filters(:family)]
+        basicOffer.valid?
+        basicOffer.errors.messages[:categories].must_be :nil?
+      end
+
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
       #   basicOffer.reload.must_be :valid?
@@ -135,13 +158,11 @@ describe Offer do
   end
 
   describe 'observers' do
-    describe 'before validation' do
-      it 'should always get assigned to the latest logic version' do
-        offer.logic_version_id.must_equal nil
-        OfferObserver.send(:new).before_validation(offer)
+    describe 'after initialize' do
+      it 'should get assigned the latest LogicVersion' do
         offer.logic_version_id.must_equal logic_versions(:basic).id
         new_logic = LogicVersion.create(name: 'Foo', version: 200)
-        OfferObserver.send(:new).before_validation(offer)
+        OfferObserver.send(:new).after_initialize(offer)
         offer.logic_version_id.must_equal new_logic.id
       end
     end
@@ -279,74 +300,15 @@ describe Offer do
       end
     end
 
-    describe '#section_filters_must_match_categories_section_filters' do
-      it 'should fail when single filter does not match' do
-        offer = offers(:basic)
-        category = categories(:main1)
-        offer.section_filters << filters(:refugees)
-        offer.categories << category
-        offer.expects(:fail_validation).with(
-          :section_filters, 'section_filter_not_found_in_category',
-          world: 'Refugees', category: category.name
-        )
-        offer.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should fail when multiple filters do not match' do
-        off = offers(:basic)
-        category = categories(:main2)
-        off.section_filters = [filters(:refugees), filters(:family)]
-        off.categories << category
-        off.expects(:fail_validation).with(
-          :section_filters, 'section_filter_not_found_in_category',
-          world: 'Family', category: category.name
-        )
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should fail only on mismatching categories' do
-        off = offers(:basic)
-        category = categories(:main2)
-        off.section_filters = [filters(:refugees), filters(:family)]
-        off.categories << category
-        off.categories << categories(:main3)
-        off.expects(:fail_validation).with(
-          :section_filters, 'section_filter_not_found_in_category',
-          world: 'Family', category: category.name
-        )
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should succeed when single family world matches' do
-        off = offers(:basic)
-        off.section_filters = [filters(:family)]
-        off.categories << categories(:main1)
-        off.expects(:fail_validation).never
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should succeed when single refugee world matches on multiple' do
-        off = offers(:basic)
-        off.section_filters = [filters(:refugees)]
-        off.categories << categories(:main3)
-        off.expects(:fail_validation).never
-        off.section_filters_must_match_categories_section_filters
-      end
-
-      it 'should succeed when multiple worlds match' do
-        off = offers(:basic)
-        off.section_filters = [filters(:refugees), filters(:family)]
-        off.categories << categories(:main3)
-        off.expects(:fail_validation).never
-        off.section_filters_must_match_categories_section_filters
-      end
-
+    describe '#in_section?' do
       it 'should correctly reply to in_section? call' do
         off = offers(:basic)
         off.in_section?('family').must_equal true
         off.in_section?('refugees').must_equal false
       end
+    end
 
+    describe '::in_section?' do
       it 'should correctly retrieve offers with in_section scope' do
         Offer.in_section('family').must_equal [offers(:basic)]
       end
@@ -359,7 +321,7 @@ describe Offer do
 
       it 'should attach the user name to the development env' do
         Rails.stubs(:env)
-          .returns ActiveSupport::StringInquirer.new('development')
+             .returns ActiveSupport::StringInquirer.new('development')
         ENV.stubs(:[]).returns 'foobar'
         Offer.per_env_index.must_equal 'Offer_development_foobar'
       end
@@ -414,6 +376,20 @@ describe Offer do
           offer.created_by = 1
           offer.stubs(:current_actor).returns(nil)
           offer.send(:different_actor?).must_equal nil
+        end
+      end
+
+      describe '#LogicVersion' do
+        it 'should have the latest LogicVersion after :complete and :approve' do
+          offer.created_by = 99
+          offer.aasm_state = 'initialized'
+          offer.logic_version_id.must_equal logic_versions(:basic).id
+          new_logic1 = LogicVersion.create(name: 'Foo', version: 200)
+          offer.send(:complete)
+          offer.logic_version_id.must_equal new_logic1.id
+          new_logic2 = LogicVersion.create(name: 'Bar', version: 201)
+          offer.send(:approve)
+          offer.logic_version_id.must_equal new_logic2.id
         end
       end
     end

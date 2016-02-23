@@ -5,7 +5,7 @@ class Opening < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  DAYS = %w(mon tue wed thu fri sat sun)
+  DAYS = %w(mon tue wed thu fri sat sun).freeze
   enumerize :day, in: DAYS
 
   # Validations

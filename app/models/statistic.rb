@@ -19,7 +19,7 @@ class Statistic < ActiveRecord::Base
   extend Enumerize
   TOPICS = %w(
     offer_created offer_approved organization_created organization_approved
-  )
+  ).freeze
   enumerize :topic, in: TOPICS
 
   # Scopes

@@ -9,8 +9,29 @@ class Offer
       validate :location_and_area_fit_encounter
       validate :location_fits_organization, on: :update
       validate :contact_people_are_choosable
-      validate :section_filters_must_match_categories_section_filters
+      validate :section_filters_must_match_categories_section_filters,
+               on: :update
       validate :no_more_than_10_next_steps
+
+      private
+
+      # Uses method from CustomValidatable concern.
+      def validate_associated_fields
+        validate_associated_presence :organizations
+        validate_associated_presence :section_filters
+        validate_associated_presence :language_filters
+        if in_family_section?
+          validate_associated_presence :target_audience_filters
+        end
+      end
+
+      def validate_associated_presence field
+        fail_validation field, "needs_#{field}" if send(field).empty?
+      end
+
+      def in_family_section?
+        section_filters.to_a.any? { |filter| filter.identifier == 'family' }
+      end
 
       ## Custom Validation Methods ##
 
@@ -73,14 +94,12 @@ class Offer
 
       # The offers section_filters must match the categories section_filters
       def section_filters_must_match_categories_section_filters
-        section_filters.each do |filter|
-          categories.each do |category|
-            fail_validation(:section_filters,
-                            'section_filter_not_found_in_category',
-                            world: filter.name,
-                            category: category.name) unless
-                            category.section_filters.include? filter
+        section_filters.each do |offer_filter|
+          next if categories.any? do |category|
+            category.section_filters.include?(offer_filter)
           end
+          fail_validation(:categories, 'category_for_section_filter_needed',
+                          world: offer_filter.name)
         end
       end
 

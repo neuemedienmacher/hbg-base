@@ -12,7 +12,7 @@ class Website < ActiveRecord::Base
   extend Enumerize
   HOSTS = %w(own facebook twitter youtube gplus pinterest document
              online_consulting chat forum online_course application_form
-             contact_form other)
+             contact_form other).freeze
   enumerize :host, in: HOSTS
 
   # Validations
@@ -26,8 +26,4 @@ class Website < ActiveRecord::Base
   # .. by url
   scope :pdf, -> { where('websites.url LIKE ?', '%.pdf') }
   scope :non_pdf, -> { where.not('websites.url LIKE ?', '%.pdf') }
-
-  def shorten_url
-    URI.parse(self.url).host
-  end
 end

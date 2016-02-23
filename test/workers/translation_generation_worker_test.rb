@@ -50,7 +50,7 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       MarkdownRenderer.expects(:render).never
       Definition.expects(:infuse).never
       worker.send(:direct_translate_via_strategy, object, :name)
-        .must_equal 'foo'
+            .must_equal 'foo'
     end
 
     it 'should check for definitions and markdown in German descriptions' do
