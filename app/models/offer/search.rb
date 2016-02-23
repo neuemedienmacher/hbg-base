@@ -164,10 +164,12 @@ class Offer
       end
 
       # stamp-generation methods for each section
-      SectionFilter::IDENTIFIER.each do |section|
-        define_method "_stamp_#{section}" do
-          Offerstamp.generate_stamp section, self
-        end
+      def _stamp_family locale
+        Offerstamp.generate_stamp self, 'family', locale
+      end
+
+      def _stamp_refugees locale
+        Offerstamp.generate_stamp self, 'refugees', locale
       end
     end
   end

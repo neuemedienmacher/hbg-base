@@ -1,30 +1,31 @@
 class Offerstamp
-  def self.generate_stamp current_section, offer
+  def self.generate_stamp offer, current_section, locale
     # filter target_audience array to only include those of the current_section
     target_audience_for_section = offer._target_audience_filters.select { |ta| ta.index(current_section) == 0 }
     # (.......)
     if !target_audience_for_section[0] && current_section == 'refugees'
       target_audience_for_section[0] = 'refugees_general'
     end
-    # return with error if there is none => wrong target_audience_filters set
-    # return 'missing correct target_audience!!' unless target_audience_for_section[0]
+    # return empty string if there is none => wrong target_audience_filters set
+    return '' unless target_audience_for_section[0]
     # generate frontend stamp
-    generate_offer_stamp current_section, offer, target_audience_for_section[0]
+    generate_offer_stamp current_section, offer, target_audience_for_section[0],
+                         locale
   end
 
   private_class_method
 
-  def self.generate_offer_stamp current_section, offer, ta
-    locale_entry = 'offer.stamp.target_audience' + ".#{ta}"
-    stamp = I18n.t('offer.stamp.target_audience.prefix')
+  def self.generate_offer_stamp current_section, offer, ta, locale
+    locale_entry = 'offer.stamp.target_audience.' + ta.to_s
+    stamp = I18n.t('offer.stamp.target_audience.prefix', locale: locale)
 
     if ta == 'family_children' || ta == 'family_parents' ||
        ta == 'family_nuclear_family'
       locale_entry += send("stamp_#{ta}", offer)
     end
-    stamp += I18n.t(locale_entry)
+    stamp += I18n.t(locale_entry, locale: locale)
 
-    stamp_add_age offer, ta, stamp, current_section
+    stamp_add_age offer, ta, stamp, current_section, locale
   end
 
   def self.stamp_family_children offer
@@ -68,7 +69,7 @@ class Offerstamp
   end
   # rubocop:enable Metrics/AbcSize
 
-  def self.stamp_add_age offer, ta, stamp, current_section
+  def self.stamp_add_age offer, ta, stamp, current_section, locale
     append_age = offer.age_visible && stamp_append_age(ta)
     child_age = stamp_child_age offer, ta
 
@@ -76,8 +77,9 @@ class Offerstamp
       stamp += generate_age_for_stamp(
         offer._age_filters.first,
         offer._age_filters.last,
-        child_age ? "#{I18n.t('offer.stamp.age.of_child')} " : '',
-        current_section
+        child_age ? "#{I18n.t('offer.stamp.age.of_child', locale: locale)} " : '',
+        current_section,
+        locale
       )
     end
     stamp
@@ -91,18 +93,18 @@ class Offerstamp
     ta == 'family_parents' && offer.gender_second_part_of_stamp.nil?
   end
 
-  def self.generate_age_for_stamp from, to, prefix, current_section
+  def self.generate_age_for_stamp from, to, prefix, current_section, locale
     age_string =
       prefix +
       if from == 0
-        "#{I18n.t('offer.stamp.age.to')} #{to}"
+        "#{I18n.t('offer.stamp.age.to', locale: locale)} #{to}"
       elsif to == 99 || current_section == 'family' && to > 17
-        "#{I18n.t('offer.stamp.age.from')} #{from}"
+        "#{I18n.t('offer.stamp.age.from', locale: locale)} #{from}"
       elsif from == to
         from.to_s
       else
         "#{from} - #{to}"
       end
-    " (#{age_string} #{I18n.t('offer.stamp.age.suffix')})"
+    " (#{age_string} #{I18n.t('offer.stamp.age.suffix', locale: locale)})"
   end
 end
