@@ -15,6 +15,7 @@ class ContactPerson < ActiveRecord::Base
   extend Enumerize
   enumerize :gender, in: %w(female male)
   enumerize :academic_title, in: %w(dr prof_dr)
+  enumerize :position, in: %w(superior public_relations secretary other)
 
   # Validations
   validates :organization_id, presence: true
