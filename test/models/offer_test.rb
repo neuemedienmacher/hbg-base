@@ -486,5 +486,12 @@ describe Offer do
         basicOffer._language_filters.must_equal(['deu'])
       end
     end
+
+    describe 'stamp' do
+      it 'should correctly respond to general _stamp_SECTION call' do
+        basicOffer._stamp_family.must_equal 'für Kinder und Jugendliche (bis 17 Jahre)'
+        basicOffer._stamp_refugees.must_equal 'für Flüchtlinge (bis 17 Jahre)'
+      end
+    end
   end
 end

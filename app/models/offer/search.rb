@@ -162,6 +162,13 @@ class Offer
         string = next_steps_for_locale(locale)
         string.empty? ? send("old_next_steps_#{locale}") : string
       end
+
+      # stamp-generation methods for each section
+      SectionFilter::IDENTIFIER.each do |section|
+        define_method "_stamp_#{section}" do
+          Offerstamp.generate_stamp section, self
+        end
+      end
     end
   end
   # rubocop:enable Metrics/ModuleLength
