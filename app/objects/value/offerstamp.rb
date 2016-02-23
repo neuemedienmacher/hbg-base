@@ -18,35 +18,13 @@ class Offerstamp
     locale_entry = 'offer.stamp.target_audience' + ".#{ta}"
     stamp = I18n.t('offer.stamp.target_audience.prefix')
 
-    if ta == 'family_children'
-      locale_entry += stamp_family_children offer
-    elsif ta == 'family_parents'
-      locale_entry += stamp_family_parents offer
-    elsif ta == 'family_nuclear_family'
-      locale_entry += stamp_family_nuclear_family offer
+    if ta == 'family_children' || ta == 'family_parents' ||
+       ta == 'family_nuclear_family'
+      locale_entry += send("stamp_#{ta}", offer)
     end
-
-    append_age = offer.age_visible && stamp_append_age(offer, ta)
-    child_age = stamp_child_age offer, ta
-
     stamp += I18n.t(locale_entry)
-    if append_age && !offer._age_filters.empty?
-      stamp += generate_age_for_stamp offer._age_filters[0], offer._age_filters.last, child_age ? "#{I18n.t('offer.stamp.age.of_child')} " : '', current_section
-    end
-    stamp
-  end
 
-  def self.stamp_child_age offer, ta
-    ta == 'family_children' && offer.gender_second_part_of_stamp.nil?
-  end
-
-  def self.stamp_append_age offer, ta
-    puts ta
-    puts offer.gender_first_part_of_stamp
-    puts offer.gender_second_part_of_stamp
-
-    ta != 'family_nuclear_family' || !offer.gender_first_part_of_stamp.nil? ||
-    !offer.gender_second_part_of_stamp.nil?
+    stamp_add_age offer, ta, stamp, current_section
   end
 
   def self.stamp_family_children offer
@@ -62,28 +40,55 @@ class Offerstamp
   end
 
   def self.stamp_family_parents offer
-    if !offer.gender_first_part_of_stamp.nil? && !offer.gender_second_part_of_stamp.nil?
+    if !offer.gender_first_part_of_stamp.nil? &&
+       !offer.gender_second_part_of_stamp.nil?
       ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
     elsif !offer.gender_first_part_of_stamp.nil?
-      # child_age.replace(true)
       ".#{offer.gender_first_part_of_stamp}.default"
     else
-      # child_age.replace(true)
       '.default'
     end
   end
 
+  # AbcSize is 16.49, just a bit over maximum + this method is not complicated
+  # rubocop:disable Metrics/AbcSize
   def self.stamp_family_nuclear_family offer
-    if !offer.gender_first_part_of_stamp.nil? && !offer.gender_second_part_of_stamp.nil?
+    if !offer.gender_first_part_of_stamp.nil? &&
+       !offer.gender_second_part_of_stamp.nil?
       ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
     elsif !offer.gender_first_part_of_stamp.nil?
       ".#{offer.gender_first_part_of_stamp}.default"
     elsif !offer.gender_second_part_of_stamp.nil?
       ".special_#{offer.gender_second_part_of_stamp}"
+    elsif offer.age_visible
+      '.with_child'
     else
-      # append_age.replace(false)
       '.default'
     end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def self.stamp_add_age offer, ta, stamp, current_section
+    append_age = offer.age_visible && stamp_append_age(ta)
+    child_age = stamp_child_age offer, ta
+
+    if append_age && !offer._age_filters.empty?
+      stamp += generate_age_for_stamp(
+        offer._age_filters.first,
+        offer._age_filters.last,
+        child_age ? "#{I18n.t('offer.stamp.age.of_child')} " : '',
+        current_section
+      )
+    end
+    stamp
+  end
+
+  def self.stamp_append_age ta
+    ta != 'family_everyone' && ta != 'refugees_families'
+  end
+
+  def self.stamp_child_age offer, ta
+    ta == 'family_parents' && offer.gender_second_part_of_stamp.nil?
   end
 
   def self.generate_age_for_stamp from, to, prefix, current_section

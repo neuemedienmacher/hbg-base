@@ -42,6 +42,7 @@ de:
       target_audience:
         prefix: "für "
         family_pregnant_woman: "Schwangere"
+        family_pregnant_with_child: "Schwangere mit Kind"
         family_acquaintances: "Bekannte und Verwandte"
         family_everyone: "Alle"
         family_pregnant_with_child: "Schwangere mit Kind"
@@ -63,6 +64,7 @@ de:
             female: "Väter von Töchtern"
         family_nuclear_family:
           default: "Familien"
+          with_child: "Familien mit Kind"
           female:
             default: "Mütter mit Kind"
             male: "Mütter mit Söhnen"
