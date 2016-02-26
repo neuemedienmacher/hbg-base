@@ -42,15 +42,6 @@ class ContactPerson < ActiveRecord::Base
   delegate :name, to: :organization, prefix: true, allow_nil: true
   delegate :address, :address?, to: :email, prefix: true, allow_nil: true
 
-  # For rails_admin display
-  def display_name
-    if first_name.blank? && last_name.blank?
-      "##{id} #{operational_name} (#{organization_name})"
-    else
-      "##{id} #{first_name} #{last_name} (#{organization_name})".squeeze(' ')
-    end
-  end
-
   # concatenated area code and telephone number
   %w(1 2).each do |n|
     define_method "telephone_#{n}".to_sym do

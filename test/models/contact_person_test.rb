@@ -112,23 +112,6 @@ describe ContactPerson do
   end
 
   describe 'methods' do
-    describe '#display_name' do
-      it 'should show ID, name and organization name' do
-        contact_person.assign_attributes id: 1, first_name: 'John'
-        contact_person.assign_attributes id: 1, last_name: 'Doe'
-        contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.display_name.must_equal '#1 John Doe (ABC)'
-      end
-    end
-
-    describe '#display_name' do
-      it 'should show ID, name and organization name' do
-        contact_person.assign_attributes id: 1, operational_name: 'Headquarters'
-        contact_person.organization = Organization.new(name: 'ABC')
-        contact_person.display_name.must_equal '#1 Headquarters (ABC)'
-      end
-    end
-
     describe '#telephone_#{n}' do
       it 'should return the concatenated area code and local number' do
         contact_person.assign_attributes area_code_1: '0', local_number_1: '1',
