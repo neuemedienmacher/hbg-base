@@ -213,12 +213,8 @@ describe Offer do
       end
 
       it 'should return translated categories with ancestors when non-german' do
-        [
-          { category_id: 1, name: 'enmain1' },
-          { category_id: 3, name: 'ensub1.1' }
-        ].each do |obj|
-          CategoryTranslation.create! obj.merge(locale: :en, source: 'user')
-        end
+        Category.find(1).update_column :name_en, 'enmain1'
+        Category.find(3).update_column :name_en, 'ensub1.1'
 
         offers(:basic).categories << categories(:sub1)
         tags = offers(:basic)._tags(:en)

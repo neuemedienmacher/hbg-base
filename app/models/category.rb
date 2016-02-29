@@ -14,7 +14,7 @@ class Category < ActiveRecord::Base
   has_many :organizations, through: :offers
 
   # Validations
-  validates :name, presence: true
+  validates :name_de, presence: true
 
   # Custom Validations
   validate :validate_section_filter_presence
@@ -22,10 +22,7 @@ class Category < ActiveRecord::Base
 
   # Sanitization
   extend Sanitization
-  auto_sanitize :name
-
-  # Translation
-  translate :name
+  auto_sanitize :name_de
 
   # Scope
   scope :mains, -> { where.not(icon: nil).order(:icon).limit(7) }
@@ -35,12 +32,11 @@ class Category < ActiveRecord::Base
 
   # Methods
 
-  # display name: each category gets suffixes for each section and
-  # main categories get an additional asterisk
-  def name_with_world_suffix_and_optional_asterisk
-    return unless name
-    sections_suffix = "(#{section_filters.map { |f| f.name.first }.join(',')})"
-    name + (icon ? "#{sections_suffix}*" : sections_suffix)
+  # locale-specific name getter with two fallbacks
+  def name(locale = I18n.locale)
+    output = send(:"name_#{locale}")
+    output = output.blank? ? name_en : output
+    output.blank? ? name_de : output
   end
 
   # custom validation methods

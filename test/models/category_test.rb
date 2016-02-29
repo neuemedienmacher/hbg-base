@@ -7,14 +7,20 @@ describe Category do
 
   describe 'attributes' do
     it { subject.must_respond_to :id }
-    it { subject.must_respond_to :name }
+    it { subject.must_respond_to :name_de }
+    it { subject.must_respond_to :name_en }
+    it { subject.must_respond_to :name_ar }
+    it { subject.must_respond_to :name_tr }
+    it { subject.must_respond_to :name_fr }
+    it { subject.must_respond_to :name_pl }
+    it { subject.must_respond_to :name_ru }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
   end
 
   describe 'validations' do
     describe 'always' do
-      it { subject.must validate_presence_of :name }
+      it { subject.must validate_presence_of :name_de }
       it 'must validate the presence of a section_filter' do
         category.expects(:validate_section_filter_presence)
         category.save
@@ -45,16 +51,27 @@ describe Category do
   end
 
   describe 'methods' do
-    describe '#name_with_world_suffix_and_optional_asterisk' do
-      it 'should return name with asterisk for a main category' do
-        category.assign_attributes icon: 'x', name: 'a'
-        category.section_filters = [filters(:family)]
-        category.name_with_world_suffix_and_optional_asterisk.must_equal 'a(F)*'
+    describe '#name' do
+      it 'should show name_[locale] for the current locale' do
+        locale = I18n.available_locales.sample
+        subject.send("name_#{locale}=", 'foobar')
+        I18n.with_locale(locale) do
+          subject.name.must_equal 'foobar'
+        end
       end
-      it 'should return name without asterisk for a non-main category' do
-        category.name = 'a'
-        category.section_filters = [filters(:family)]
-        category.name_with_world_suffix_and_optional_asterisk.must_equal 'a(F)'
+
+      it 'should fall back to the en locale when the current one is empty' do
+        subject.name_de = 'foo'
+        subject.name_en = 'bar'
+        subject.name_ar = ''
+        I18n.with_locale(:ar) { subject.name.must_equal('bar') }
+      end
+
+      it 'should fall back to de locale when the current one & en are empty' do
+        subject.name_de = 'foo'
+        subject.name_en = ''
+        subject.name_ar = nil
+        I18n.with_locale(:ar) { subject.name.must_equal('foo') }
       end
     end
     describe '#validate_section_filter_presence' do
@@ -74,11 +91,9 @@ describe Category do
         parent = categories(:main1)
         category = categories(:sub1)
         section_filter = filters(:refugees)
-        category.expects(:fail_validation).with :section_filters,
-                                                'parent_needs_same_section_fil'\
-                                                'ter',
-                                                parent_name: parent.name,
-                                                filter_name: section_filter.name
+        category.expects(:fail_validation).with(
+          :section_filters, 'parent_needs_same_section_filter',
+          parent_name: parent.name, filter_name: section_filter.name)
         category.validate_section_filters_with_parent
       end
       it 'should succeed when the parent has the same section filter' do
