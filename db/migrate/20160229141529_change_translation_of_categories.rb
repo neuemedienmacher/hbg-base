@@ -16,7 +16,7 @@ class ChangeTranslationOfCategories < ActiveRecord::Migration
 
     CategoryTranslation.find_each do |translation|
       Category.find(translation.category_id).update_column(
-        :"name_#{translation.locale}" => translation.name
+        :"name_#{translation.locale}", translation.name
       )
     end
 
