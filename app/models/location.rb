@@ -13,7 +13,8 @@ class Location < ActiveRecord::Base
   validates :street, presence: true,
                      format: /\A.+\d+.*\z/ # ensure digit for house number
   validates :addition, length: { maximum: 255 }
-  validates :zip, presence: true, length: { is: 5 }
+  validates :zip, presence: true, length: { is: 5 },
+                  if: -> (location) { location.in_germany }
   validates :city, presence: true
   validates :area_code, format: /\A\d*\z/, length: { maximum: 6 }
   validates :local_number, format: /\A\d*\z/, length: { maximum: 32 }
@@ -21,7 +22,8 @@ class Location < ActiveRecord::Base
   validates :display_name, presence: true
 
   validates :organization_id, presence: true
-  validates :federal_state_id, presence: true
+  validates :federal_state_id, presence: true,
+                               if: -> (location) { location.in_germany }
 
   # Scopes
   scope :hq, -> { where(hq: true).limit(1) }

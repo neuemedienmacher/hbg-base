@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219130751) do
+ActiveRecord::Schema.define(version: 20160229134035) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 20160219130751) do
     t.string   "local_number",     limit: 32
     t.string   "email"
     t.boolean  "visible",                     default: true
+    t.boolean  "in_germany",                  default: true
   end
 
   add_index "locations", ["created_at"], name: "index_locations_on_created_at"
