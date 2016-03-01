@@ -14,4 +14,11 @@ class NextStep < ActiveRecord::Base
   validates :text_ru, length: { maximum: 255 }
 
   # Methods
+
+  # locale-specific text getter with two fallbacks
+  def text(locale = I18n.locale)
+    output = send(:"text_#{locale}")
+    output = output.blank? ? text_en : output
+    output.blank? ? text_de : output
+  end
 end

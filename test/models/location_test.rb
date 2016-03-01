@@ -57,7 +57,7 @@ describe Location do
         loc.valid?.must_equal true
       end
 
-      it 'should be okay with a missing federal_state' do
+      it 'should be okay with a missing federal_state_id' do
         loc.assign_attributes federal_state_id: nil
         loc.valid?.must_equal false
         loc.assign_attributes in_germany: false
