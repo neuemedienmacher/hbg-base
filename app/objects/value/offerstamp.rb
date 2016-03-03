@@ -6,8 +6,8 @@ class Offerstamp
     if !target_audience_for_section[0] && current_section == 'refugees'
       target_audience_for_section[0] = 'refugees_general'
     end
-    # return empty string if there is none => wrong target_audience_filters set
-    return '' unless target_audience_for_section[0]
+    # return empty string if there is not exactly one target_audience
+    return '' unless target_audience_for_section.length == 1
     # generate frontend stamp
     generate_offer_stamp current_section, offer, target_audience_for_section[0],
                          locale
