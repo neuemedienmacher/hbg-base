@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219130751) do
+ActiveRecord::Schema.define(version: 20160229141529) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -24,16 +24,22 @@ ActiveRecord::Schema.define(version: 20160219130751) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name",                                 null: false
+    t.string   "name_de",                              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "icon",       limit: 12
     t.integer  "parent_id"
     t.integer  "sort_order"
     t.boolean  "visible",               default: true
+    t.string   "name_en"
+    t.string   "name_ar"
+    t.string   "name_fr"
+    t.string   "name_pl"
+    t.string   "name_tr"
+    t.string   "name_ru"
   end
 
-  add_index "categories", ["name"], name: "index_categories_on_name"
+  add_index "categories", ["name_de"], name: "index_categories_on_name_de"
 
   create_table "categories_filters", id: false, force: :cascade do |t|
     t.integer "filter_id",   null: false
@@ -59,18 +65,6 @@ ActiveRecord::Schema.define(version: 20160219130751) do
 
   add_index "category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "category_anc_desc_idx", unique: true
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx"
-
-  create_table "category_translations", force: :cascade do |t|
-    t.integer  "category_id",              null: false
-    t.string   "locale",                   null: false
-    t.string   "source",      default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",        default: "", null: false
-  end
-
-  add_index "category_translations", ["category_id"], name: "index_category_translations_on_category_id"
-  add_index "category_translations", ["locale"], name: "index_category_translations_on_locale"
 
   create_table "contact_people", force: :cascade do |t|
     t.integer  "organization_id",                             null: false
