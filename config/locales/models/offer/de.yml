@@ -10,7 +10,7 @@ de:
         prefix: "für "
         family_pregnant_woman: "Schwangere"
         family_acquaintances: "Bekannte und Verwandte"
-        family_everyone: "Alle"
+        family_everyone: "alle"
         family_children:
           default: "Kinder"
           adolescents: "Jugendliche"

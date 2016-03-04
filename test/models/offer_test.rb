@@ -624,7 +624,7 @@ describe Offer do
 
         basicOffer.target_audience_filters =
           [TargetAudienceFilter.find_by(identifier: 'family_everyone')]
-        basicOffer._stamp_family(:de).must_equal 'für Alle'
+        basicOffer._stamp_family(:de).must_equal 'für alle'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge'
       end
 
