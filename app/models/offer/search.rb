@@ -48,6 +48,8 @@ class Offer
             attribute(:next_steps)  { _next_steps locale }
             attribute(:lang) { lang(locale) }
             attribute(:_tags) { _tags(locale) }
+            attribute(:_stamp_family) { _stamp_family(locale) }
+            attribute(:_stamp_refugees) { _stamp_refugees(locale) }
             add_attribute(*attributes)
             add_attribute(*facets)
             add_attribute :_geoloc
@@ -64,6 +66,8 @@ class Offer
             attribute(:next_steps)  { _next_steps locale }
             attribute(:lang) { lang(locale) }
             attribute(:_tags) { _tags(locale) }
+            attribute(:_stamp_family) { _stamp_family(locale) }
+            attribute(:_stamp_refugees) { _stamp_refugees(locale) }
             add_attribute(*attributes)
             add_attribute :area_minlat, :area_maxlat, :area_minlong,
                           :area_maxlong
@@ -155,6 +159,15 @@ class Offer
       def _next_steps locale
         string = next_steps_for_locale(locale)
         string.empty? ? send("old_next_steps_#{locale}") : string
+      end
+
+      # stamp-generation methods for each section
+      def _stamp_family locale
+        Offerstamp.generate_stamp self, 'family', locale
+      end
+
+      def _stamp_refugees locale
+        Offerstamp.generate_stamp self, 'refugees', locale
       end
     end
   end
