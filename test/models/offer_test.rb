@@ -129,24 +129,14 @@ describe Offer do
         category.section_filters = [filters(:family)]
         basicOffer.categories = [category]
         basicOffer.section_filters = [filters(:refugees)]
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_include(
-          "benötigt mindestens eine 'Refugees' Kategorie\n"
-        )
-        basicOffer.errors.messages[:categories].wont_include(
-          "benötigt mindestens eine 'Family' Kategorie\n"
-        )
+        basicOffer.valid?.must_equal false
+
         basicOffer.section_filters = [filters(:family), filters(:refugees)]
         category.section_filters = [filters(:refugees)]
-        basicOffer.valid?
-        basicOffer.errors.messages[:categories].must_include(
-          "benötigt mindestens eine 'Family' Kategorie\n"
-        )
-        basicOffer.errors.messages[:categories].wont_include(
-          "benötigt mindestens eine 'Refugees' Kategorie\n"
-        )
+        basicOffer.valid?.must_equal false
+
         category.section_filters = [filters(:refugees), filters(:family)]
-        basicOffer.valid?
+        basicOffer.valid?.must_equal true
         basicOffer.errors.messages[:categories].must_be :nil?
       end
 

@@ -51,8 +51,3 @@ everyone:
   type: TargetAudienceFilter
   name: Alle
   identifier: family_everyone
-pregnant_with_child:
-  id: 11
-  type: TargetAudienceFilter
-  name: Schwangere mit Kind
-  identifier: family_pregnant_with_child
