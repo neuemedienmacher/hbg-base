@@ -42,10 +42,8 @@ de:
       target_audience:
         prefix: "für "
         family_pregnant_woman: "Schwangere"
-        family_pregnant_with_child: "Schwangere mit Kind"
         family_acquaintances: "Bekannte und Verwandte"
         family_everyone: "Alle"
-        family_pregnant_with_child: "Schwangere mit Kind"
         family_children:
           default: "Kinder"
           adolescents: "Jugendliche"
@@ -86,6 +84,5 @@ de:
         refugees_deportation_decision: "Flüchtlinge mit Abschiebebescheid"
         refugees_toleration_decision: "Flüchtlinge mit Duldung"
         refugees_residence_permit: "Flüchtlinge mit Aufenthaltserlaubnis"
-        refugees_registered: "registrierte Flüchtlinge"
         refugees_parents: "geflüchtete Eltern"
         refugees_general: "Flüchtlinge"

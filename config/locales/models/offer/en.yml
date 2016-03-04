@@ -24,7 +24,6 @@ en:
         family_pregnant_woman: "pregnant women"
         family_acquaintances: "acquaintances and relatives"
         family_everyone: "everyone"
-        family_pregnant_with_child: "pregnant women with a child"
         family_children:
           default: "children"
           adolescents: "adolescents"
@@ -64,6 +63,5 @@ en:
         refugees_deportation_decision: "refugees with deportation decision"
         refugees_toleration_decision: "refugees with toleration decision"
         refugees_residence_permit: "refugees with residence permit"
-        refugees_registered: "unregistered refugees"
         refugees_parents: "fled parents"
         refugees_general: "refugees"

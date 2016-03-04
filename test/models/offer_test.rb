@@ -628,11 +628,6 @@ describe Offer do
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge'
 
         basicOffer.target_audience_filters =
-          [TargetAudienceFilter.find_by(identifier: 'family_pregnant_with_child')]
-        basicOffer._stamp_family(:de).must_equal 'für Schwangere mit Kind'
-        basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge'
-
-        basicOffer.target_audience_filters =
           [TargetAudienceFilter.find_by(identifier: 'family_acquaintances')]
         basicOffer._stamp_family(:de).must_equal 'für Bekannte und Verwandte'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge'
@@ -688,10 +683,6 @@ describe Offer do
         basicOffer.target_audience_filters =
           [TargetAudienceFilter.create(name: 'ref_11', identifier: 'refugees_residence_permit')]
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge mit Aufenthaltserlaubnis'
-
-        basicOffer.target_audience_filters =
-          [TargetAudienceFilter.create(name: 'ref_12', identifier: 'refugees_registered')]
-        basicOffer._stamp_refugees(:de).must_equal 'für registrierte Flüchtlinge'
 
         basicOffer.target_audience_filters =
           [TargetAudienceFilter.create(name: 'ref_13', identifier: 'refugees_parents')]
