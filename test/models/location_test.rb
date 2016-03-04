@@ -24,6 +24,8 @@ describe Location do
     it { subject.must_respond_to :display_name }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
+    it { subject.must_respond_to :visible }
+    it { subject.must_respond_to :in_germany }
   end
 
   describe 'validations' do
@@ -37,6 +39,30 @@ describe Location do
       it { subject.must validate_length_of(:local_number).is_at_most 32 }
       it { subject.must validate_presence_of :organization_id }
       it { subject.must validate_presence_of :federal_state_id }
+    end
+
+    describe 'when location is not in germany' do
+      before do
+        # valid location in germany
+        loc.assign_attributes street: 'street 1',
+                              city: 'city',
+                              organization_id: 1, # fixture Orga
+                              federal_state_id: 1 # fixture federal_state
+      end
+
+      it 'should allow any zip length' do
+        loc.assign_attributes zip: '123456-789'
+        loc.valid?.must_equal false
+        loc.assign_attributes in_germany: false
+        loc.valid?.must_equal true
+      end
+
+      it 'should be okay with a missing federal_state_id' do
+        loc.assign_attributes federal_state_id: nil
+        loc.valid?.must_equal false
+        loc.assign_attributes in_germany: false
+        loc.valid?.must_equal true
+      end
     end
   end
 
