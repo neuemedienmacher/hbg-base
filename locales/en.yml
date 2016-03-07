@@ -1,0 +1,55 @@
+en:
+  offer:
+    stamp:
+      age:
+        from: from
+        of_child: 'age of child:'
+        suffix: years
+        to: up to
+      target_audience:
+        family_acquaintances: acquaintances and relatives
+        family_children:
+          adolescents: adolescents
+          and_adolescents: children and adolescents
+          default: children
+          female: girls
+          male: boys
+        family_everyone: everyone
+        family_nuclear_family:
+          default: families
+          female:
+            default: mothers with child
+            female: mothers with daughters
+            male: mothers with sons
+          male:
+            default: fathers with child
+            female: fathers with daughters
+            male: fathers with sons
+          special_female: families with girls
+          special_male: Families with boys
+          with_child: families with children
+        family_parents:
+          default: parents
+          female:
+            default: mothers
+            female: mothers of daughters
+            male: mothers of sons
+          male:
+            default: fathers
+            female: fathers of daughters
+            male: fathers of sons
+        family_pregnant_woman: pregnant women
+        prefix: 'for '
+        refugees_adolescents: 'adolescent refugees '
+        refugees_asylum_procedure: refugees during the asylum procedure
+        refugees_children: refugee children
+        refugees_children_and_adolescents: refugee children and adolescents
+        refugees_deportation_decision: refugees with deportation notice
+        refugees_families: refugee families
+        refugees_general: refugees
+        refugees_parents: refugee parents
+        refugees_pre_asylum_procedure: refugees before the asylum procedure
+        refugees_residence_permit: refugees with a residence permit
+        refugees_toleration_decision: refugees with toleration decision
+        refugees_ujf: unaccompanied young refugees
+        refugees_umf: unaccompanied minor refugees

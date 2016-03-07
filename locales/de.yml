@@ -1,0 +1,55 @@
+de:
+  offer:
+    stamp:
+      age:
+        from: ab
+        of_child: 'Alter des Kindes:'
+        suffix: Jahre
+        to: bis
+      target_audience:
+        family_acquaintances: Bekannte und Verwandte
+        family_children:
+          adolescents: Jugendliche
+          and_adolescents: Kinder und Jugendliche
+          default: Kinder
+          female: Mädchen
+          male: Jungs
+        family_everyone: alle
+        family_nuclear_family:
+          default: Familien
+          female:
+            default: Mütter mit Kind
+            female: Mütter mit Töchtern
+            male: Mütter mit Söhnen
+          male:
+            default: Väter mit Kind
+            female: Väter mit Töchtern
+            male: Väter mit Söhnen
+          special_female: Familien mit Mädchen
+          special_male: Familien mit Jungs
+          with_child: Familien mit Kind
+        family_parents:
+          default: Eltern
+          female:
+            default: Mütter
+            female: Mütter von Töchtern
+            male: Mütter von Söhnen
+          male:
+            default: Väter
+            female: Väter von Töchtern
+            male: Väter von Söhnen
+        family_pregnant_woman: Schwangere
+        prefix: 'für '
+        refugees_adolescents: geflüchtete Jugendliche
+        refugees_asylum_procedure: Flüchtlinge im Asylverfahren
+        refugees_children: geflüchtete Kinder
+        refugees_children_and_adolescents: geflüchtete Kinder und Jugendliche
+        refugees_deportation_decision: Flüchtlinge mit Abschiebebescheid
+        refugees_families: geflüchtete Familien
+        refugees_general: Flüchtlinge
+        refugees_parents: geflüchtete Eltern
+        refugees_pre_asylum_procedure: Flüchtlinge vor dem Asylantrag
+        refugees_residence_permit: Flüchtlinge mit Aufenthaltserlaubnis
+        refugees_toleration_decision: Flüchtlinge mit Duldung
+        refugees_ujf: unbegleitete junge Flüchtlinge
+        refugees_umf: unbegleitete minderjährige Flüchtlinge
