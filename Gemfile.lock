@@ -18,6 +18,7 @@ PATH
       enumerize
       friendly_id (>= 5.0)
       geocoder
+      localeapp
       paper_trail
       rails (>= 4.1.12)
       rails-i18n
@@ -32,7 +33,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.8.0)
+    aasm (4.9.0)
     actionmailer (4.2.5.1)
       actionpack (= 4.2.5.1)
       actionview (= 4.2.5.1)
@@ -112,7 +113,7 @@ GEM
       sexp_processor
     coderay (1.1.0)
     colored (1.2)
-    concurrent-ruby (1.0.0)
+    concurrent-ruby (1.0.1)
     connection_pool (2.2.0)
     coveralls (0.8.10)
       json (~> 1.8)
@@ -156,7 +157,8 @@ GEM
     ffaker (2.2.0)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
-    geocoder (1.3.0)
+    geocoder (1.3.1)
+    gli (2.13.4)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -177,6 +179,13 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.4.1)
       launchy (~> 2.2)
+    localeapp (1.0.2)
+      gli
+      i18n
+      json
+      rack
+      rest-client
+      ya2yaml
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -346,7 +355,7 @@ GEM
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.0.1)
+    sprockets-rails (3.0.4)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
@@ -388,6 +397,7 @@ GEM
       thread_safe
     xpath (2.0.0)
       nokogiri (~> 1.3)
+    ya2yaml (0.31)
     yard (0.8.7.6)
 
 PLATFORMS
