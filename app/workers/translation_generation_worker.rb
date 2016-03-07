@@ -33,7 +33,7 @@ class TranslationGenerationWorker
   def generate_field_translations object, locale
     translations_hash = direct_translate_to_html object, locale
 
-    if locale == :de
+    if locale.to_sym == :de
       translations_hash['source'] = 'researcher'
     else
       translations_hash =
