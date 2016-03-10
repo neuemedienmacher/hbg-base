@@ -27,6 +27,8 @@ describe Offer do
     it { subject.must_respond_to :participant_structure }
     it { subject.must_respond_to :gender_first_part_of_stamp }
     it { subject.must_respond_to :gender_second_part_of_stamp }
+    it { subject.must_respond_to :logic_version_id }
+    it { subject.must_respond_to :base_offer_id }
   end
 
   describe 'validations' do
@@ -138,6 +140,21 @@ describe Offer do
         category.section_filters = [filters(:refugees), filters(:family)]
         basicOffer.valid?.must_equal true
         basicOffer.errors.messages[:categories].must_be :nil?
+      end
+
+      it 'should validate that base_offer is assigned with version > 5' do
+        offer.logic_version = LogicVersion.create(name: 'chunky', version: 5)
+        offer.base_offer_id = nil
+        offer.valid?
+        offer.errors.messages[:base_offer].must_be :nil?
+
+        offer.logic_version = LogicVersion.create(name: 'chunky', version: 6)
+        offer.valid?
+        offer.errors.messages[:base_offer].wont_be :nil?
+
+        offer.base_offer_id = 1
+        offer.valid?
+        offer.errors.messages[:base_offer].must_be :nil?
       end
 
       # it 'should ensure chosen contact people belong to a chosen orga' do
