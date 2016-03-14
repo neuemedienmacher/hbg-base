@@ -4,7 +4,7 @@ class Category < ActiveRecord::Base
   has_closure_tree order: 'sort_order'
 
   # Concerns
-  include CustomValidatable, Translation
+  include CustomValidatable
 
   # Associations
   has_and_belongs_to_many :section_filters,
