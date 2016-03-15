@@ -24,13 +24,13 @@ class Email < ActiveRecord::Base
     state :unsubscribed # Email recipient was subscribed but is no longer
     state :blocked # Email is blocked from receiving mailings
 
-    event :inform, guard: :informable? do
-      # First check if email needs to be blocked
-      transitions from: :uninformed, to: :blocked, guard: :should_be_blocked?
-      # Else send email if there are approved offers
-      transitions from: :uninformed, to: :informed,
-                  after: :regenerate_security_code
-    end
+    # event :inform, guard: :informable?, success: :send_information do
+    #   # First check if email needs to be blocked
+    #   transitions from: :uninformed, to: :blocked, guard: :should_be_blocked?
+    #   # Else send email if there are approved offers
+    #   transitions from: :uninformed, to: :informed,
+    #               after: :regenerate_security_code
+    # end
 
     event :subscribe, guard: :security_code_confirmed? do
       transitions from: :informed, to: :subscribed
@@ -54,12 +54,12 @@ class Email < ActiveRecord::Base
     self.security_code = SecureRandom.uuid
   end
 
-  # Has approved offers and at least one organization is mailings_enabled?
-  def informable?
-    contact_people.joins(:offers)
-                  .where('offers.aasm_state = ?', 'approved').any? &&
-      organizations.where(mailings_enabled: true).any?
-  end
+  # # Has approved offers and at least one organization is mailings_enabled?
+  # def informable?
+  #   contact_people.joins(:offers)
+  #                 .where('offers.aasm_state = ?', 'approved').any? &&
+  #     organizations.where(mailings_enabled: true).any?
+  # end
 
   def should_be_blocked?
     contact_people.where(spoc: true).any?

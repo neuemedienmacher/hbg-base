@@ -40,28 +40,28 @@ describe Email do
       end
     end
 
-    describe '#inform' do
-      subject { email.inform }
-
-      describe 'when assigned to contact people with approved offers' do
-        let(:email) { FactoryGirl.create :email, :with_approved_offer }
-
-        it 'wont be possible from informed' do
-          email.aasm_state = 'informed'
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
-
-        it 'wont be possible from subscribed' do
-          email.aasm_state = 'subscribed'
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
-
-        it 'wont be possible from unsubscribed' do
-          email.aasm_state = 'unsubscribed'
-          assert_raises(AASM::InvalidTransition) { subject }
-        end
-      end
-    end
+    # describe '#inform' do
+      # subject { email.inform }
+      #
+      # describe 'when assigned to contact people with approved offers' do
+      #   let(:email) { FactoryGirl.create :email, :with_approved_offer }
+      #
+      #   it 'wont be possible from informed' do
+      #     email.aasm_state = 'informed'
+      #     assert_raises(AASM::InvalidTransition) { subject }
+      #   end
+      #
+      #   it 'wont be possible from subscribed' do
+      #     email.aasm_state = 'subscribed'
+      #     assert_raises(AASM::InvalidTransition) { subject }
+      #   end
+      #
+      #   it 'wont be possible from unsubscribed' do
+      #     email.aasm_state = 'unsubscribed'
+      #     assert_raises(AASM::InvalidTransition) { subject }
+      #   end
+      # end
+    # end
 
     describe '#subscribe' do
       let(:email) { FactoryGirl.create :email, :with_security_code }
@@ -147,30 +147,30 @@ describe Email do
       end
     end
 
-    describe '#informable?' do
-      it 'should be true if it has approved offers & a mailings_enabled orga' do
-        email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer, :approved
-        offer.contact_people.first.update_column :email_id, email.id
-        email.organizations.first.update_column :mailings_enabled, true
-        email.send(:informable?).must_equal true
-      end
-
-      it 'should be false if it has no approved offers' do
-        email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer
-        offer.contact_people.first.update_column :email_id, email.id
-        email.organizations.first.update_column :mailings_enabled, true
-        email.send(:informable?).must_equal false
-      end
-
-      it 'should be false if it has no mailings_enabled orga' do
-        email = FactoryGirl.create :email
-        offer = FactoryGirl.create :offer, :approved
-        offer.contact_people.first.update_column :email_id, email.id
-        email.organizations.first.update_column :mailings_enabled, false
-        email.send(:informable?).must_equal false
-      end
-    end
+    # describe '#informable?' do
+    #   it 'should be true if it has approved offers & a mailings_enabled orga' do
+    #     email = FactoryGirl.create :email
+    #     offer = FactoryGirl.create :offer, :approved
+    #     offer.contact_people.first.update_column :email_id, email.id
+    #     email.organizations.first.update_column :mailings_enabled, true
+    #     email.send(:informable?).must_equal true
+    #   end
+    #
+    #   it 'should be false if it has no approved offers' do
+    #     email = FactoryGirl.create :email
+    #     offer = FactoryGirl.create :offer
+    #     offer.contact_people.first.update_column :email_id, email.id
+    #     email.organizations.first.update_column :mailings_enabled, true
+    #     email.send(:informable?).must_equal false
+    #   end
+    #
+    #   it 'should be false if it has no mailings_enabled orga' do
+    #     email = FactoryGirl.create :email
+    #     offer = FactoryGirl.create :offer, :approved
+    #     offer.contact_people.first.update_column :email_id, email.id
+    #     email.organizations.first.update_column :mailings_enabled, false
+    #     email.send(:informable?).must_equal false
+    #   end
+    # end
   end
 end
