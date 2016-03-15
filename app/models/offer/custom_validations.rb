@@ -12,7 +12,7 @@ class Offer
       validate :section_filters_must_match_categories_section_filters,
                on: :update
       validate :no_more_than_10_next_steps
-      validate :base_offer_id_if_version_greater_5
+      # validate :base_offer_id_if_version_greater_5
 
       private
 
@@ -109,10 +109,10 @@ class Offer
         fail_validation :next_steps, 'no_more_than_10_next_steps'
       end
 
-      def base_offer_id_if_version_greater_5
-        return if !logic_version || logic_version.version < 6 || base_offer_id
-        fail_validation :base_offer, 'is_needed'
-      end
+      # def base_offer_id_if_version_greater_5
+      #   return if !logic_version || logic_version.version < 6 || base_offer_id
+      #   fail_validation :base_offer, 'is_needed'
+      # end
     end
   end
 end
