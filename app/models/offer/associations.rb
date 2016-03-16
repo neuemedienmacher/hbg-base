@@ -6,7 +6,9 @@ class Offer
       # Associations
       belongs_to :location, inverse_of: :offers
       belongs_to :area, inverse_of: :offers
-      belongs_to :solution_category, inverse_of: :offers
+      has_many :solution_category_offers, inverse_of: :offer
+      has_many :solution_categories, through: :solution_category_offers,
+                                     inverse_of: :offers
       belongs_to :logic_version, inverse_of: :offers
       belongs_to :base_offer, inverse_of: :offers
       has_and_belongs_to_many :categories
