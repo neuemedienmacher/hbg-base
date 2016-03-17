@@ -142,20 +142,20 @@ describe Offer do
         basicOffer.errors.messages[:categories].must_be :nil?
       end
 
-      it 'should validate that base_offer is assigned with version > 5' do
-        offer.logic_version = LogicVersion.create(name: 'chunky', version: 5)
-        offer.base_offer_id = nil
-        offer.valid?
-        offer.errors.messages[:base_offer].must_be :nil?
-
-        offer.logic_version = LogicVersion.create(name: 'chunky', version: 6)
-        offer.valid?
-        offer.errors.messages[:base_offer].wont_be :nil?
-
-        offer.base_offer_id = 1
-        offer.valid?
-        offer.errors.messages[:base_offer].must_be :nil?
-      end
+      # it 'should validate that base_offer is assigned with version > 5' do
+      #   offer.logic_version = LogicVersion.create(name: 'chunky', version: 5)
+      #   offer.base_offer_id = nil
+      #   offer.valid?
+      #   offer.errors.messages[:base_offer].must_be :nil?
+      #
+      #   offer.logic_version = LogicVersion.create(name: 'chunky', version: 6)
+      #   offer.valid?
+      #   offer.errors.messages[:base_offer].wont_be :nil?
+      #
+      #   offer.base_offer_id = 1
+      #   offer.valid?
+      #   offer.errors.messages[:base_offer].must_be :nil?
+      # end
 
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
