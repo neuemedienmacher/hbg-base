@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229141529) do
+ActiveRecord::Schema.define(version: 20160310123539) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -21,6 +21,10 @@ ActiveRecord::Schema.define(version: 20160229141529) do
     t.float    "maxlong",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "base_offers", force: :cascade do |t|
+    t.string "name"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -295,11 +299,13 @@ ActiveRecord::Schema.define(version: 20160229141529) do
     t.string   "gender_first_part_of_stamp"
     t.string   "gender_second_part_of_stamp"
     t.integer  "logic_version_id"
+    t.integer  "base_offer_id"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
   add_index "offers", ["approved_at"], name: "index_offers_on_approved_at"
   add_index "offers", ["area_id"], name: "index_offers_on_area_id"
+  add_index "offers", ["base_offer_id"], name: "index_offers_on_base_offer_id"
   add_index "offers", ["created_at"], name: "index_offers_on_created_at"
   add_index "offers", ["location_id"], name: "index_offers_on_location_id"
   add_index "offers", ["logic_version_id"], name: "index_offers_on_logic_version_id"

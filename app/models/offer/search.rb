@@ -27,8 +27,8 @@ class Offer
       algoliasearch do
         I18n.available_locales.each do |locale|
           index = %w(
-            name description next_steps keyword_string organization_names
-            code_word
+            name description code_word next_steps keyword_string
+            organization_names
           )
           # :category_string,
           attributes = [:organization_count, :location_address, :slug,
