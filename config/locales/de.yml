@@ -18,27 +18,49 @@ de:
         family_nuclear_family:
           default: Familien
           female:
-            default: Mütter mit Kind
-            female: Mütter mit Töchtern
-            male: Mütter mit Söhnen
+            female: Mütter und ihre Töchter
+            male: Mütter und ihre Söhne
+            neutral: Mütter und ihre Kinder
+            with_baby: Mütter und ihre Babys
           male:
-            default: Väter mit Kind
-            female: Väter mit Töchtern
-            male: Väter mit Söhnen
-          special_female: Familien mit Mädchen
-          special_male: Familien mit Jungs
-          with_child: Familien mit Kind
+            female: Väter und ihre Töchter
+            male: Väter und ihre Söhne
+            neutral: Väter und ihre Kinder
+            with_baby: Väter und ihre Babys
+          neutral:
+            female: Familien und ihre Töchter
+            male: Familien und ihre Söhne
+            neutral: Familien und ihre Kinder
+            with_baby: Familien und ihre Babys
         family_parents:
-          default: Eltern
           female:
-            default: Mütter
             female: Mütter von Töchtern
             male: Mütter von Söhnen
+            neutral: Mütter
           male:
-            default: Väter
             female: Väter von Töchtern
             male: Väter von Söhnen
-        family_pregnant_woman: Schwangere
+            neutral: Väter
+          neutral:
+            female: Eltern von Töchtern
+            male: Eltern von Söhnen
+            neutral: Eltern
+        family_parents_to_be:
+          default: werdende Eltern
+          female:
+            default: Schwangere
+            female: Schwangere und ihre Töchter
+            male: Schwangere und ihre Söhne
+            neutral: Schwangere und ihre Kinder
+          male:
+            default: werdende Väter
+            female: werdende Väter und ihre Töchter
+            male: werdende Väter und ihre Söhne
+            neutral: werdende Väter und ihre Kinder
+          neutral:
+            female: werdende Eltern und ihre Töchter
+            male: werdende Eltern und ihre Söhne
+            neutral: werdende Eltern und ihre Kinder
         prefix: 'für '
         refugees_adolescents: geflüchtete Jugendliche
         refugees_asylum_procedure: Flüchtlinge im Asylverfahren

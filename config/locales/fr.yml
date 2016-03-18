@@ -18,27 +18,49 @@ fr:
         family_nuclear_family:
           default: 
           female:
-            default: 
             female: 
             male: 
+            neutral: 
+            with_baby: 
           male:
-            default: 
             female: 
             male: 
-          special_female: 
-          special_male: 
-          with_child: 
+            neutral: 
+            with_baby: 
+          neutral:
+            female: 
+            male: 
+            neutral: 
+            with_baby: 
         family_parents:
+          female:
+            female: 
+            male: 
+            neutral: 
+          male:
+            female: 
+            male: 
+            neutral: 
+          neutral:
+            female: 
+            male: 
+            neutral: 
+        family_parents_to_be:
           default: 
           female:
             default: 
             female: 
             male: 
+            neutral: 
           male:
             default: 
             female: 
             male: 
-        family_pregnant_woman: 
+            neutral: 
+          neutral:
+            female: 
+            male: 
+            neutral: 
         prefix: 
         refugees_adolescents: 
         refugees_asylum_procedure: 

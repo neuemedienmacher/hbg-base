@@ -20,7 +20,7 @@ class Offerstamp
     stamp = I18n.t('offer.stamp.target_audience.prefix', locale: locale)
 
     if ta == 'family_children' || ta == 'family_parents' ||
-       ta == 'family_nuclear_family'
+       ta == 'family_nuclear_family' || ta == 'family_parents_to_be'
       locale_entry += send("stamp_#{ta}", offer)
     end
     stamp += I18n.t(locale_entry, locale: locale)
@@ -41,33 +41,39 @@ class Offerstamp
   end
 
   def self.stamp_family_parents offer
-    if !offer.gender_first_part_of_stamp.nil? &&
-       !offer.gender_second_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
-    elsif !offer.gender_first_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.default"
-    else
+    locale_entry = '.' + (offer.gender_first_part_of_stamp.nil? ? 'neutral' : offer.gender_first_part_of_stamp)
+    locale_entry += '.' + (offer.gender_second_part_of_stamp.nil? ? 'neutral' : offer.gender_second_part_of_stamp)
+    locale_entry
+  end
+
+  def self.stamp_family_nuclear_family offer
+    if offer.gender_first_part_of_stamp.nil? &&
+       offer.gender_second_part_of_stamp.nil?
       '.default'
+    else
+      locale_entry = '.' + (offer.gender_first_part_of_stamp.nil? ? 'neutral' : offer.gender_first_part_of_stamp)
+      locale_entry + stamp_family_nuclear_family_gender_second_part(offer)
     end
   end
 
-  # AbcSize is 16.49, just a bit over maximum + this method is not complicated
-  # rubocop:disable Metrics/AbcSize
-  def self.stamp_family_nuclear_family offer
-    if !offer.gender_first_part_of_stamp.nil? &&
-       !offer.gender_second_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
-    elsif !offer.gender_first_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.default"
-    elsif !offer.gender_second_part_of_stamp.nil?
-      ".special_#{offer.gender_second_part_of_stamp}"
-    elsif offer.age_visible
-      '.with_child'
+  def self.stamp_family_nuclear_family_gender_second_part offer
+    if offer.gender_second_part_of_stamp == 'neutral' && offer.age_from == 0 && offer.age_to == 1
+      '.with_baby'
     else
-      '.default'
+      '.' + offer.gender_second_part_of_stamp
     end
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def self.stamp_family_parents_to_be offer
+    if offer.gender_first_part_of_stamp.nil? &&
+       offer.gender_second_part_of_stamp.nil?
+      '.default'
+    else
+      locale_entry = '.' + (offer.gender_first_part_of_stamp.nil? ? 'neutral' : offer.gender_first_part_of_stamp)
+      locale_entry += '.' + (offer.gender_second_part_of_stamp.nil? ? 'default' : offer.gender_second_part_of_stamp)
+      locale_entry
+    end
+  end
 
   def self.stamp_add_age offer, ta, stamp, current_section, locale
     append_age = offer.age_visible && stamp_append_age(ta)

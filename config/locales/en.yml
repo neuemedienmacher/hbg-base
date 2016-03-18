@@ -18,27 +18,49 @@ en:
         family_nuclear_family:
           default: families
           female:
-            default: mothers with child
-            female: mothers with daughters
-            male: mothers with sons
+            female: mothers and their daughters
+            male: mothers and their sons
+            neutral: mothers and their children
+            with_baby: mothers with baby
           male:
-            default: fathers with child
-            female: fathers with daughters
-            male: fathers with sons
-          special_female: families with girls
-          special_male: Families with boys
-          with_child: families with children
+            female: fathers and their daughters
+            male: fathers and their sons
+            neutral: fathers and their children
+            with_baby: fathers with baby
+          neutral:
+            female: families and their daughters
+            male: Families and their sons
+            neutral: families and their children
+            with_baby: families and their babies
         family_parents:
-          default: parents
           female:
-            default: mothers
             female: mothers of daughters
             male: mothers of sons
+            neutral: mothers
           male:
-            default: fathers
             female: fathers of daughters
             male: fathers of sons
-        family_pregnant_woman: pregnant women
+            neutral: fathers
+          neutral:
+            female: parents of daughters
+            male: parents of sons
+            neutral: parents
+        family_parents_to_be:
+          default: parents to be
+          female:
+            default: pregnant women
+            female: pregnant women and their daughters
+            male: pregnant women and their sons
+            neutral: pregnant women and their children
+          male:
+            default: fathers to be
+            female: fathers to be and their daughters
+            male: fathers to be and their sons
+            neutral: fathers to be and their children
+          neutral:
+            female: parents to be and their daughters
+            male: parents to be and their sons
+            neutral: parents to be and their children
         prefix: 'for '
         refugees_adolescents: 'adolescent refugees '
         refugees_asylum_procedure: refugees during the asylum procedure

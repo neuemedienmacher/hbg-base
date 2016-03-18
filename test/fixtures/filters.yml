@@ -51,3 +51,9 @@ everyone:
   type: TargetAudienceFilter
   name: Alle
   identifier: family_everyone
+
+parents_to_be:
+  id: 11
+  type: TargetAudienceFilter
+  name: werdende Eltern
+  identifier: family_parents_to_be
