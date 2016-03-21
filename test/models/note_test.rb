@@ -21,8 +21,6 @@ describe Note do
         Note.not_referencing_note.count.must_equal 1
         note.update_column :referencable_type, 'Note'
         Note.not_referencing_note.count.must_equal 0
-        note.update_column :referencable_type, 'ContactPerson'
-        Note.not_referencing_note.count.must_equal 1
       end
     end
   end
