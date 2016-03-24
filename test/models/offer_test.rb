@@ -135,11 +135,20 @@ describe Offer do
 
         basicOffer.section_filters = [filters(:family), filters(:refugees)]
         category.section_filters = [filters(:refugees)]
-        basicOffer.valid?.must_equal false
+        basicOffer.valid?.must_equal true
 
         category.section_filters = [filters(:refugees), filters(:family)]
         basicOffer.valid?.must_equal true
         basicOffer.errors.messages[:categories].must_be :nil?
+
+        basicOffer.section_filters = [filters(:refugees)]
+        category2 = FactoryGirl.create(:category)
+        category2.section_filters = [filters(:family)]
+        basicOffer.categories << category2
+        basicOffer.valid?.must_equal false
+
+        basicOffer.section_filters = [filters(:family)]
+        basicOffer.valid?.must_equal true
       end
 
       # it 'should validate that base_offer is assigned with version > 5' do
