@@ -135,7 +135,7 @@ describe Offer do
 
         basicOffer.section_filters = [filters(:family), filters(:refugees)]
         category.section_filters = [filters(:refugees)]
-        basicOffer.valid?.must_equal true
+        basicOffer.valid?.must_equal false
 
         category.section_filters = [filters(:refugees), filters(:family)]
         basicOffer.valid?.must_equal true
@@ -148,6 +148,12 @@ describe Offer do
         basicOffer.valid?.must_equal false
 
         basicOffer.section_filters = [filters(:family)]
+        basicOffer.valid?.must_equal true
+
+        category.section_filters = [filters(:refugees)]
+        basicOffer.valid?.must_equal false
+
+        basicOffer.section_filters = [filters(:family), filters(:refugees)]
         basicOffer.valid?.must_equal true
       end
 

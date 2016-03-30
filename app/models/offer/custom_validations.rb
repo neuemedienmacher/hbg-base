@@ -11,6 +11,8 @@ class Offer
       validate :contact_people_are_choosable
       validate :section_filters_must_match_categories_section_filters,
                on: :update
+      validate :at_least_one_section_filter_of_each_category_must_be_present,
+               on: :update
       validate :no_more_than_10_next_steps
       # validate :base_offer_id_if_version_greater_5
 
@@ -95,11 +97,21 @@ class Offer
 
       # The offers section_filters must match the categories section_filters
       def section_filters_must_match_categories_section_filters
+        section_filters.each do |offer_filter|
+          next if categories.any? do |category|
+            category.section_filters.include?(offer_filter)
+          end
+          fail_validation(:categories, 'category_for_section_filter_needed',
+                          world: offer_filter.name)
+        end
+      end
+
+      def at_least_one_section_filter_of_each_category_must_be_present
         categories.each do |offer_category|
           next if section_filters.any? do |offer_filter|
             offer_category.section_filters.include?(offer_filter)
           end
-          fail_validation(:categories, 'category_for_section_filter_needed',
+          fail_validation(:categories, 'section_filter_for_category_needed',
                           category: offer_category.name)
         end
       end
