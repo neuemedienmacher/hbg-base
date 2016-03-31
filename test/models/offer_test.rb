@@ -607,39 +607,39 @@ describe Offer do
         basicOffer.age_visible = true
         basicOffer.age_from = 1
         basicOffer.age_to = 2
-        basicOffer._stamp_family(:de).must_equal 'für Familien mit Kind (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Kinder (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Mütter mit Kind (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Kinder (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'male'
-        basicOffer._stamp_family(:de).must_equal 'für Väter mit Kind (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Väter und ihre Kinder (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'male'
-        basicOffer._stamp_family(:de).must_equal 'für Väter mit Söhnen (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Väter und ihre Söhne (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Väter mit Töchtern (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Väter und ihre Töchter (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Mütter mit Töchtern (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Töchter (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'male'
-        basicOffer._stamp_family(:de).must_equal 'für Mütter mit Söhnen (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Söhne (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = ''
-        basicOffer._stamp_family(:de).must_equal 'für Familien mit Jungs (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Söhne (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Familien mit Mädchen (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Töchter (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
       end
 

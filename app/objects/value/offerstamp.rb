@@ -17,13 +17,12 @@ class Offerstamp
 
   def self.generate_offer_stamp current_section, offer, ta, locale
     locale_entry = 'offer.stamp.target_audience.' + ta.to_s
-    stamp = I18n.t('offer.stamp.target_audience.prefix', locale: locale)
 
     if ta == 'family_children' || ta == 'family_parents' ||
        ta == 'family_nuclear_family'
       locale_entry += send("stamp_#{ta}", offer)
     end
-    stamp += I18n.t(locale_entry, locale: locale)
+    stamp = I18n.t(locale_entry, locale: locale)
 
     stamp_add_age offer, ta, stamp, current_section, locale
   end
