@@ -11,8 +11,10 @@ class Offer
       validate :contact_people_are_choosable
       validate :section_filters_must_match_categories_section_filters,
                on: :update
+      validate :at_least_one_section_filter_of_each_category_must_be_present,
+               on: :update
       validate :no_more_than_10_next_steps
-      validate :base_offer_id_if_version_greater_5
+      # validate :base_offer_id_if_version_greater_5
 
       private
 
@@ -104,15 +106,25 @@ class Offer
         end
       end
 
+      def at_least_one_section_filter_of_each_category_must_be_present
+        categories.each do |offer_category|
+          next if section_filters.any? do |offer_filter|
+            offer_category.section_filters.include?(offer_filter)
+          end
+          fail_validation(:categories, 'section_filter_for_category_needed',
+                          category: offer_category.name)
+        end
+      end
+
       def no_more_than_10_next_steps
         return if next_steps.to_a.size <= 10
         fail_validation :next_steps, 'no_more_than_10_next_steps'
       end
 
-      def base_offer_id_if_version_greater_5
-        return if !logic_version || logic_version.version < 6 || base_offer_id
-        fail_validation :base_offer, 'is_needed'
-      end
+      # def base_offer_id_if_version_greater_5
+      #   return if !logic_version || logic_version.version < 6 || base_offer_id
+      #   fail_validation :base_offer, 'is_needed'
+      # end
     end
   end
 end
