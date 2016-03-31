@@ -17,13 +17,12 @@ class Offerstamp
 
   def self.generate_offer_stamp current_section, offer, ta, locale
     locale_entry = 'offer.stamp.target_audience.' + ta.to_s
-    stamp = I18n.t('offer.stamp.target_audience.prefix', locale: locale)
 
     if ta == 'family_children' || ta == 'family_parents' ||
        ta == 'family_nuclear_family'
       locale_entry += send("stamp_#{ta}", offer)
     end
-    stamp += I18n.t(locale_entry, locale: locale)
+    stamp = I18n.t(locale_entry, locale: locale)
 
     stamp_add_age offer, ta, stamp, current_section, locale
   end
@@ -45,9 +44,9 @@ class Offerstamp
        !offer.gender_second_part_of_stamp.nil?
       ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
     elsif !offer.gender_first_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.default"
+      ".#{offer.gender_first_part_of_stamp}.neutral"
     else
-      '.default'
+      '.neutral.neutral'
     end
   end
 
@@ -58,11 +57,11 @@ class Offerstamp
        !offer.gender_second_part_of_stamp.nil?
       ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
     elsif !offer.gender_first_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.default"
+      ".#{offer.gender_first_part_of_stamp}.neutral"
     elsif !offer.gender_second_part_of_stamp.nil?
-      ".special_#{offer.gender_second_part_of_stamp}"
+      ".neutral.#{offer.gender_second_part_of_stamp}"
     elsif offer.age_visible
-      '.with_child'
+      '.neutral.neutral'
     else
       '.default'
     end

@@ -16,9 +16,6 @@ class Location < ActiveRecord::Base
   validates :zip, presence: true, length: { is: 5 },
                   if: -> (location) { location.in_germany }
   validates :city, presence: true
-  validates :area_code, format: /\A\d*\z/, length: { maximum: 6 }
-  validates :local_number, format: /\A\d*\z/, length: { maximum: 32 }
-  validates :email, format: Email::FORMAT, allow_blank: true
   validates :display_name, presence: true
 
   validates :organization_id, presence: true

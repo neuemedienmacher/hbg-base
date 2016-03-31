@@ -2,52 +2,74 @@ tr:
   offer:
     stamp:
       age:
-        from: 
-        of_child: 
-        suffix: 
-        to: 
+        from: itibaren
+        of_child: "Çocuğun yaşı"
+        suffix: Yaş
+        to: kadar
       target_audience:
-        family_acquaintances: 
+        family_acquaintances: Tanıdık ve akrabalar
         family_children:
-          adolescents: 
-          and_adolescents: 
-          default: 
-          female: 
-          male: 
-        family_everyone: 
+          adolescents: Gençler
+          and_adolescents: "Çocuk ve gençler"
+          default: "Çocuklar"
+          female: Kızlar
+          male: Erkekler
+        family_everyone: hepsi
         family_nuclear_family:
-          default: 
+          default: Aileler
           female:
-            default: 
-            female: 
-            male: 
+            female: Anneler ve kızları
+            male: Anneler ve oğulları
+            neutral: Anneler ve çocukları
+            with_baby: 
           male:
-            default: 
-            female: 
-            male: 
-          special_female: 
-          special_male: 
-          with_child: 
+            female: Babalar ve kızları
+            male: Babalar ve oğulları
+            neutral: Babalar ve çocukları
+            with_baby: 
+          neutral:
+            female: Kızları olan aileler
+            male: Oğulları olan aileler
+            neutral: "Çocuklu aileler"
+            with_baby: 
         family_parents:
+          female:
+            female: Kızların anneleri
+            male: Oğulların anneleri
+            neutral: Anneler
+          male:
+            female: Kızların babaları
+            male: Oğulların babaları
+            neutral: Babalar
+          neutral:
+            female: 
+            male: 
+            neutral: Ebeveyn
+        family_parents_to_be:
           default: 
           female:
-            default: 
-            female: 
-            male: 
+            default: Hamileler
+            female: Hamileler ve kızları
+            male: Hamileler ve oğulları
+            neutral: 
           male:
-            default: 
+            default: gelecek babalar
+            female: gelecek babalar ve kızları
+            male: gelecek babalar ve oğulları
+            neutral: 
+          neutral:
             female: 
             male: 
-        family_pregnant_woman: 
-        prefix: 
-        refugees_adolescents: 
-        refugees_asylum_procedure: 
-        refugees_children: 
-        refugees_children_and_adolescents: 
+            neutral: gelecek ebeveynler ve çocukları
+        family_pregnant_woman: Hamileler
+        refugees_adolescents: kaçan gençler
+        refugees_asylum_procedure: "İltica işleminde bulunan mülteciler"
+        refugees_children: kaçan çocuklar
+        refugees_children_and_adolescents: kaçan çocuk ve gençler
         refugees_deportation_decision: 
-        refugees_families: 
-        refugees_general: 
-        refugees_parents: 
+        refugees_families: kaçan aileler
+        refugees_general: Mülteciler
+        refugees_parents: kaçan ebeveynler
         refugees_pre_asylum_procedure: 
         refugees_residence_permit: 
         refugees_toleration_decision: 

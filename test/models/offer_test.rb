@@ -140,22 +140,37 @@ describe Offer do
         category.section_filters = [filters(:refugees), filters(:family)]
         basicOffer.valid?.must_equal true
         basicOffer.errors.messages[:categories].must_be :nil?
+
+        basicOffer.section_filters = [filters(:refugees)]
+        category2 = FactoryGirl.create(:category)
+        category2.section_filters = [filters(:family)]
+        basicOffer.categories << category2
+        basicOffer.valid?.must_equal false
+
+        basicOffer.section_filters = [filters(:family)]
+        basicOffer.valid?.must_equal true
+
+        category.section_filters = [filters(:refugees)]
+        basicOffer.valid?.must_equal false
+
+        basicOffer.section_filters = [filters(:family), filters(:refugees)]
+        basicOffer.valid?.must_equal true
       end
 
-      it 'should validate that base_offer is assigned with version > 5' do
-        offer.logic_version = LogicVersion.create(name: 'chunky', version: 5)
-        offer.base_offer_id = nil
-        offer.valid?
-        offer.errors.messages[:base_offer].must_be :nil?
-
-        offer.logic_version = LogicVersion.create(name: 'chunky', version: 6)
-        offer.valid?
-        offer.errors.messages[:base_offer].wont_be :nil?
-
-        offer.base_offer_id = 1
-        offer.valid?
-        offer.errors.messages[:base_offer].must_be :nil?
-      end
+      # it 'should validate that base_offer is assigned with version > 5' do
+      #   offer.logic_version = LogicVersion.create(name: 'chunky', version: 5)
+      #   offer.base_offer_id = nil
+      #   offer.valid?
+      #   offer.errors.messages[:base_offer].must_be :nil?
+      #
+      #   offer.logic_version = LogicVersion.create(name: 'chunky', version: 6)
+      #   offer.valid?
+      #   offer.errors.messages[:base_offer].wont_be :nil?
+      #
+      #   offer.base_offer_id = 1
+      #   offer.valid?
+      #   offer.errors.messages[:base_offer].must_be :nil?
+      # end
 
       # it 'should ensure chosen contact people belong to a chosen orga' do
       #   basicOffer.reload.wont_be :valid?
@@ -592,39 +607,39 @@ describe Offer do
         basicOffer.age_visible = true
         basicOffer.age_from = 1
         basicOffer.age_to = 2
-        basicOffer._stamp_family(:de).must_equal 'für Familien mit Kind (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Kinder (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Mütter mit Kind (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Kinder (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'male'
-        basicOffer._stamp_family(:de).must_equal 'für Väter mit Kind (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Väter und ihre Kinder (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'male'
-        basicOffer._stamp_family(:de).must_equal 'für Väter mit Söhnen (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Väter und ihre Söhne (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Väter mit Töchtern (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Väter und ihre Töchter (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Mütter mit Töchtern (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Töchter (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'male'
-        basicOffer._stamp_family(:de).must_equal 'für Mütter mit Söhnen (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Söhne (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = ''
-        basicOffer._stamp_family(:de).must_equal 'für Familien mit Jungs (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Söhne (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Familien mit Mädchen (1 - 2 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Töchter (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
       end
 
