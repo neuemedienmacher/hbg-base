@@ -45,9 +45,9 @@ class Offerstamp
        !offer.gender_second_part_of_stamp.nil?
       ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
     elsif !offer.gender_first_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.default"
+      ".#{offer.gender_first_part_of_stamp}.neutral"
     else
-      '.default'
+      '.neutral.neutral'
     end
   end
 
@@ -58,11 +58,11 @@ class Offerstamp
        !offer.gender_second_part_of_stamp.nil?
       ".#{offer.gender_first_part_of_stamp}.#{offer.gender_second_part_of_stamp}"
     elsif !offer.gender_first_part_of_stamp.nil?
-      ".#{offer.gender_first_part_of_stamp}.default"
+      ".#{offer.gender_first_part_of_stamp}.neutral"
     elsif !offer.gender_second_part_of_stamp.nil?
-      ".special_#{offer.gender_second_part_of_stamp}"
+      ".neutral.#{offer.gender_second_part_of_stamp}"
     elsif offer.age_visible
-      '.with_child'
+      '.neutral.neutral'
     else
       '.default'
     end
