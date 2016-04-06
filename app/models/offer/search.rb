@@ -105,7 +105,7 @@ class Offer
       def _tags locale = :de
         tags = []
         categories.find_each do |category|
-          tags << category.self_and_ancestors.map(&:"name_#{locale}")
+          tags << category.self_and_ancestors.map { |cate| cate.name(locale) }
         end
         tags.flatten.uniq
       end

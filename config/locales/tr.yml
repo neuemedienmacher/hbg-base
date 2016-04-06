@@ -21,17 +21,17 @@ tr:
             female: Anneler ve kızları
             male: Anneler ve oğulları
             neutral: Anneler ve çocukları
-            with_baby: 
+            with_baby:
           male:
             female: Babalar ve kızları
             male: Babalar ve oğulları
             neutral: Babalar ve çocukları
-            with_baby: 
+            with_baby:
           neutral:
             female: Kızları olan aileler
             male: Oğulları olan aileler
             neutral: "Çocuklu aileler"
-            with_baby: 
+            with_baby:
         family_parents:
           female:
             female: Kızların anneleri
@@ -42,36 +42,36 @@ tr:
             male: Oğulların babaları
             neutral: Babalar
           neutral:
-            female: 
-            male: 
+            female:
+            male:
             neutral: Ebeveyn
         family_parents_to_be:
-          default: 
+          default:
           female:
             default: Hamileler
             female: Hamileler ve kızları
             male: Hamileler ve oğulları
-            neutral: 
+            neutral:
           male:
             default: gelecek babalar
             female: gelecek babalar ve kızları
             male: gelecek babalar ve oğulları
-            neutral: 
+            neutral:
           neutral:
-            female: 
-            male: 
+            female:
+            male:
             neutral: gelecek ebeveynler ve çocukları
         prefix: için
         refugees_adolescents: kaçan gençler
         refugees_asylum_procedure: "İltica işleminde bulunan mülteciler"
         refugees_children: kaçan çocuklar
         refugees_children_and_adolescents: kaçan çocuk ve gençler
-        refugees_deportation_decision: 
+        refugees_deportation_decision:
         refugees_families: kaçan aileler
         refugees_general: Mülteciler
         refugees_parents: kaçan ebeveynler
-        refugees_pre_asylum_procedure: 
-        refugees_residence_permit: 
-        refugees_toleration_decision: 
-        refugees_ujf: 
-        refugees_umf: 
+        refugees_pre_asylum_procedure:
+        refugees_residence_permit:
+        refugees_toleration_decision:
+        refugees_ujf:
+        refugees_umf:

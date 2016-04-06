@@ -31,7 +31,7 @@ ru:
             female: "семьи с девочками"
             male: "семьи с мальчиками"
             neutral: "семьи с детьми"
-            with_baby: 
+            with_baby:
         family_parents:
           female:
             female: "матери дочерей"
@@ -42,8 +42,8 @@ ru:
             male: "отцы сыновей"
             neutral: "отцы"
           neutral:
-            female: 
-            male: 
+            female:
+            male:
             neutral: "родители"
         family_parents_to_be:
           default: "будущие родители"
@@ -59,8 +59,8 @@ ru:
             male: "будущие отцы и их сыновья"
             neutral: "будущие отцы и их дети"
           neutral:
-            female: 
-            male: 
+            female:
+            male:
             neutral: "будущие родители с детьми"
         prefix: "для"
         refugees_adolescents: "беженцы молодежь"

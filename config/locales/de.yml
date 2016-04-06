@@ -7,16 +7,16 @@ de:
         suffix: Jahre
         to: bis
       target_audience:
-        family_acquaintances: Bekannte und Verwandte
+        family_acquaintances: für Bekannte und Verwandte
         family_children:
-          adolescents: Jugendliche
-          and_adolescents: Kinder und Jugendliche
-          default: Kinder
-          female: Mädchen
-          male: Jungs
-        family_everyone: alle
+          adolescents: für Jugendliche
+          and_adolescents: für Kinder und Jugendliche
+          default: für Kinder
+          female: für Mädchen
+          male: für Jungs
+        family_everyone: für alle
         family_nuclear_family:
-          default: Familien
+          default: für Familien
           female:
             female: Mütter und ihre Töchter
             male: Mütter und ihre Söhne

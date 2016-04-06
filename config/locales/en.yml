@@ -7,16 +7,16 @@ en:
         suffix: years
         to: up to
       target_audience:
-        family_acquaintances: acquaintances and relatives
+        family_acquaintances: for acquaintances and relatives
         family_children:
-          adolescents: adolescents
-          and_adolescents: children and adolescents
-          default: children
-          female: girls
-          male: boys
-        family_everyone: everyone
+          adolescents: for adolescents
+          and_adolescents: for children and adolescents
+          default: for children
+          female: for girls
+          male: for boys
+        family_everyone: for everyone
         family_nuclear_family:
-          default: families
+          default: for families
           female:
             female: mothers and their daughters
             male: mothers and their sons
