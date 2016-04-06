@@ -18,60 +18,60 @@ de:
         family_nuclear_family:
           default: für Familien
           female:
-            female: Mütter und ihre Töchter
-            male: Mütter und ihre Söhne
-            neutral: Mütter und ihre Kinder
-            with_baby: Mütter und ihre Babys
+            female: für Mütter und ihre Töchter
+            male: für Mütter und ihre Söhne
+            neutral: für Mütter und ihre Kinder
+            with_baby: für Mütter und ihre Babys
           male:
-            female: Väter und ihre Töchter
-            male: Väter und ihre Söhne
-            neutral: Väter und ihre Kinder
-            with_baby: Väter und ihre Babys
+            female: für Väter und ihre Töchter
+            male: für Väter und ihre Söhne
+            neutral: für Väter und ihre Kinder
+            with_baby: für Väter und ihre Babys
           neutral:
-            female: Familien und ihre Töchter
-            male: Familien und ihre Söhne
-            neutral: Familien und ihre Kinder
-            with_baby: Familien und ihre Babys
+            female: für Familien und ihre Töchter
+            male: für Familien und ihre Söhne
+            neutral: für Familien und ihre Kinder
+            with_baby: für Familien und ihre Babys
         family_parents:
           female:
-            female: Mütter von Töchtern
-            male: Mütter von Söhnen
-            neutral: Mütter
+            female: für Mütter von Töchtern
+            male: für Mütter von Söhnen
+            neutral: für Mütter
           male:
-            female: Väter von Töchtern
-            male: Väter von Söhnen
-            neutral: Väter
+            female: für Väter von Töchtern
+            male: für Väter von Söhnen
+            neutral: für Väter
           neutral:
-            female: Eltern von Töchtern
-            male: Eltern von Söhnen
-            neutral: Eltern
+            female: für Eltern von Töchtern
+            male: für Eltern von Söhnen
+            neutral: für Eltern
         family_parents_to_be:
-          default: werdende Eltern
+          default: für werdende Eltern
           female:
-            default: Schwangere
-            female: Schwangere und ihre Töchter
-            male: Schwangere und ihre Söhne
-            neutral: Schwangere und ihre Kinder
+            default: für Schwangere
+            female: für Schwangere und ihre Töchter
+            male: für Schwangere und ihre Söhne
+            neutral: für Schwangere und ihre Kinder
           male:
-            default: werdende Väter
-            female: werdende Väter und ihre Töchter
-            male: werdende Väter und ihre Söhne
-            neutral: werdende Väter und ihre Kinder
+            default: für werdende Väter
+            female: für werdende Väter und ihre Töchter
+            male: für werdende Väter und ihre Söhne
+            neutral: für werdende Väter und ihre Kinder
           neutral:
-            female: werdende Eltern und ihre Töchter
-            male: werdende Eltern und ihre Söhne
-            neutral: werdende Eltern und ihre Kinder
-        prefix: 'für '
-        refugees_adolescents: geflüchtete Jugendliche
-        refugees_asylum_procedure: Flüchtlinge im Asylverfahren
-        refugees_children: geflüchtete Kinder
-        refugees_children_and_adolescents: geflüchtete Kinder und Jugendliche
-        refugees_deportation_decision: Flüchtlinge mit Abschiebebescheid
-        refugees_families: geflüchtete Familien
-        refugees_general: Flüchtlinge
-        refugees_parents: geflüchtete Eltern
-        refugees_pre_asylum_procedure: Flüchtlinge vor dem Asylantrag
-        refugees_residence_permit: Flüchtlinge mit Aufenthaltserlaubnis
-        refugees_toleration_decision: Flüchtlinge mit Duldung
-        refugees_ujf: unbegleitete junge Flüchtlinge
-        refugees_umf: unbegleitete minderjährige Flüchtlinge
+            female: für werdende Eltern und ihre Töchter
+            male: für werdende Eltern und ihre Söhne
+            neutral: für werdende Eltern und ihre Kinder
+        family_pregnant_woman: für Schwangere
+        refugees_adolescents: für geflüchtete Jugendliche
+        refugees_asylum_procedure: für Flüchtlinge im Asylverfahren
+        refugees_children: für geflüchtete Kinder
+        refugees_children_and_adolescents: für geflüchtete Kinder und Jugendliche
+        refugees_deportation_decision: für Flüchtlinge mit Abschiebebescheid
+        refugees_families: für geflüchtete Familien
+        refugees_general: für Flüchtlinge
+        refugees_parents: für geflüchtete Eltern
+        refugees_pre_asylum_procedure: für Flüchtlinge vor dem Asylantrag
+        refugees_residence_permit: für Flüchtlinge mit Aufenthaltserlaubnis
+        refugees_toleration_decision: für Flüchtlinge mit Duldung
+        refugees_ujf: für unbegleitete junge Flüchtlinge
+        refugees_umf: für unbegleitete minderjährige Flüchtlinge

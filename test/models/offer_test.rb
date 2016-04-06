@@ -537,6 +537,15 @@ describe Offer do
         basicOffer.age_to = 99
         basicOffer._stamp_family(:de).must_equal 'für Kinder und Jugendliche (ab 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (ab 2 Jahre)'
+
+        basicOffer.age_visible = false
+        basicOffer._stamp_family(:de).must_equal 'für Kinder und Jugendliche'
+        basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge'
+
+        basicOffer.age_visible = true
+        basicOffer.target_audience_filters =
+          [TargetAudienceFilter.find_by(identifier: 'family_everyone')]
+        basicOffer._stamp_family(:de).must_equal 'für alle'
       end
 
       it 'should behave correctly for family_children target_audience' do
@@ -571,6 +580,10 @@ describe Offer do
         basicOffer.age_visible = true
         basicOffer.age_from = 1
         basicOffer.age_to = 2
+        basicOffer._stamp_family(:de).must_equal 'für Eltern (1 - 2 Jahre)'
+        basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
+
+        basicOffer.gender_second_part_of_stamp = 'neutral'
         basicOffer._stamp_family(:de).must_equal 'für Eltern (Alter des Kindes: 1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
@@ -590,12 +603,20 @@ describe Offer do
         basicOffer._stamp_family(:de).must_equal 'für Väter von Töchtern (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
-        basicOffer.gender_first_part_of_stamp = 'female'
-        basicOffer._stamp_family(:de).must_equal 'für Mütter von Töchtern (1 - 2 Jahre)'
+        basicOffer.gender_first_part_of_stamp = ''
+        basicOffer._stamp_family(:de).must_equal 'für Eltern von Töchtern (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
         basicOffer.gender_second_part_of_stamp = 'male'
+        basicOffer._stamp_family(:de).must_equal 'für Eltern von Söhnen (1 - 2 Jahre)'
+        basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
+
+        basicOffer.gender_first_part_of_stamp = 'female'
         basicOffer._stamp_family(:de).must_equal 'für Mütter von Söhnen (1 - 2 Jahre)'
+        basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
+
+        basicOffer.gender_second_part_of_stamp = 'female'
+        basicOffer._stamp_family(:de).must_equal 'für Mütter von Töchtern (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
       end
 
@@ -616,6 +637,9 @@ describe Offer do
         basicOffer.age_to = 2
         basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Kinder (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
+
+        basicOffer.gender_second_part_of_stamp = ''
+        basicOffer._stamp_family(:de).must_equal 'für Familien'
 
         basicOffer.gender_second_part_of_stamp = 'male'
         basicOffer._stamp_family(:de).must_equal 'für Familien und ihre Söhne (1 - 2 Jahre)'
@@ -730,10 +754,14 @@ describe Offer do
           [TargetAudienceFilter.create(name: 'ref_5', identifier: 'refugees_ujf')]
         basicOffer._stamp_refugees(:de).must_equal 'für unbegleitete junge Flüchtlinge'
 
+        basicOffer.age_visible = true
+        basicOffer.age_from = 1
+        basicOffer.age_to = 2
         basicOffer.target_audience_filters =
           [TargetAudienceFilter.create(name: 'ref_6', identifier: 'refugees_families')]
         basicOffer._stamp_refugees(:de).must_equal 'für geflüchtete Familien'
 
+        basicOffer.age_visible = false
         basicOffer.target_audience_filters =
           [TargetAudienceFilter.create(name: 'ref_7', identifier: 'refugees_pre_asylum_procedure')]
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge vor dem Asylantrag'

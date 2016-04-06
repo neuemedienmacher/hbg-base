@@ -75,8 +75,8 @@ class Offerstamp
   end
 
   def self.stamp_add_age offer, ta, stamp, current_section, locale
-    append_age = offer.age_visible && stamp_append_age(ta)
-    child_age = stamp_child_age offer, ta
+    append_age = offer.age_visible && stamp_append_age?(offer, ta)
+    child_age = stamp_child_age? offer, ta
 
     if append_age && !offer._age_filters.empty?
       stamp += generate_age_for_stamp(
@@ -90,12 +90,15 @@ class Offerstamp
     stamp
   end
 
-  def self.stamp_append_age ta
-    ta != 'family_everyone' && ta != 'refugees_families'
+  def self.stamp_append_age? offer, ta
+    ta != 'family_everyone' && ta != 'refugees_families' &&
+      !(ta == 'family_nuclear_family' && offer.gender_first_part_of_stamp.nil? &&
+        offer.gender_second_part_of_stamp.nil?)
   end
 
-  def self.stamp_child_age offer, ta
-    ta == 'family_parents' && offer.gender_second_part_of_stamp.nil?
+  def self.stamp_child_age? offer, ta
+    ta == 'family_parents' && !offer.gender_second_part_of_stamp.nil? &&
+      offer.gender_second_part_of_stamp == 'neutral'
   end
 
   def self.generate_age_for_stamp from, to, prefix, current_section, locale

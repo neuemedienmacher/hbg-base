@@ -7,71 +7,71 @@ tr:
         suffix: Yaş
         to: kadar
       target_audience:
-        family_acquaintances: Tanıdık ve akrabalar
+        family_acquaintances: Tanıdık ve akrabalar için
         family_children:
-          adolescents: Gençler
-          and_adolescents: "Çocuk ve gençler"
-          default: "Çocuklar"
-          female: Kızlar
-          male: Erkekler
-        family_everyone: hepsi
+          adolescents: Gençler için
+          and_adolescents: "Çocuk ve gençler için"
+          default: "Çocuklar için"
+          female: Kızlar için
+          male: Erkekler için
+        family_everyone: herkes için
         family_nuclear_family:
-          default: Aileler
+          default: Aileler için
           female:
-            female: Anneler ve kızları
-            male: Anneler ve oğulları
-            neutral: Anneler ve çocukları
-            with_baby:
+            female: Anneler ve kızları için
+            male: Anneler ve oğulları için
+            neutral: Anneler ve çocukları için
+            with_baby: Anneler ve bebekleri için
           male:
-            female: Babalar ve kızları
-            male: Babalar ve oğulları
-            neutral: Babalar ve çocukları
-            with_baby:
+            female: Babalar ve kızları için
+            male: Babalar ve oğulları için
+            neutral: Babalar ve çocukları için
+            with_baby: Babalar ve bebekleri için
           neutral:
-            female: Kızları olan aileler
-            male: Oğulları olan aileler
-            neutral: "Çocuklu aileler"
-            with_baby:
+            female: Kızları olan aileler için
+            male: Oğulları olan aileler için
+            neutral: "Çocuklu aileler için"
+            with_baby: Bebekleri olan aileler için
         family_parents:
           female:
-            female: Kızların anneleri
-            male: Oğulların anneleri
-            neutral: Anneler
+            female: Kız çocuğuna sahip anneler için
+            male: Erkek çocuğuna sahip olan anneler için
+            neutral: Anneler için
           male:
-            female: Kızların babaları
-            male: Oğulların babaları
-            neutral: Babalar
+            female: Kız çocuğuna sahip olan babalar için
+            male: Erkek çocuğuna sahip olan babalar için
+            neutral: Babalar için
           neutral:
-            female:
-            male:
-            neutral: Ebeveyn
+            female: Kız çocuğuna sahip olan aileler için
+            male: Erkek çocuğuna sahip olan aileler için
+            neutral: Ebeveynler için
         family_parents_to_be:
-          default:
+          default: Ebeveyn adayları için
           female:
-            default: Hamileler
-            female: Hamileler ve kızları
-            male: Hamileler ve oğulları
-            neutral:
+            default: Hamileler için
+            female: Hamileler ve kızları için
+            male: Hamileler ve oğulları için
+            neutral: Hamileler ve çocukları için
           male:
-            default: gelecek babalar
-            female: gelecek babalar ve kızları
-            male: gelecek babalar ve oğulları
-            neutral:
+            default: Baba adayları için
+            female: Baba adayları ve kızları için
+            male: Baba adayları ve oğulları için
+            neutral: Baba adayları ve çocukları için
           neutral:
-            female:
-            male:
-            neutral: gelecek ebeveynler ve çocukları
-        prefix: için
-        refugees_adolescents: kaçan gençler
-        refugees_asylum_procedure: "İltica işleminde bulunan mülteciler"
-        refugees_children: kaçan çocuklar
-        refugees_children_and_adolescents: kaçan çocuk ve gençler
-        refugees_deportation_decision:
-        refugees_families: kaçan aileler
-        refugees_general: Mülteciler
-        refugees_parents: kaçan ebeveynler
-        refugees_pre_asylum_procedure:
-        refugees_residence_permit:
-        refugees_toleration_decision:
-        refugees_ujf:
-        refugees_umf:
+            female: Ebeveyn adayları ve kızları için
+            male: Ebeveyn adayları ve oğulları için
+            neutral: Ebeveyn adayları ve çocukları için
+        family_pregnant_woman: Hamileler
+        refugees_adolescents: Kaçan gençler için
+        refugees_asylum_procedure: "İltica işleminde bulunan mülteciler için"
+        refugees_children: Kaçan çocuklar için
+        refugees_children_and_adolescents: Kaçan çocuk ve gençler için
+        refugees_deportation_decision: "Ülkeden sürülme bilgisi alan mülteciler için"
+        refugees_families: Kaçan aileler için
+        refugees_general: Mülteciler için
+        refugees_parents: Kaçan ebeveynler için
+        refugees_pre_asylum_procedure: "İltica başvurusu yapacak mülteciler için"
+        refugees_residence_permit: "İkametgahı olan mülteciler için"
+        refugees_toleration_decision: Geçici olarak kabul edilen mülteciler için
+        refugees_ujf: sahipsiz genç mülteciler için
+        refugees_umf: sahipsiz, reşit olmayan mülteciler için
