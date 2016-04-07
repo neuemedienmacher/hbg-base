@@ -17,12 +17,13 @@ class Offer < ActiveRecord::Base
     %w(target_audience_alone target_audience_and_others).freeze
   EXCLUSIVE_GENDERS = %w(boys_only girls_only).freeze
   BENEFICIARY_GENDERS = %w(female male).freeze
+  STAMP_SECOND_PART_GENDERS = %w(female male neutral).freeze
   # ^ nil = inclusive to any gender
 
   enumerize :encounter, in: ENCOUNTERS
   enumerize :exclusive_gender, in: EXCLUSIVE_GENDERS
   enumerize :gender_first_part_of_stamp, in: BENEFICIARY_GENDERS
-  enumerize :gender_second_part_of_stamp, in: BENEFICIARY_GENDERS
+  enumerize :gender_second_part_of_stamp, in: STAMP_SECOND_PART_GENDERS
   enumerize :treatment_type, in: TREATMENT_TYPES
   enumerize :participant_structure, in: PARTICIPANT_STRUCTURES
   CONTACT_TYPES = %w(personal remote).freeze
