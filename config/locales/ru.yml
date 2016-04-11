@@ -2,54 +2,76 @@ ru:
   offer:
     stamp:
       age:
-        from: 
-        of_child: 
-        suffix: 
-        to: 
+        from: "от"
+        of_child: "Возраст ребенка:"
+        suffix: "лет"
+        to: "до"
       target_audience:
-        family_acquaintances: 
+        family_acquaintances: "для знакомых и родственников"
         family_children:
-          adolescents: 
-          and_adolescents: 
-          default: 
-          female: 
-          male: 
-        family_everyone: 
+          adolescents: "для молодежи"
+          and_adolescents: "для детей и молодежи"
+          default: "для детей"
+          female: "для девочек"
+          male: "для мальчиков"
+        family_everyone: "для всех"
         family_nuclear_family:
-          default: 
+          default: "для семей"
           female:
-            default: 
-            female: 
-            male: 
+            female: "для матерей и их дочерей"
+            male: "для матерей и их сыновей"
+            neutral: "для матерей и их детей"
+            with_baby: "для матерей и их младенцев"
           male:
-            default: 
-            female: 
-            male: 
-          special_female: 
-          special_male: 
-          with_child: 
+            female: "для отцов и их дочерей"
+            male: "для отцов и их сыновей"
+            neutral: "для отцов и их детей"
+            with_baby: "для отцов и их младенцев"
+          neutral:
+            female: "для семей и их дочерей"
+            male: "для семей и их мальчиков"
+            neutral: "для семей и их детей"
+            with_baby: "для семей и их младенцев"
         family_parents:
-          default: 
           female:
-            default: 
-            female: 
-            male: 
+            female: "для матерей дочерей"
+            male: "для матерей сыновей"
+            neutral: "для матерей"
           male:
-            default: 
-            female: 
-            male: 
-        family_pregnant_woman: 
-        prefix: 
-        refugees_adolescents: 
-        refugees_asylum_procedure: 
-        refugees_children: 
-        refugees_children_and_adolescents: 
-        refugees_deportation_decision: 
-        refugees_families: 
-        refugees_general: 
-        refugees_parents: 
-        refugees_pre_asylum_procedure: 
-        refugees_residence_permit: 
-        refugees_toleration_decision: 
-        refugees_ujf: 
-        refugees_umf: 
+            female: "для отцов дочерей"
+            male: "для отцов сыновей"
+            neutral: "для отцов "
+          neutral:
+            female: "для родителей дочерей"
+            male: "для родителей сыновей"
+            neutral: "для родителей "
+        family_parents_to_be:
+          default: "для будущих родителей"
+          female:
+            default: "для беременной женщины"
+            female: "для беременной женщины и ее дочерей"
+            male: "для беременной женщины и ее сыновей"
+            neutral: "для беременной женщины с детьми"
+          male:
+            default: "для будущих отцов"
+            female: "для будущих отцов и их дочерей"
+            male: "для будущих отцов и их сыновей"
+            neutral: "для будущих отцов и их детей"
+          neutral:
+            female: "для будущих родителей и их дочерей"
+            male: "для будущих родителей и их сыновей"
+            neutral: "для будущих родителей с детьми"
+        family_pregnant_woman: "для беременной женщины"
+        refugees_adolescents: "для беженцев молодежи"
+        refugees_asylum_procedure: "для беженцев в процессе рассмотрения заявлений для предоставления временного убежища или статуса беженца"
+        refugees_children: "для детей беженцев"
+        refugees_children_and_adolescents: "для детей и молодежи беженцев"
+        refugees_deportation_decision: "для беженцев с решением о депортации"
+        refugees_families: "для семей беженцев"
+        refugees_general: "для беженцев"
+        refugees_parents: "для родителей беженцев"
+        refugees_pre_asylum_procedure: "для беженцев перед прошением о предоставлении убежища"
+        refugees_residence_permit: "для беженцев с разрешением на проживание"
+        refugees_toleration_decision: "для беженцев с правом на кратковременное ограниченное пребывание в стране"
+        refugees_ujf: "для беженцев молодежи без сопровождения"
+        refugees_umf: "для несовершеннолетних беженцев без сопровождения"

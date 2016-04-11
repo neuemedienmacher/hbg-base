@@ -7,49 +7,71 @@ en:
         suffix: years
         to: up to
       target_audience:
-        family_acquaintances: acquaintances and relatives
+        family_acquaintances: for acquaintances and relatives
         family_children:
-          adolescents: adolescents
-          and_adolescents: children and adolescents
-          default: children
-          female: girls
-          male: boys
-        family_everyone: everyone
+          adolescents: for adolescents
+          and_adolescents: for children and adolescents
+          default: for children
+          female: for girls
+          male: for boys
+        family_everyone: for everyone
         family_nuclear_family:
-          default: families
+          default: for families
           female:
-            default: mothers with child
-            female: mothers with daughters
-            male: mothers with sons
+            female: for mothers and their daughters
+            male: for mothers and their sons
+            neutral: for mothers and their children
+            with_baby: for mothers with baby
           male:
-            default: fathers with child
-            female: fathers with daughters
-            male: fathers with sons
-          special_female: families with girls
-          special_male: Families with boys
-          with_child: families with children
+            female: for fathers and their daughters
+            male: for fathers and their sons
+            neutral: for fathers and their children
+            with_baby: for fathers with babies
+          neutral:
+            female: for families and their daughters
+            male: for families and their sons
+            neutral: for families and their children
+            with_baby: for families and their babies
         family_parents:
-          default: parents
           female:
-            default: mothers
-            female: mothers of daughters
-            male: mothers of sons
+            female: for mothers of daughters
+            male: for mothers of sons
+            neutral: for mothers
           male:
-            default: fathers
-            female: fathers of daughters
-            male: fathers of sons
-        family_pregnant_woman: pregnant women
-        prefix: 'for '
-        refugees_adolescents: 'adolescent refugees '
-        refugees_asylum_procedure: refugees during the asylum procedure
-        refugees_children: refugee children
-        refugees_children_and_adolescents: refugee children and adolescents
-        refugees_deportation_decision: refugees with deportation notice
-        refugees_families: refugee families
-        refugees_general: refugees
-        refugees_parents: refugee parents
-        refugees_pre_asylum_procedure: refugees before the asylum procedure
-        refugees_residence_permit: refugees with a residence permit
-        refugees_toleration_decision: refugees with toleration decision
-        refugees_ujf: unaccompanied young refugees
-        refugees_umf: unaccompanied minor refugees
+            female: for fathers of daughters
+            male: for fathers of sons
+            neutral: for fathers
+          neutral:
+            female: for parents of daughters
+            male: for parents of sons
+            neutral: for parents
+        family_parents_to_be:
+          default: for parents to be
+          female:
+            default: for pregnant women
+            female: for pregnant women and their daughters
+            male: for pregnant women and their sons
+            neutral: for pregnant women and their children
+          male:
+            default: for fathers to be
+            female: for fathers to be and their daughters
+            male: for fathers to be and their sons
+            neutral: for fathers to be and their children
+          neutral:
+            female: for parents to be and their daughters
+            male: for parents to be and their sons
+            neutral: for parents to be and their children
+        family_pregnant_woman: for pregnant women
+        refugees_adolescents: for adolescent refugees
+        refugees_asylum_procedure: for refugees during the asylum procedure
+        refugees_children: for refugee children
+        refugees_children_and_adolescents: for refugee children and adolescents
+        refugees_deportation_decision: for refugees with deportation notice
+        refugees_families: for refugee families
+        refugees_general: for refugees
+        refugees_parents: for refugee parents
+        refugees_pre_asylum_procedure: for refugees before the asylum procedure
+        refugees_residence_permit: for refugees with a residence permit
+        refugees_toleration_decision: for refugees with temporary suspension of deportation
+        refugees_ujf: for unaccompanied young refugees
+        refugees_umf: for unaccompanied minor refugees
