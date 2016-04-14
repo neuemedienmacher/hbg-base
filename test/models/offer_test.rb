@@ -670,6 +670,10 @@ describe Offer do
         basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Töchter (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
 
+        basicOffer.gender_second_part_of_stamp = nil
+        basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Kinder (1 - 2 Jahre)'
+        basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'
+
         basicOffer.gender_second_part_of_stamp = 'male'
         basicOffer._stamp_family(:de).must_equal 'für Mütter und ihre Söhne (1 - 2 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (1 - 2 Jahre)'

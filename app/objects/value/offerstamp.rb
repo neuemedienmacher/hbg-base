@@ -59,7 +59,7 @@ class Offerstamp
     if offer.gender_second_part_of_stamp == 'neutral' && offer.age_from == 0 && offer.age_to == 1
       '.with_baby'
     else
-      '.' + offer.gender_second_part_of_stamp
+      '.' + (offer.gender_second_part_of_stamp.nil? ? 'neutral' : offer.gender_second_part_of_stamp)
     end
   end
 
