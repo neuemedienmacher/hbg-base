@@ -11,7 +11,8 @@ class Offer < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  ENCOUNTERS = %w(personal hotline email chat forum online-course portal).freeze
+  ENCOUNTERS =
+    %w(personal hotline email chat forum online-course portal fax letter).freeze
   TREATMENT_TYPES = %w(in-patient semi-residential out-patient).freeze
   PARTICIPANT_STRUCTURES =
     %w(target_audience_alone target_audience_and_others).freeze
