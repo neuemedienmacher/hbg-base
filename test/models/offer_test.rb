@@ -566,7 +566,7 @@ describe Offer do
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (7 - 16 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'male'
-        basicOffer._stamp_family(:de).must_equal 'für Jungs (7 - 16 Jahre)'
+        basicOffer._stamp_family(:de).must_equal 'für Jungen (7 - 16 Jahre)'
         basicOffer._stamp_refugees(:de).must_equal 'für Flüchtlinge (7 - 16 Jahre)'
 
         basicOffer.gender_first_part_of_stamp = 'female'
