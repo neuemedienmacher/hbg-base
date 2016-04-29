@@ -21,6 +21,8 @@ describe ContactPerson do
     it { subject.must_respond_to :email_id }
     it { subject.must_respond_to :spoc } # SPoC = Single Point of Contact
     it { subject.must_respond_to :position }
+    it { subject.must_respond_to :street }
+    it { subject.must_respond_to :zip_and_city }
   end
 
   describe 'validations' do
