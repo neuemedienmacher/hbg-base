@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429073101) do
+ActiveRecord::Schema.define(version: 20160504093054) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -461,11 +461,10 @@ ActiveRecord::Schema.define(version: 20160429073101) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
   create_table "websites", force: :cascade do |t|
-    t.string   "host",                        null: false
-    t.string   "url",                         null: false
+    t.string   "host",       null: false
+    t.string   "url",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "unreachable", default: false
   end
 
   add_index "websites", ["host"], name: "index_websites_on_host"
