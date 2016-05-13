@@ -29,6 +29,7 @@ describe Offer do
     it { subject.must_respond_to :gender_second_part_of_stamp }
     it { subject.must_respond_to :logic_version_id }
     it { subject.must_respond_to :base_offer_id }
+    it { subject.must_respond_to :all_inclusive }
   end
 
   describe 'validations' do
