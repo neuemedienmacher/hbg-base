@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504093054) do
+ActiveRecord::Schema.define(version: 20160513120619) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -299,6 +299,7 @@ ActiveRecord::Schema.define(version: 20160504093054) do
     t.string   "gender_second_part_of_stamp"
     t.integer  "logic_version_id"
     t.integer  "base_offer_id"
+    t.boolean  "all_inclusive",                           default: false
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
