@@ -245,6 +245,20 @@ describe Offer do
       end
     end
 
+    describe '#category_names' do
+      it 'should refer to tags to gather category information' do
+        offer = offers(:basic)
+        offer.expect_chain(:_tags, :join).once
+        offer.category_names
+      end
+
+      it 'should concat category names' do
+        offer = offers(:basic)
+        offer.categories << categories(:sub1)
+        offer.category_names.must_equal 'main1 sub1.1'
+      end
+    end
+
     describe '#organization_count' do
       it 'should return 1 if there is only one' do
         offers(:basic).organization_count.must_equal(1)

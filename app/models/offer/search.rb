@@ -28,7 +28,7 @@ class Offer
         I18n.available_locales.each do |locale|
           index = %w(
             name description code_word next_steps keyword_string
-            organization_names
+            organization_names category_names
           )
           # :category_string,
           attributes = [:organization_count, :location_address, :slug,
@@ -120,14 +120,11 @@ class Offer
       end
 
       # additional searchable string made from categories
-      # TODO: Ueberhaupt notwendig, wenn es fuer Kategorien keine Synonyme mehr
-      # gibt?
-      # "category_string_#{locale}",
-      # def category_string
-      #   categories.pluck(:name).flatten.compact.uniq.join(', ')
-      # end
+      def category_names
+        _tags.join ' '
+      end
 
-      # additional searchable string made from categories
+      # additional searchable string made from keywords
       def keyword_string
         keywords.pluck(:name, :synonyms).flatten.compact.uniq.join(', ')
       end
