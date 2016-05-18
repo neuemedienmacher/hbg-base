@@ -26,6 +26,12 @@ describe Email do
     describe 'on update' do
       let(:email) { Email.create! address: 'a@b.c' }
       it { subject.must validate_presence_of :security_code }
+
+      it 'does not need a security_code in blocked state' do
+        subject.aasm_state = 'blocked'
+        subject.security_code.must_be :nil?
+        subject.valid?.must_equal true
+      end
     end
   end
 

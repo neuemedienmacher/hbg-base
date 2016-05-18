@@ -14,7 +14,8 @@ class Email < ActiveRecord::Base
   validates :address, uniqueness: true, presence: true, format: Email::FORMAT,
                       length: { minimum: 3, maximum: 64 }
 
-  validates :security_code, presence: true, uniqueness: true, on: :update
+  validates :security_code, presence: true, uniqueness: true, on: :update,
+                            unless: :blocked?
 
   # State Machine
   aasm do
