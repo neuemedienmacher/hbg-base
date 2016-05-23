@@ -102,7 +102,7 @@ describe Offer do
 
       it 'should ensure that no more than 10 next steps are chosen' do
         11.times do |i|
-          basicOffer.next_steps << NextStep.create(text_de: i)
+          basicOffer.next_steps << NextStep.create(text_de: i, text_en: i)
         end
         basicOffer.reload.wont_be :valid?
         NextStepsOffer.last.destroy!
@@ -483,9 +483,11 @@ describe Offer do
 
       it 'should correctly return next_steps for german locale' do
         old_locale = I18n.locale
-        I18n.locale = :de
-        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
-        basicOffer.next_steps << NextStep.create(text_de: 'bar.')
+        I18n.locale = :en
+        basicOffer.next_steps <<
+          NextStep.create(text_de: 'fu.', text_en: 'foo.')
+        basicOffer.next_steps <<
+          NextStep.create(text_de: 'kneipe.', text_en: 'bar.')
         basicOffer.next_steps_for_current_locale.must_equal 'foo. bar.'
         I18n.locale = old_locale
       end
@@ -495,9 +497,10 @@ describe Offer do
         basicOffer.expects(:send).with("old_next_steps_#{I18n.locale}")
         basicOffer._next_steps I18n.locale
 
-        basicOffer.next_steps << NextStep.create(text_de: 'foo.')
+        basicOffer.next_steps <<
+          NextStep.create(text_de: 'fu.', text_en: 'foo.')
         basicOffer.expects(:send).with("old_next_steps_#{I18n.locale}").never
-        basicOffer._next_steps(I18n.locale).must_equal 'foo.'
+        basicOffer._next_steps(I18n.locale).must_equal 'fu.'
       end
 
       it 'should return a translation lang for automated translations' do

@@ -15,6 +15,7 @@ class Category < ActiveRecord::Base
 
   # Validations
   validates :name_de, presence: true
+  validates :name_en, presence: true
 
   # Custom Validations
   validate :validate_section_filter_presence

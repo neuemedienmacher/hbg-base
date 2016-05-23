@@ -15,6 +15,7 @@ describe NextStep do
 
   describe 'validations' do
     it { subject.must validate_presence_of :text_de }
+    it { subject.must validate_presence_of :text_en }
     it { subject.must validate_length_of(:text_de).is_at_most 255 }
     it { subject.must validate_length_of(:text_en).is_at_most 255 }
     it { subject.must validate_length_of(:text_ar).is_at_most 255 }

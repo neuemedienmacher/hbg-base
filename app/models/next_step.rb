@@ -6,7 +6,7 @@ class NextStep < ActiveRecord::Base
 
   # Validations
   validates :text_de, presence: true, length: { maximum: 255 }
-  validates :text_en, length: { maximum: 255 }
+  validates :text_en, presence: true, length: { maximum: 255 }
   validates :text_ar, length: { maximum: 255 }
   validates :text_fr, length: { maximum: 255 }
   validates :text_pl, length: { maximum: 255 }
