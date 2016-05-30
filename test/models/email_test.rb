@@ -21,6 +21,11 @@ describe Email do
       it { subject.must validate_uniqueness_of :address }
       it { subject.must validate_length_of(:address).is_at_most 64 }
       it { subject.must validate_length_of(:address).is_at_least 3 }
+
+      it 'does not allow whitespaces in address (possible duplicates)' do
+        duplicate_mail = Email.new address: ' a@b.c'
+        duplicate_mail.valid?.must_equal false
+      end
     end
 
     describe 'on update' do

@@ -10,7 +10,10 @@ class Email < ActiveRecord::Base
   has_many :organizations, through: :contact_people, inverse_of: :emails
 
   # Validations
-  FORMAT = /\A.+@.+\..+\z/
+  # no whitespaces allowed.. whitespacec are theoratically allowed within " "
+  # but we simply won't allow them because they cause too many problems at the
+  # beginning or end of the address
+  FORMAT = /\A\S+@\S+\.\S+\z/
   validates :address, uniqueness: true, presence: true, format: Email::FORMAT,
                       length: { minimum: 3, maximum: 64 }
 
