@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513120619) do
+ActiveRecord::Schema.define(version: 20160530090912) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -21,10 +21,6 @@ ActiveRecord::Schema.define(version: 20160513120619) do
     t.float    "maxlong",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "base_offers", force: :cascade do |t|
-    t.string "name"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -298,18 +294,18 @@ ActiveRecord::Schema.define(version: 20160513120619) do
     t.string   "gender_first_part_of_stamp"
     t.string   "gender_second_part_of_stamp"
     t.integer  "logic_version_id"
-    t.integer  "base_offer_id"
+    t.integer  "split_base_id"
     t.boolean  "all_inclusive",                           default: false
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
   add_index "offers", ["approved_at"], name: "index_offers_on_approved_at"
   add_index "offers", ["area_id"], name: "index_offers_on_area_id"
-  add_index "offers", ["base_offer_id"], name: "index_offers_on_base_offer_id"
   add_index "offers", ["created_at"], name: "index_offers_on_created_at"
   add_index "offers", ["location_id"], name: "index_offers_on_location_id"
   add_index "offers", ["logic_version_id"], name: "index_offers_on_logic_version_id"
   add_index "offers", ["solution_category_id"], name: "index_offers_on_solution_category_id"
+  add_index "offers", ["split_base_id"], name: "index_offers_on_split_base_id"
 
   create_table "offers_openings", id: false, force: :cascade do |t|
     t.integer "offer_id",   null: false
@@ -411,6 +407,19 @@ ActiveRecord::Schema.define(version: 20160513120619) do
 
   add_index "solution_category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "solution_category_anc_desc_idx", unique: true
   add_index "solution_category_hierarchies", ["descendant_id"], name: "solution_category_desc_idx"
+
+  create_table "split_bases", force: :cascade do |t|
+    t.string   "title",                null: false
+    t.string   "clarat_addition"
+    t.text     "comments"
+    t.integer  "organization_id",      null: false
+    t.integer  "solution_category_id", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "split_bases", ["organization_id"], name: "index_split_bases_on_organization_id"
+  add_index "split_bases", ["solution_category_id"], name: "index_split_bases_on_solution_category_id"
 
   create_table "statistics", force: :cascade do |t|
     t.string  "topic",   limit: 40, null: false

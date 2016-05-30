@@ -5,6 +5,7 @@ class SolutionCategory < ActiveRecord::Base
 
   # Associations
   has_many :offers, inverse_of: :solution_category
+  has_many :split_bases, inverse_of: :solution_category
 
   # Validations
   validates :name, presence: true
