@@ -32,7 +32,7 @@ module Translation
       super + I18n.locale.to_s
     end
 
-    # handled in observer before save
+    # handled in observer after(!) save
     def generate_translations!
       I18n.available_locales.each do |locale|
         if locale == :de # German translation is needed and thus done right away
