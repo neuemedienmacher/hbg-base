@@ -18,11 +18,4 @@ describe Contact do
       it { subject.must validate_presence_of :message }
     end
   end
-
-  describe 'Observer' do
-    it 'should c an admin notification' do
-      ContactMailer.expect_chain(:delay, :admin_notification).with(1)
-      FactoryGirl.create :contact
-    end
-  end
 end
