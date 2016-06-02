@@ -388,12 +388,37 @@ describe Offer do
         I18n.locale = old_locale
       end
 
-      it 'should always get de translation, others only when not initialized' do
+      it 'should always get de translation, others on completion and change' do
+        # Setup
         new_offer = FactoryGirl.create(:offer)
         new_offer.translations.count.must_equal 1
-        new_offer.update_columns aasm_state: 'completed'
-        OfferObserver.send(:new).after_save(new_offer)
+        new_offer.translations.first.locale.must_equal 'de'
+        new_offer.aasm_state.must_equal 'initialized'
+
+        # Changing things on an initialized offer doesn't change translations
+        new_offer.reload.name_ar.must_equal nil
+        new_offer.name = 'changing name, wont update translation'
+        new_offer.save!
+        new_offer.translations.count.must_equal 1
+        new_offer.reload.name_ar.must_equal nil
+
+        # Completion generates all translations initially
+        new_offer.complete!
         new_offer.translations.count.must_equal I18n.available_locales.count
+
+        # Now changes to the model change the corresponding translated fields
+
+        EasyTranslate.translated_with 'CHANGED' do
+          new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
+          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
+          new_offer.name = 'changing name, should update translation'
+          new_offer.save!
+          new_offer.reload.name_ar.must_equal 'CHANGED'
+          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
+        end
+      end
+
+      it 'should update an existing translation only when the field changed' do
       end
     end
 

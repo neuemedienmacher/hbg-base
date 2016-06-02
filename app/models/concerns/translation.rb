@@ -32,16 +32,24 @@ module Translation
       super + I18n.locale.to_s
     end
 
-    # handled in observer before save
-    def generate_translations!
+    # handled in observer after update and called on complete
+    def generate_translations! fields = :all
       I18n.available_locales.each do |locale|
         if locale == :de # German translation is needed and thus done right away
           TranslationGenerationWorker.new.perform(locale, self.class.name, id)
         elsif no_state_or_not_initialized?
-          TranslationGenerationWorker.perform_async(locale, self.class.name, id)
+          TranslationGenerationWorker.perform_async(
+            locale, self.class.name, id, fields
+          )
         end
       end
       true
+    end
+
+    def changed_translatable_fields
+      translated_fields.select do |field|
+        send(:"#{field}_changed?")
+      end
     end
 
     private

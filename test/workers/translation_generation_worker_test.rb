@@ -29,6 +29,15 @@ class TranslationGenerationWorkerTest < ActiveSupport::TestCase
       translation.opening_specification.must_equal 'GET READY FOR CANADA'
     end
 
+    it 'should only translate for given set of fields if provided' do
+      worker.perform :en, 'Offer', 1, [:name]
+      translation = OfferTranslation.last
+      translation.name.must_equal 'GET READY FOR CANADA'
+      translation.description.must_equal ''
+      translation.old_next_steps.must_equal nil
+      translation.opening_specification.must_equal nil
+    end
+
     it 'should work for an organization in German' do
       worker.perform :de, 'Organization', 1
       translation = OrganizationTranslation.last

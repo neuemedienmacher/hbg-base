@@ -104,9 +104,10 @@ ActiveRecord::Schema.define(version: 20160530090912) do
     t.string   "name"
     t.string   "email"
     t.text     "message"
-    t.string   "url",        limit: 1000
+    t.string   "url",           limit: 1000
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "internal_mail",              default: false
   end
 
   create_table "definitions", force: :cascade do |t|
