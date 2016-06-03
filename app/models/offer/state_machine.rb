@@ -22,9 +22,13 @@ class Offer
 
         ## Transitions
 
-        event :complete, before: :set_completed_information do
+        event :reinitialize do
+          transitions from: :dozing, to: :initialized
+        end
+
+        event :complete, before: :set_completed_information,
+                         success: :generate_translations! do
           transitions from: :initialized, to: :completed
-          transitions from: :dozing, to: :completed
         end
 
         event :approve, before: :set_approved_information do

@@ -1,12 +1,12 @@
 class TranslationGenerationWorker
   include Sidekiq::Worker
 
-  def perform locale, object_type, object_id
+  def perform locale, object_type, object_id, fields = :all
     object = object_type.constantize.find(object_id)
     translation = find_or_initialize_translation(locale, object_type, object_id)
 
     translation.assign_attributes(
-      generate_field_translations(object, locale)
+      generate_field_translations(object, locale, fields)
     )
     translation.save!
     reindex object
@@ -30,8 +30,8 @@ class TranslationGenerationWorker
     )
   end
 
-  def generate_field_translations object, locale
-    translations_hash = direct_translate_to_html object, locale
+  def generate_field_translations object, locale, fields
+    translations_hash = direct_translate_to_html object, locale, fields
 
     if locale.to_sym == :de
       translations_hash['source'] = 'researcher'
@@ -44,10 +44,12 @@ class TranslationGenerationWorker
     translations_hash
   end
 
-  def direct_translate_to_html object, locale
+  def direct_translate_to_html object, locale, fields
     translations_hash = {}
+    fields_to_translate =
+      (fields.to_s == 'all') ? object.translated_fields : fields
 
-    object.translated_fields.each do |field|
+    fields_to_translate.each do |field|
       translations_hash[field] =
         direct_translate_via_strategy(object, field, locale)
     end
@@ -56,7 +58,7 @@ class TranslationGenerationWorker
   end
 
   def direct_translate_via_strategy object, field, locale = :de
-    case field
+    case field.to_sym
     when :name
       object.untranslated_name
     when :description
