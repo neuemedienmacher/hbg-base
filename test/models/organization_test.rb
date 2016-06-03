@@ -120,11 +120,11 @@ describe Organization do
         organization.must_be :approved?
       end
 
-      it 'wont approve with the same actor' do
-        organization.stubs(:different_actor?).returns(false)
-        assert_raises(AASM::InvalidTransition) { organization.approve }
-        organization.must_be :completed?
-      end
+      # it 'wont approve with the same actor' do
+      #   organization.stubs(:different_actor?).returns(false)
+      #   assert_raises(AASM::InvalidTransition) { organization.approve }
+      #   organization.must_be :completed?
+      # end
 
       it 'wont complete' do
         assert_raises(AASM::InvalidTransition) { organization.complete }

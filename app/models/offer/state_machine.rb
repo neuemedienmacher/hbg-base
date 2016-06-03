@@ -32,7 +32,8 @@ class Offer
         end
 
         event :approve, before: :set_approved_information do
-          transitions from: :completed, to: :approved, guard: :different_actor?
+          # TODO: reactivate guard!!!
+          transitions from: :completed, to: :approved # , guard: :different_actor?
           transitions from: :paused, to: :approved
           transitions from: :expired, to: :approved
           transitions from: :internal_feedback, to: :approved
