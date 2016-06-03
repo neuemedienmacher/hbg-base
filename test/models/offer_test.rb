@@ -419,6 +419,25 @@ describe Offer do
       end
 
       it 'should update an existing translation only when the field changed' do
+        # Setup
+        new_offer = FactoryGirl.create(:offer)
+        new_offer.complete!
+        new_offer.translations.count.must_equal I18n.available_locales.count
+
+        # Now changes to the model change the corresponding translated fields
+        EasyTranslate.translated_with 'CHANGED' do
+          new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
+          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
+          # changing untranslated field => translations must stay the same
+          new_offer.age_from = 0
+          new_offer.save!
+          new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
+          new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
+          new_offer.name = 'changing name, should update translation'
+          new_offer.save!
+          new_offer.reload.name_ar.must_equal 'CHANGED'
+          new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
+        end
       end
     end
 
