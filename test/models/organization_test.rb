@@ -274,6 +274,13 @@ describe Organization do
         orga.offers.first.must_be :under_construction_post?
       end
 
+      it 'should choose the correct state for an initialized offer' do
+        orga.offers.first.update_columns aasm_state: :initialized
+        orga.offers.first.must_be :initialized?
+        orga.website_under_construction!
+        orga.offers.first.must_be :under_construction_pre?
+      end
+
       it 'should raise an error when deactivation fails for an offer' do
         Offer.any_instance.expects(:website_under_construction!)
              .returns(false)

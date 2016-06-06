@@ -12,7 +12,9 @@ class Organization
         state :approved
 
         # Special states object might enter before it is approved
-        state :under_construction_pre # Website under construction pre approve
+        state :under_construction_pre, # Website under construction pre approve
+              after_enter: :deactivate_offers_to_under_construction!,
+              after_exit: :reactivate_offers_from_under_construction!
 
         # Special states object might enter after it was approved
         state :internal_feedback, # There was an issue (internal)
