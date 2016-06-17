@@ -50,7 +50,7 @@ class Offer
             attribute(:_tags) { _tags(locale) }
             attribute(:stamp_family) { stamp_family(locale) }
             attribute(:stamp_refugees) { stamp_refugees(locale) }
-            attribute(:category_names)  { category_names(locale) }
+            attribute(:category_names) { category_names(locale) }
             add_attribute(*attributes)
             add_attribute(*facets)
             add_attribute :_geoloc
@@ -69,7 +69,7 @@ class Offer
             attribute(:_tags) { _tags(locale) }
             attribute(:stamp_family) { stamp_family(locale) }
             attribute(:stamp_refugees) { stamp_refugees(locale) }
-            attribute(:category_names)  { category_names(locale) }
+            attribute(:category_names) { category_names(locale) }
             add_attribute(*attributes)
             add_attribute :area_minlat, :area_maxlat, :area_minlong,
                           :area_maxlong
