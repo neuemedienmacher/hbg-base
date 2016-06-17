@@ -28,7 +28,7 @@ class Offer
         I18n.available_locales.each do |locale|
           index = %w(
             name description code_word next_steps keyword_string
-            organization_names category_names
+            organization_names category_names stamp_family stamp_refugees
           )
           # :category_string,
           attributes = [:organization_count, :location_address, :slug,
@@ -48,8 +48,8 @@ class Offer
             attribute(:next_steps)  { _next_steps locale }
             attribute(:lang) { lang(locale) }
             attribute(:_tags) { _tags(locale) }
-            attribute(:_stamp_family) { _stamp_family(locale) }
-            attribute(:_stamp_refugees) { _stamp_refugees(locale) }
+            attribute(:stamp_family) { stamp_family(locale) }
+            attribute(:stamp_refugees) { stamp_refugees(locale) }
             attribute(:category_names)  { category_names(locale) }
             add_attribute(*attributes)
             add_attribute(*facets)
@@ -67,8 +67,8 @@ class Offer
             attribute(:next_steps)  { _next_steps locale }
             attribute(:lang) { lang(locale) }
             attribute(:_tags) { _tags(locale) }
-            attribute(:_stamp_family) { _stamp_family(locale) }
-            attribute(:_stamp_refugees) { _stamp_refugees(locale) }
+            attribute(:stamp_family) { stamp_family(locale) }
+            attribute(:stamp_refugees) { stamp_refugees(locale) }
             attribute(:category_names)  { category_names(locale) }
             add_attribute(*attributes)
             add_attribute :area_minlat, :area_maxlat, :area_minlong,
@@ -161,11 +161,11 @@ class Offer
       end
 
       # stamp-generation methods for each section
-      def _stamp_family locale
+      def stamp_family locale
         Offerstamp.generate_stamp self, 'family', locale
       end
 
-      def _stamp_refugees locale
+      def stamp_refugees locale
         Offerstamp.generate_stamp self, 'refugees', locale
       end
     end
