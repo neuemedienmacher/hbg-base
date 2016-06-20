@@ -33,7 +33,7 @@ class Organization
           transitions from: :under_construction_pre, to: :initialized
         end
 
-        event :complete do
+        event :complete, success: :generate_translations! do
           transitions from: :initialized, to: :completed
         end
 
