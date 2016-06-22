@@ -23,6 +23,7 @@ class Offer
         validate_associated_presence :organizations
         validate_associated_presence :section_filters
         validate_associated_presence :language_filters
+        # TODO: remove this conditional!!!
         if in_family_section?
           validate_associated_presence :target_audience_filters
         end
