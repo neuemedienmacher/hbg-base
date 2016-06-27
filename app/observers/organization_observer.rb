@@ -1,6 +1,12 @@
 class OrganizationObserver < ActiveRecord::Observer
-  def after_save orga
+  def after_create orga
     orga.generate_translations!
+  end
+
+  def after_update orga
+    fields = orga.changed_translatable_fields
+    return true if fields.empty?
+    orga.generate_translations! fields
   end
 
   def before_create orga
