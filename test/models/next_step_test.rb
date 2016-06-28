@@ -11,6 +11,11 @@ describe NextStep do
         subject.must_respond_to "text_#{locale}"
       end
     end
+    it 'must have a job_id_* for every available locale except [:de, :en]' do
+      (I18n.available_locales - [:de, :en]).each do |locale|
+        subject.must_respond_to "job_id_#{locale}"
+      end
+    end
   end
 
   describe 'validations' do

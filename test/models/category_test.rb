@@ -7,13 +7,16 @@ describe Category do
 
   describe 'attributes' do
     it { subject.must_respond_to :id }
-    it { subject.must_respond_to :name_de }
-    it { subject.must_respond_to :name_en }
-    it { subject.must_respond_to :name_ar }
-    it { subject.must_respond_to :name_tr }
-    it { subject.must_respond_to :name_fr }
-    it { subject.must_respond_to :name_pl }
-    it { subject.must_respond_to :name_ru }
+    it 'must have a name_* for every available locale' do
+      I18n.available_locales.each do |locale|
+        subject.must_respond_to "name_#{locale}"
+      end
+    end
+    it 'must have a job_id_* for every available locale except [:de, :en]' do
+      (I18n.available_locales - [:de, :en]).each do |locale|
+        subject.must_respond_to "job_id_#{locale}"
+      end
+    end
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
   end
