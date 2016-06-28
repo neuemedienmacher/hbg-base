@@ -2,10 +2,6 @@ class Offerstamp
   def self.generate_stamp offer, current_section, locale
     # filter target_audience array to only include those of the current_section
     target_audience_for_section = offer._target_audience_filters.select { |ta| ta.index(current_section) == 0 }
-    # (.......)
-    if !target_audience_for_section[0] && current_section == 'refugees'
-      target_audience_for_section[0] = 'refugees_general'
-    end
     # return empty string if there is not exactly one target_audience
     return '' unless target_audience_for_section.length == 1
     # generate frontend stamp
@@ -47,12 +43,17 @@ class Offerstamp
 
   def self.stamp_family_nuclear_family offer
     if offer.gender_first_part_of_stamp.nil? &&
-       offer.gender_second_part_of_stamp.nil?
+       (offer.gender_second_part_of_stamp.nil? || stamp_family_nuclear_family_default_special(offer))
       '.default'
     else
       locale_entry = '.' + (offer.gender_first_part_of_stamp.nil? ? 'neutral' : offer.gender_first_part_of_stamp)
       locale_entry + stamp_family_nuclear_family_gender_second_part(offer)
     end
+  end
+
+  # (...)
+  def self.stamp_family_nuclear_family_default_special offer
+    offer.gender_second_part_of_stamp == 'neutral' && !offer.age_visible && offer.age_to > 1
   end
 
   def self.stamp_family_nuclear_family_gender_second_part offer
