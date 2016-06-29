@@ -448,8 +448,8 @@ describe Offer do
         new_offer.translations.count.must_equal I18n.available_locales.count
 
         # Setup: A human edits the arabic translation and en
-        translation = new_offer.translations.find_by(locale: :ar)
-        translation.update_columns name: 'MANUAL EDIT', source: 'researcher'
+        ar_translation = new_offer.translations.find_by(locale: :ar)
+        ar_translation.update_columns name: 'MANUAL EDIT', source: 'researcher'
 
         # Now changes to the model change the corresponding translated fields
         EasyTranslate.translated_with 'CHANGED' do
@@ -461,6 +461,7 @@ describe Offer do
           new_offer.reload.name_ar.must_equal 'MANUAL EDIT'
           new_offer.description_ar.must_equal 'GET READY FOR CANADA'
           new_offer.name_ru.must_equal 'CHANGED'
+          ar_translation.reload.possibly_outdated?.must_equal true
         end
       end
     end

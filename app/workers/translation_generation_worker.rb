@@ -5,9 +5,15 @@ class TranslationGenerationWorker
     object = object_type.constantize.find(object_id)
     translation = find_or_initialize_translation(locale, object_type, object_id)
 
-    translation.assign_attributes(
-      generate_field_translations(object, locale, fields)
-    )
+    if translation.manually_edited?
+      # Translation was already edited by a human, so it is not updated with
+      # a new translation but flagged as possibly outdated
+      translation.possibly_outdated = true
+    else
+      translation.assign_attributes(
+        generate_field_translations(object, locale, fields)
+      )
+    end
     translation.save!
     reindex object
   end

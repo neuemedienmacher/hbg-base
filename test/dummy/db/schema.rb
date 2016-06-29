@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530090912) do
+ActiveRecord::Schema.define(version: 20160629112324) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -248,15 +248,16 @@ ActiveRecord::Schema.define(version: 20160530090912) do
   add_index "offer_mailings", ["offer_id"], name: "index_offer_mailings_on_offer_id"
 
   create_table "offer_translations", force: :cascade do |t|
-    t.integer  "offer_id",                                       null: false
-    t.string   "locale",                                         null: false
-    t.string   "source",                            default: "", null: false
+    t.integer  "offer_id",                                          null: false
+    t.string   "locale",                                            null: false
+    t.string   "source",                            default: "",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                  limit: 255, default: "", null: false
-    t.text     "description",                       default: "", null: false
+    t.string   "name",                  limit: 255, default: "",    null: false
+    t.text     "description",                       default: "",    null: false
     t.text     "old_next_steps"
     t.text     "opening_specification"
+    t.boolean  "possibly_outdated",                 default: false
   end
 
   add_index "offer_translations", ["locale"], name: "index_offer_translations_on_locale"
@@ -338,12 +339,13 @@ ActiveRecord::Schema.define(version: 20160530090912) do
   add_index "organization_offers", ["organization_id"], name: "index_organization_offers_on_organization_id"
 
   create_table "organization_translations", force: :cascade do |t|
-    t.integer  "organization_id",              null: false
-    t.string   "locale",                       null: false
-    t.string   "source",          default: "", null: false
+    t.integer  "organization_id",                   null: false
+    t.string   "locale",                            null: false
+    t.string   "source",            default: "",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "description",     default: "", null: false
+    t.text     "description",       default: "",    null: false
+    t.boolean  "possibly_outdated", default: false
   end
 
   add_index "organization_translations", ["locale"], name: "index_organization_translations_on_locale"
