@@ -200,13 +200,15 @@ ActiveRecord::Schema.define(version: 20160629112324) do
   end
 
   create_table "next_steps", force: :cascade do |t|
-    t.string "text_de", null: false
-    t.string "text_en"
-    t.string "text_ar"
-    t.string "text_fr"
-    t.string "text_pl"
-    t.string "text_tr"
-    t.string "text_ru"
+    t.string   "text_de",    null: false
+    t.string   "text_en"
+    t.string   "text_ar"
+    t.string   "text_fr"
+    t.string   "text_pl"
+    t.string   "text_tr"
+    t.string   "text_ru"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "next_steps", ["text_de"], name: "index_next_steps_on_text_de"
