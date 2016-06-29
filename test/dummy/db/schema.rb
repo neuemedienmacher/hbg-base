@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628125844) do
+ActiveRecord::Schema.define(version: 20160620144408) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -37,11 +37,6 @@ ActiveRecord::Schema.define(version: 20160628125844) do
     t.string   "name_pl"
     t.string   "name_tr"
     t.string   "name_ru"
-    t.integer  "job_id_pl"
-    t.integer  "job_id_ru"
-    t.integer  "job_id_ar"
-    t.integer  "job_id_tr"
-    t.integer  "job_id_fr"
   end
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de"
@@ -214,11 +209,6 @@ ActiveRecord::Schema.define(version: 20160628125844) do
     t.string   "text_ru"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "job_id_pl"
-    t.integer  "job_id_ru"
-    t.integer  "job_id_ar"
-    t.integer  "job_id_tr"
-    t.integer  "job_id_fr"
   end
 
   add_index "next_steps", ["text_de"], name: "index_next_steps_on_text_de"
