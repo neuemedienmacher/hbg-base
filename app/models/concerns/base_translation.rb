@@ -4,7 +4,7 @@ module BaseTranslation
   SOURCES = %w(researcher GoogleTranslate user).freeze
   enumerize :source, in: SOURCES
 
-  MANUALLY_TRANSLATED_LOCALES = %w(ar ru).freeze
+  MANUALLY_TRANSLATED_LOCALES = %w(ar ru en).freeze
 
   def automated?
     source == 'GoogleTranslate'
