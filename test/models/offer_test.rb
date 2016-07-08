@@ -329,6 +329,8 @@ describe Offer do
         offer.expects(:fail_validation).never
         offer.send :validate_associated_fields
         offer.target_audience_filters = []
+        offer.expects(:fail_validation).with :target_audience_filters,
+                                             'needs_target_audience_filters'
         offer.send :validate_associated_fields
       end
     end

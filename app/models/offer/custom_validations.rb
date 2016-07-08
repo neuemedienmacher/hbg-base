@@ -23,18 +23,11 @@ class Offer
         validate_associated_presence :organizations
         validate_associated_presence :section_filters
         validate_associated_presence :language_filters
-        # TODO: remove this conditional!!!
-        if in_family_section?
-          validate_associated_presence :target_audience_filters
-        end
+        validate_associated_presence :target_audience_filters
       end
 
       def validate_associated_presence field
         fail_validation field, "needs_#{field}" if send(field).empty?
-      end
-
-      def in_family_section?
-        section_filters.to_a.any? { |filter| filter.identifier == 'family' }
       end
 
       ## Custom Validation Methods ##
