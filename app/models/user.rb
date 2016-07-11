@@ -3,6 +3,8 @@
 class User < ActiveRecord::Base
   # Associations
   has_many :authored_notes, class_name: 'Note', inverse_of: :user
+  has_many :user_team_users, inverse_of: :user
+  has_many :user_teams, through: :user_team_users, inverse_of: :users
 
   # Validations
   # validates :email, uniqueness: true, presence: true

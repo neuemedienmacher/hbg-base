@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160701163604) do
+ActiveRecord::Schema.define(version: 20160711090744) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -386,6 +386,19 @@ ActiveRecord::Schema.define(version: 20160701163604) do
   add_index "organizations", ["approved_at"], name: "index_organizations_on_approved_at"
   add_index "organizations", ["created_at"], name: "index_organizations_on_created_at"
 
+  create_table "productivity_goals", force: :cascade do |t|
+    t.string  "title",              null: false
+    t.date    "starts_at",          null: false
+    t.date    "ends_at",            null: false
+    t.string  "target_model",       null: false
+    t.integer "target_count",       null: false
+    t.string  "target_field_name",  null: false
+    t.string  "target_field_value", null: false
+    t.integer "user_team_id",       null: false
+  end
+
+  add_index "productivity_goals", ["user_team_id"], name: "index_productivity_goals_on_user_team_id"
+
   create_table "search_locations", force: :cascade do |t|
     t.string   "query",                 null: false
     t.float    "latitude",              null: false
@@ -454,6 +467,18 @@ ActiveRecord::Schema.define(version: 20160701163604) do
     t.string   "email",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "user_team_users", force: :cascade do |t|
+    t.integer "user_team_id"
+    t.integer "user_id"
+  end
+
+  add_index "user_team_users", ["user_id"], name: "index_user_team_users_on_user_id"
+  add_index "user_team_users", ["user_team_id"], name: "index_user_team_users_on_user_team_id"
+
+  create_table "user_teams", force: :cascade do |t|
+    t.string "name", null: false
   end
 
   create_table "users", force: :cascade do |t|
