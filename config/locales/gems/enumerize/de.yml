@@ -18,6 +18,7 @@ de:
         eg: 'eG'
         state_entity: 'Staatliche Einrichtung'
         sonstige: 'Sonstige'
+      # remove this later (after umbrella migration to umbrella_filters)
       umbrella:
         caritas: 'Caritas'
         diakonie: 'Diakonie'

@@ -18,13 +18,18 @@ class Organization < ActiveRecord::Base
   has_many :emails, through: :contact_people, inverse_of: :organizations
   has_many :section_filters, through: :offers
   has_many :split_bases, inverse_of: :organization
+  has_and_belongs_to_many :filters
+  has_and_belongs_to_many :umbrella_filters,
+                          association_foreign_key: 'filter_id',
+                          join_table: 'filters_organizations'
 
   # Enumerization
   extend Enumerize
   enumerize :legal_form, in: %w(ev ggmbh gag foundation gug gmbh ag ug kfm gbr
                                 ohg kg eg sonstige state_entity)
-  enumerize :umbrella, in: %w(caritas diakonie awo dpw drk asb zwst dbs vdw bags
-                              svdkd bkd church hospital public other)
+  # TODO: remove this later
+  # enumerize :umbrella, in: %w(caritas diakonie awo dpw drk asb zwst dbs vdw bags
+  #                             svdkd bkd church hospital public other)
 
   # Sanitization
   extend Sanitization
@@ -51,6 +56,7 @@ class Organization < ActiveRecord::Base
   # Custom Validations
   validate :validate_hq_location, on: :update
   validate :validate_websites_hosts
+  validate :must_have_umbrella_filter
 
   def validate_hq_location
     if locations.to_a.count(&:hq) != 1
@@ -64,6 +70,12 @@ class Organization < ActiveRecord::Base
         :base,
         I18n.t('organization.validations.website_host', website: website.url)
       )
+    end
+  end
+
+  def must_have_umbrella_filter
+    if umbrella_filters.empty?
+      fail_validation :umbrella_filters, 'needs_umbrella_filters'
     end
   end
 

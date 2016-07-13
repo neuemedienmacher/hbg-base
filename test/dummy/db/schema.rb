@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160701163604) do
+ActiveRecord::Schema.define(version: 20160708141922) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -149,6 +149,14 @@ ActiveRecord::Schema.define(version: 20160701163604) do
 
   add_index "filters_offers", ["filter_id"], name: "index_filters_offers_on_filter_id"
   add_index "filters_offers", ["offer_id"], name: "index_filters_offers_on_offer_id"
+
+  create_table "filters_organizations", id: false, force: :cascade do |t|
+    t.integer "filter_id",       null: false
+    t.integer "organization_id", null: false
+  end
+
+  add_index "filters_organizations", ["filter_id"], name: "index_filters_organizations_on_filter_id"
+  add_index "filters_organizations", ["organization_id"], name: "index_filters_organizations_on_organization_id"
 
   create_table "gengo_orders", force: :cascade do |t|
     t.integer  "order_id"
