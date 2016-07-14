@@ -17,7 +17,6 @@ describe Organization do
     it { subject.must_respond_to :legal_form }
     it { subject.must_respond_to :charitable }
     it { subject.must_respond_to :founded }
-    it { subject.must_respond_to :umbrella }
     it { subject.must_respond_to :slug }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
@@ -55,6 +54,13 @@ describe Organization do
         orga.websites << FactoryGirl.create(:website, :own)
         orga.reload.valid?.must_equal true
       end
+
+      it 'must have an umbrella filter' do
+        orga.umbrella_filters = []
+        orga.valid?.must_equal false
+        orga.umbrella_filters = [filters(:diakonie)]
+        orga.valid?.must_equal true
+      end
     end
   end
 
@@ -65,18 +71,22 @@ describe Organization do
     it { subject.must have_many :hyperlinks }
     it { subject.must have_many :websites }
     it { subject.must have_many(:section_filters).through :offers }
+    it { subject.must have_and_belong_to_many :filters }
+    it { subject.must have_and_belong_to_many :umbrella_filters }
   end
 
   describe 'Observer' do
     describe 'before_create' do
       it 'should not change a created_by' do
         organization.created_by = 123
+        organization.umbrella_filters = [filters(:diakonie)]
         organization.save!
         organization.created_by.must_equal 123
       end
 
       it 'should set created_by if it doesnt exist' do
         organization.created_by = nil
+        organization.umbrella_filters = [filters(:diakonie)]
         organization.save!
         organization.created_by.must_equal ::PaperTrail.whodunnit
         # Note we have a spec helper for PaperTrail
