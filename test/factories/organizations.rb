@@ -12,11 +12,6 @@ FactoryGirl.define do
 
     # optional
     founded { maybe((1980..Time.zone.now.year).to_a.sample) }
-    # umbrella do
-    #   maybe(
-    #     Organization.enumerized_attributes.attributes['umbrella'].values.sample
-    #   )
-    # end
     mailings_enabled true
     created_by { FactoryGirl.create(:researcher).id }
 
