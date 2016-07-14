@@ -2,7 +2,7 @@ class AddFiltersToOrganizations < ActiveRecord::Migration
   class Organizations < ActiveRecord::Base
     extend Enumerize
     enumerize :umbrella, in: %w(caritas diakonie awo dpw drk asb zwst dbs vdw bags
-                                svdkd bkd church hospital public other_or_none)
+                                svdkd bkd church hospital public other)
   end
 
   def change
