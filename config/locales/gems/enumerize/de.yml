@@ -18,12 +18,6 @@ de:
         eg: 'eG'
         state_entity: 'Staatliche Einrichtung'
         sonstige: 'Sonstige'
-    # TODO: I know this sucks - change it later (rename data values in enum and migrate)
-    offer:
-      participant_structure:
-        target_audience_alone: 'target audience alone'
-        target_audience_and_others: 'target audience in group with others with different problems'
-        target_audience_and_others_with_same_problem: 'target audience in group with others with same problem'
 
     contact_person:
       gender:
