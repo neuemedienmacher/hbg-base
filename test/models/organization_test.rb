@@ -21,7 +21,7 @@ describe Organization do
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :aasm_state }
-    it { subject.must_respond_to :mailings_enabled }
+    it { subject.must_respond_to :mailings }
   end
 
   describe 'validations' do
@@ -33,6 +33,7 @@ describe Organization do
       it { subject.must validate_presence_of :description }
       it { subject.must validate_presence_of :legal_form }
       it { subject.must validate_uniqueness_of :slug }
+      it { subject.must validate_presence_of :mailings }
 
       it 'should ensure there is exactly one hq location' do
         orga.locations.destroy_all
@@ -126,6 +127,7 @@ describe Organization do
 
       it 'should approve with a different actor' do
         organization.stubs(:different_actor?).returns(true)
+        organization.start_approval_process
         organization.approve
         organization.must_be :approved?
       end
@@ -190,6 +192,7 @@ describe Organization do
 
       it 'must approve, even with same actor' do
         organization.stubs(:different_actor?).returns(false)
+        organization.start_checkup_process
         organization.approve
         organization.must_be :approved?
       end
@@ -217,6 +220,7 @@ describe Organization do
 
       it 'must approve, even with same actor' do
         organization.stubs(:different_actor?).returns(false)
+        organization.start_checkup_process
         organization.approve
         organization.must_be :approved?
       end
@@ -320,7 +324,7 @@ describe Organization do
       it 'should reactivate associated under_construction offers' do
         offer.update_column :aasm_state, :under_construction_post
         orga.reactivate_offers_from_under_construction!
-        offer.reload.must_be :approved?
+        offer.reload.aasm_state.must_equal 'checkup'
       end
     end
 
@@ -385,7 +389,7 @@ describe Organization do
       EasyTranslate.translated_with 'CHANGED' do
         new_orga.description_ar.must_equal 'GET READY FOR CANADA'
         # changing untranslated field => translations must stay the same
-        new_orga.mailings_enabled = true
+        new_orga.mailings = 'enabled'
         new_orga.save!
         new_orga.reload.description_ar.must_equal 'GET READY FOR CANADA'
         new_orga.description = 'changing descr, should update translation'

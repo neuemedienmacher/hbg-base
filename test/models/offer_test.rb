@@ -30,6 +30,7 @@ describe Offer do
     it { subject.must_respond_to :logic_version_id }
     it { subject.must_respond_to :split_base_id }
     it { subject.must_respond_to :all_inclusive }
+    it { subject.must_respond_to :starts_at }
   end
 
   describe 'validations' do
@@ -115,6 +116,17 @@ describe Offer do
         subject.errors.messages[:expires_at].must_include(
           I18n.t('shared.validations.later_date')
         )
+      end
+
+      it 'should validate start date' do
+        basicOffer.expires_at = Time.zone.now + 1.day
+        basicOffer.valid?.must_equal true
+
+        basicOffer.starts_at = Time.zone.now + 2.day
+        basicOffer.valid?.must_equal false
+
+        basicOffer.starts_at = Time.zone.now
+        basicOffer.valid?.must_equal true
       end
 
       it 'should validate age_from' do
@@ -500,6 +512,7 @@ describe Offer do
           offer.send(:complete)
           offer.logic_version_id.must_equal new_logic1.id
           new_logic2 = LogicVersion.create(name: 'Bar', version: 201)
+          offer.send(:start_approval_process)
           offer.send(:approve)
           offer.logic_version_id.must_equal new_logic2.id
         end
