@@ -57,7 +57,7 @@ FactoryGirl.define do
     end
 
     trait :mailings_disabled do
-      mailings_enabled false
+      mailings 'force_disabled'
     end
   end
 end

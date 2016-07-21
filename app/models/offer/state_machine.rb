@@ -62,35 +62,24 @@ class Offer
                       guard: :all_organizations_approved?
         end
 
-        # TODO: remove some transitions for these four states?
-
         event :pause do
-          # only first transition? (automatically instead of expire for seasonal_offers)
           transitions from: :approved, to: :paused
-          transitions from: :expired, to: :paused
-          transitions from: :internal_feedback, to: :paused
-          transitions from: :external_feedback, to: :paused
         end
 
         event :expire do
           transitions from: :approved, to: :expired
-          transitions from: :paused, to: :expired
-          transitions from: :internal_feedback, to: :expired
-          transitions from: :external_feedback, to: :expired
         end
 
         event :deactivate_internal do
           transitions from: :approved, to: :internal_feedback
-          transitions from: :paused, to: :internal_feedback
-          transitions from: :expired, to: :internal_feedback
           transitions from: :external_feedback, to: :internal_feedback
+          transitions from: :under_construction_post, to: :internal_feedback
         end
 
         event :deactivate_external do
           transitions from: :approved, to: :external_feedback
-          transitions from: :paused, to: :external_feedback
-          transitions from: :expired, to: :external_feedback
           transitions from: :internal_feedback, to: :external_feedback
+          transitions from: :under_construction_post, to: :external_feedback
         end
 
         event :deactivate_through_organization do
@@ -104,8 +93,6 @@ class Offer
           transitions from: :completed, to: :under_construction_pre
           # post approve
           transitions from: :approved, to: :under_construction_post
-          transitions from: :paused, to: :under_construction_post
-          transitions from: :expired, to: :under_construction_post
           transitions from: :internal_feedback, to: :under_construction_post
           transitions from: :external_feedback, to: :under_construction_post
           transitions from: :organization_deactivated, to: :under_construction_post
@@ -152,14 +139,12 @@ class Offer
         created_by && current_actor && created_by != current_actor
       end
 
-      # TODO
       def seasonal_offer_not_yet_to_be_approved?
-        false # self.starts_at && self.starts_at > Time.zone.now # && different_actor?
+        !starts_at.nil? && starts_at > Time.zone.now # && different_actor?
       end
 
-      # TODO
       def seasonal_offer_ready_for_approve?
-        false # self.starts_at && self.starts_at <= Time.zone.now # && different_actor?
+        !starts_at.nil? && starts_at <= Time.zone.now # && different_actor?
       end
     end
   end

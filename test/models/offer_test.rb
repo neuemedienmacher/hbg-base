@@ -615,6 +615,40 @@ describe Offer do
       end
     end
 
+    describe '#seasonal_offer_not_yet_to_be_approved' do
+      it 'should be false without a start date' do
+        basicOffer.starts_at = nil
+        basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+      end
+
+      it 'should be false with a start date in the past' do
+        basicOffer.starts_at = Time.zone.now - 1.day
+        basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+      end
+
+      it 'should be true with a start date in the future' do
+        basicOffer.starts_at = Time.zone.now + 1.day
+        basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal true
+      end
+    end
+
+    describe '#seasonal_offer_ready_for_approve' do
+      it 'should be false without a start date' do
+        basicOffer.starts_at = nil
+        basicOffer.send(:seasonal_offer_ready_for_approve?).must_equal false
+      end
+
+      it 'should be false with a start date in the future' do
+        basicOffer.starts_at = Time.zone.now + 1.day
+        basicOffer.send(:seasonal_offer_ready_for_approve?).must_equal false
+      end
+
+      it 'should be true with a start date in the past' do
+        basicOffer.starts_at = Time.zone.now - 1.day
+        basicOffer.send(:seasonal_offer_ready_for_approve?).must_equal true
+      end
+    end
+
     describe 'generated OfferStamp' do
       it 'should correctly respond to general _stamp_SECTION call' do
         basicOffer.target_audience_filters =

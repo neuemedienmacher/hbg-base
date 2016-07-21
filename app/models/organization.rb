@@ -27,7 +27,7 @@ class Organization < ActiveRecord::Base
   extend Enumerize
   enumerize :legal_form, in: %w(ev ggmbh gag foundation gug gmbh ag ug kfm gbr
                                 ohg kg eg sonstige state_entity)
-  enumerize :mailings, in: %w(disabled enabled force_disabled)
+  enumerize :mailings, in: %w(disabled enabled force_disabled big_player)
 
   # Sanitization
   extend Sanitization
