@@ -84,6 +84,7 @@ class Organization
           transitions from: :internal_feedback, to: :checkup_process
           transitions from: :external_feedback, to: :checkup_process
           transitions from: :under_construction_post, to: :checkup_process
+          transitions from: :all_done, to: :checkup_process
         end
       end
 
@@ -101,7 +102,7 @@ class Organization
       # (if possible)
       def reactivate_offers!
         offers.where(aasm_state: 'organization_deactivated').find_each do |o|
-          o.approve! if o.may_approve?
+          o.start_checkup_process!
         end
       end
 

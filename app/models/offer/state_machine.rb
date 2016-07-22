@@ -58,6 +58,7 @@ class Offer
                       guard: :seasonal_offer_ready_for_approve?
           # TODO: reactivate guard!!!
           transitions from: :approval_process, to: :approved # , guard: :different_actor?
+          transitions from: :checkup_process, to: :approved # , guard: :different_actor?
           transitions from: :organization_deactivated, to: :approved,
                       guard: :all_organizations_approved?
         end
