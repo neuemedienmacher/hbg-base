@@ -13,7 +13,7 @@ class Organization
         state :approved
         state :all_done, # indicates that the organization with all its offers is done
               after_enter: :apply_mailings_logic!
-        state :checkup # indicates the beginning of the checkup process (after deactivation)
+        state :checkup_process # indicates the beginning of the checkup_process process (after deactivation)
 
         # Special states object might enter before it is approved
         state :under_construction_pre, # Website under construction pre approve
@@ -39,7 +39,7 @@ class Organization
 
         event :complete, success: :generate_translations! do
           transitions from: :initialized, to: :completed
-          transitions from: :checkup, to: :completed
+          transitions from: :checkup_process, to: :completed
         end
 
         event :start_approval_process do
@@ -50,7 +50,7 @@ class Organization
         event :approve, before: :set_approved_information do
           # TODO: reactivate guard!!!
           transitions from: :approval_process, to: :approved # , guard: :different_actor?
-          transitions from: :checkup, to: :approved
+          transitions from: :checkup_process, to: :approved
         end
 
         event :mark_as_done do
@@ -81,9 +81,9 @@ class Organization
         end
 
         event :start_checkup_process do
-          transitions from: :internal_feedback, to: :checkup
-          transitions from: :external_feedback, to: :checkup
-          transitions from: :under_construction_post, to: :checkup
+          transitions from: :internal_feedback, to: :checkup_process
+          transitions from: :external_feedback, to: :checkup_process
+          transitions from: :under_construction_post, to: :checkup_process
         end
       end
 
@@ -124,7 +124,7 @@ class Organization
         # pre-approve offers => re-initialize
         offers.where(aasm_state: 'under_construction_pre')
               .find_each(&:reinitialize!)
-        # post-approved offers => set to checkup
+        # post-approved offers => set to checkup_process
         offers.where(aasm_state: 'under_construction_post')
               .find_each(&:start_checkup_process!)
       end

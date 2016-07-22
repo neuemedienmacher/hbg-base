@@ -12,7 +12,7 @@ class Offer
         state :completed
         state :approval_process # indicates the beginning of the approval process
         state :approved
-        state :checkup # indicates the beginning of the checkup process (after deactivation)
+        state :checkup_process # indicates the beginning of the checkup_process process (after deactivation)
 
         # Special states object might enter before it is approved
         state :dozing # For uncompleted offers that we want to track
@@ -37,13 +37,13 @@ class Offer
 
         event :doze do
           transitions from: :initialized, to: :dozing
-          transitions from: :checkup, to: :dozing
+          transitions from: :checkup_process, to: :dozing
         end
 
         event :complete, before: :set_completed_information,
                          success: :generate_translations! do
           transitions from: :initialized, to: :completed
-          transitions from: :checkup, to: :completed
+          transitions from: :checkup_process, to: :completed
         end
 
         event :start_approval_process do
@@ -103,13 +103,13 @@ class Offer
         end
 
         event :start_checkup_process do
-          transitions from: :paused, to: :checkup
-          transitions from: :expired, to: :checkup
-          transitions from: :internal_feedback, to: :checkup
-          transitions from: :external_feedback, to: :checkup
-          transitions from: :under_construction_post, to: :checkup
-          transitions from: :website_unreachable, to: :checkup
-          transitions from: :organization_deactivated, to: :checkup # manual reactivation
+          transitions from: :paused, to: :checkup_process
+          transitions from: :expired, to: :checkup_process
+          transitions from: :internal_feedback, to: :checkup_process
+          transitions from: :external_feedback, to: :checkup_process
+          transitions from: :under_construction_post, to: :checkup_process
+          transitions from: :website_unreachable, to: :checkup_process
+          transitions from: :organization_deactivated, to: :checkup_process # manual reactivation
         end
       end
 

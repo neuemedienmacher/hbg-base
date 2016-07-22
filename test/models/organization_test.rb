@@ -324,7 +324,7 @@ describe Organization do
       it 'should reactivate associated under_construction offers' do
         offer.update_column :aasm_state, :under_construction_post
         orga.reactivate_offers_from_under_construction!
-        offer.reload.aasm_state.must_equal 'checkup'
+        offer.reload.aasm_state.must_equal 'checkup_process'
       end
     end
 
@@ -411,6 +411,22 @@ describe Organization do
     it 'should return the hq location of the orga' do
       FactoryGirl.create :location, organization: orga, hq: false # decoy
       orga.location.must_equal locations(:basic)
+    end
+  end
+
+  describe '#mailings_enabled?' do
+    it 'should return true for mailings=enabled' do
+      orga.mailings = 'enabled'
+      orga.mailings_enabled?.must_equal true
+    end
+
+    it 'should return false for any other option' do
+      orga.mailings = 'disabled'
+      orga.mailings_enabled?.must_equal false
+      orga.mailings = 'force_disabled'
+      orga.mailings_enabled?.must_equal false
+      orga.mailings = 'big_player'
+      orga.mailings_enabled?.must_equal false
     end
   end
 end
