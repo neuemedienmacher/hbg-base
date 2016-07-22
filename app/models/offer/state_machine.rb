@@ -97,6 +97,7 @@ class Offer
           transitions from: :internal_feedback, to: :under_construction_post
           transitions from: :external_feedback, to: :under_construction_post
           transitions from: :organization_deactivated, to: :under_construction_post
+          transitions from: :checkup_process, to: :under_construction_post
         end
 
         event :website_twice_unreachable do

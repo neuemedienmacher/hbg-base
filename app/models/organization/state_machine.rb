@@ -111,7 +111,7 @@ class Organization
       # organization_deactivated) also transitions to under_construction
       def deactivate_offers_to_under_construction!
         allowed_states = %w(initialized completed approved
-                            organization_deactivated)
+                            organization_deactivated checkup_process)
         offers.select { |o| allowed_states.include? o.aasm_state }.each do |offer|
           next if offer.website_under_construction!
           raise "#deactivate_offer_to_under_construction failed for #{offer.id}"
