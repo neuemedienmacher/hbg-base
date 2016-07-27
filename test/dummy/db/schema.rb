@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160711090744) do
+ActiveRecord::Schema.define(version: 20160725143013) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -448,13 +448,19 @@ ActiveRecord::Schema.define(version: 20160711090744) do
   add_index "split_bases", ["solution_category_id"], name: "index_split_bases_on_solution_category_id"
 
   create_table "statistics", force: :cascade do |t|
-    t.string  "topic",   limit: 40, null: false
+    t.string  "topic",             limit: 40
     t.integer "user_id"
-    t.date    "x",                  null: false
-    t.integer "y",                  null: false
+    t.date    "date",                                     null: false
+    t.integer "count",                        default: 0, null: false
+    t.integer "user_team_id"
+    t.string  "model"
+    t.string  "field_name"
+    t.string  "field_start_value"
+    t.string  "field_end_value"
   end
 
   add_index "statistics", ["user_id"], name: "index_statistics_on_user_id"
+  add_index "statistics", ["user_team_id"], name: "index_statistics_on_user_team_id"
 
   create_table "subscriptions", force: :cascade do |t|
     t.string   "email"
@@ -492,8 +498,10 @@ ActiveRecord::Schema.define(version: 20160711090744) do
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
+    t.integer  "current_team_id"
   end
 
+  add_index "users", ["current_team_id"], name: "index_users_on_current_team_id"
   add_index "users", ["email"], name: "index_users_on_email", unique: true
 
   create_table "versions", force: :cascade do |t|
