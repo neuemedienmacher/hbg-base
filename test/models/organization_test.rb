@@ -95,6 +95,19 @@ describe Organization do
     end
   end
 
+  describe 'Scopes' do
+    describe 'approved' do
+      it 'should return approved offers' do
+        Organization.approved.count.must_equal 1
+      end
+
+      it 'should return approved and done offers' do
+        FactoryGirl.create(:organization, aasm_state: 'all_done')
+        Organization.approved.count.must_equal 2 # one approved and one done
+      end
+    end
+  end
+
   describe 'State Machine' do
     describe 'initialized' do
       it 'should complete' do
@@ -268,7 +281,7 @@ describe Organization do
           FactoryGirl.create(:organization, aasm_state: 'external_feedback')
 
         orga.reactivate_offers!
-        offer.reload.must_be :organization_deactivated?
+        offer.reload.must_be :checkup_process?
       end
     end
 
@@ -307,7 +320,7 @@ describe Organization do
       let(:offer) { offers(:basic) }
       it 'should reactivate associated under_construction offers' do
         offer.update_column :aasm_state, :under_construction_pre
-        orga.reactivate_offers_from_under_construction!
+        orga.reinitialize_offers_from_under_construction!
         offer.reload.must_be :initialized?
       end
 
@@ -316,15 +329,6 @@ describe Organization do
              .returns(false)
 
         assert_raise(RuntimeError) { orga.deactivate_offers_to_under_construction! }
-      end
-    end
-
-    describe 'reactivate_offers_from_under_construction! post approve' do
-      let(:offer) { offers(:basic) }
-      it 'should reactivate associated under_construction offers' do
-        offer.update_column :aasm_state, :under_construction_post
-        orga.reactivate_offers_from_under_construction!
-        offer.reload.aasm_state.must_equal 'checkup_process'
       end
     end
 

@@ -1,4 +1,7 @@
 class Offer
+  # This module provides a lot of search configurations that should stay
+  # together:
+  # rubocop:disable Metrics/ModuleLength
   module StateMachine
     extend ActiveSupport::Concern
 
@@ -12,7 +15,7 @@ class Offer
         state :completed
         state :approval_process # indicates the beginning of the approval process
         state :approved
-        state :checkup_process # indicates the beginning of the checkup_process process (after deactivation)
+        state :checkup_process # indicates the beginning of the checkup_process (after deactivation)
 
         # Special states object might enter before it is approved
         state :dozing # For uncompleted offers that we want to track
@@ -47,20 +50,22 @@ class Offer
         end
 
         event :start_approval_process do
-          # TODO: guard this as well or only this?
+          # TODO: reactivate guard!!!
           transitions from: :completed, to: :approval_process # , guard: :different_actor?
         end
 
-        event :approve, before: :set_approved_information do
+        event :approve, before: :set_approved_information,
+                        success: :increase_expiry_date_if_not_seasonal do
           transitions from: :approval_process, to: :seasonal_pending,
+                      guard: :seasonal_offer_not_yet_to_be_approved?
+          transitions from: :checkup_process, to: :seasonal_pending,
                       guard: :seasonal_offer_not_yet_to_be_approved?
           transitions from: :seasonal_pending, to: :approved,
                       guard: :seasonal_offer_ready_for_approve?
           # TODO: reactivate guard!!!
           transitions from: :approval_process, to: :approved # , guard: :different_actor?
           transitions from: :checkup_process, to: :approved # , guard: :different_actor?
-          transitions from: :organization_deactivated, to: :approved,
-                      guard: :all_organizations_approved?
+          transitions from: :organization_deactivated, to: :approved
         end
 
         event :pause do
@@ -111,7 +116,7 @@ class Offer
           transitions from: :external_feedback, to: :checkup_process
           transitions from: :under_construction_post, to: :checkup_process
           transitions from: :website_unreachable, to: :checkup_process
-          transitions from: :organization_deactivated, to: :checkup_process # manual reactivation
+          transitions from: :organization_deactivated, to: :checkup_process
         end
       end
 
@@ -119,10 +124,6 @@ class Offer
 
       def at_least_one_organization_not_approved?
         organizations.where.not(aasm_state: 'approved').any?
-      end
-
-      def all_organizations_approved?
-        !at_least_one_organization_not_approved?
       end
 
       def set_approved_information
@@ -148,6 +149,12 @@ class Offer
       def seasonal_offer_ready_for_approve?
         !starts_at.nil? && starts_at <= Time.zone.now # && different_actor?
       end
+
+      # advance expiry date by one year for non-seasonal offers
+      def increase_expiry_date_if_not_seasonal
+        self.expires_at = self.expires_at + 1.year unless self.starts_at?
+      end
     end
   end
+  # rubocop:enable Metrics/ModuleLength
 end

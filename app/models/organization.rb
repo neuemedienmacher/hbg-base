@@ -41,7 +41,7 @@ class Organization < ActiveRecord::Base
   translate :description
 
   # Scopes
-  scope :approved, -> { where(aasm_state: 'approved') }
+  scope :approved, -> { where(aasm_state: %w(approved all_done)) }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
 
