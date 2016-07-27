@@ -19,7 +19,7 @@ class Note < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  enumerize :topic, in: %w(todo external_info)
+  enumerize :topic, in: %w(internal_info external_info)
 
   # Validations
   validates :text, presence: true, length: { maximum: 800 }
