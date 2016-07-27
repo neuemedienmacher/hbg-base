@@ -25,7 +25,8 @@ class Organization
         state :external_feedback, # There was an issue (external)
               after_enter: :deactivate_offers!
         state :under_construction_post, # Website under construction post approve
-              after_enter: :deactivate_offers_to_under_construction!
+              after_enter: :deactivate_offers_to_under_construction!,
+              after_exit: :reinitialize_offers_from_under_construction!
 
         ## Transitions
 
