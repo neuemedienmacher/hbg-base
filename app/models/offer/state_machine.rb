@@ -123,7 +123,7 @@ class Offer
       private
 
       def at_least_one_organization_not_approved?
-        organizations.where.not(aasm_state: 'approved').any?
+        organizations.where.not(aasm_state: %w(approved all_done)).any?
       end
 
       def set_approved_information

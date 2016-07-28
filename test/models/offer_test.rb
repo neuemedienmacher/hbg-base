@@ -517,6 +517,26 @@ describe Offer do
           offer.logic_version_id.must_equal new_logic2.id
         end
       end
+
+      describe 'seasonal offers' do
+        it 'should transition to seasonal_pending for a future start_date' do
+          basicOffer.update_columns aasm_state: 'approval_process',
+                                    starts_at: Time.zone.now + 1.day,
+                                    expires_at: Time.zone.now + 30.days
+          basicOffer.must_be :valid?
+          basicOffer.send(:approve)
+          basicOffer.must_be :seasonal_pending?
+        end
+
+        it 'should transition to approved for a past start_date' do
+          basicOffer.update_columns aasm_state: 'approval_process',
+                                    starts_at: Time.zone.now - 1.day,
+                                    expires_at: Time.zone.now + 30.days
+          basicOffer.must_be :valid?
+          basicOffer.send(:approve)
+          basicOffer.must_be :approved?
+        end
+      end
     end
 
     describe '#opening_details?' do

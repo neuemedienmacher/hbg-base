@@ -101,6 +101,7 @@ class Organization
 
       # When an organization switches from an checkup/approval to approved,
       # also try to approve all it's associated organization_deactivated
+      # and under_construction_post offers
       def reactivate_offers!
         offers.where(aasm_state: %w(organization_deactivated
                                     under_construction_post)).find_each do |o|
