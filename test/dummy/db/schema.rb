@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708141922) do
+ActiveRecord::Schema.define(version: 20160715072445) do
 
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
@@ -375,7 +375,6 @@ ActiveRecord::Schema.define(version: 20160708141922) do
     t.string   "legal_form",                                        null: false
     t.boolean  "charitable",                        default: false
     t.integer  "founded"
-    t.string   "umbrella",               limit: 8
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"

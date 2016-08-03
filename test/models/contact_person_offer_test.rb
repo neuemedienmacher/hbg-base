@@ -7,8 +7,12 @@ describe ContactPersonOffer do
   describe 'validations' do
     describe 'always' do
       # TODO: Refactor or delete!
-      # it { subject.must validate_presence_of(:offer_id) }
-      # it { subject.must validate_presence_of(:contact_person_id) }
+      it { subject.must validate_presence_of(:offer_id) }
+      it { subject.must validate_presence_of(:contact_person_id) }
+
+      it 'should validate the uniqueness between different fields' do
+        ContactPersonOffer.create! offer_id: 1, contact_person_id: 1
+      end
     end
   end
 

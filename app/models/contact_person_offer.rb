@@ -5,4 +5,10 @@ class ContactPersonOffer < ActiveRecord::Base
   belongs_to :contact_person, inverse_of: :contact_person_offers
 
   # Validations
+  validates :offer_id, presence: true, uniqueness: {
+    scope: :contact_person_id
+  }
+  validates :contact_person_id, presence: true, uniqueness: {
+    scope: :offer_id
+  }
 end
