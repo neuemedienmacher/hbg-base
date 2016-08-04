@@ -376,7 +376,6 @@ ActiveRecord::Schema.define(version: 20160719112804) do
     t.string   "legal_form",                                              null: false
     t.boolean  "charitable",                         default: false
     t.integer  "founded"
-    t.string   "umbrella",               limit: 8
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"

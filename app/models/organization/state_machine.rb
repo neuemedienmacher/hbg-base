@@ -12,7 +12,6 @@ class Organization
         state :approval_process # indicates the beginning of the approval process
         state :approved
         state :all_done # indicates that the organization with all its offers is done
-        state :checkup_process # indicates the beginning of the checkup_process (after deactivation)
 
         # Special states object might enter before it is approved
         state :under_construction_pre, # Website under construction pre approve
@@ -36,7 +35,6 @@ class Organization
 
         event :complete, success: :generate_translations! do
           transitions from: :initialized, to: :completed
-          transitions from: :checkup_process, to: :completed
         end
 
         event :start_approval_process do
@@ -47,7 +45,9 @@ class Organization
         event :approve, before: :set_approved_information do
           # TODO: reactivate guard!!!
           transitions from: :approval_process, to: :approved # , guard: :different_actor?
-          transitions from: :checkup_process, to: :approved
+          transitions from: :internal_feedback, to: :approved
+          transitions from: :external_feedback, to: :approved
+          transitions from: :under_construction_post, to: :approved
         end
 
         event :approve_with_deactivated_offers,
@@ -55,7 +55,9 @@ class Organization
               success: :reactivate_offers! do
           # TODO: reactivate guard!!!
           transitions from: :approval_process, to: :approved # , guard: :different_actor?
-          transitions from: :checkup_process, to: :approved
+          transitions from: :internal_feedback, to: :approved
+          transitions from: :external_feedback, to: :approved
+          transitions from: :under_construction_post, to: :approved
         end
 
         event :deactivate_internal do
@@ -81,12 +83,8 @@ class Organization
           transitions from: :external_feedback, to: :under_construction_post
         end
 
-        event :start_checkup_process do
-          transitions from: :internal_feedback, to: :checkup_process
-          transitions from: :external_feedback, to: :checkup_process
-          transitions from: :under_construction_post, to: :checkup_process
-          transitions from: :all_done, to: :checkup_process
-          transitions from: :approved, to: :checkup_process
+        event :return_to_editing do
+          transitions from: :completed, to: :initialized
         end
       end
 
@@ -99,14 +97,16 @@ class Organization
         end
       end
 
-      # When an organization switches from an checkup/approval to approved,
+      # When an organization switches from an approval to approved,
       # also try to approve all it's associated organization_deactivated
       # and under_construction_post offers
       def reactivate_offers!
         offers.where(aasm_state: %w(organization_deactivated
                                     under_construction_post)).find_each do |o|
-          # set to checkup and try to approve afterwards
-          o.update_columns aasm_state: 'checkup_process'
+          # set checkup state on local offer instance (don't save this)
+          o.aasm_state = 'checkup_process'
+          # approve is possible (saves the instance). If approve is not possible
+          # we don't save the checkup state but keep the deactivation state
           o.approve! if o.may_approve?
         end
       end
@@ -116,7 +116,7 @@ class Organization
       # organization_deactivated) also transitions to under_construction
       def deactivate_offers_to_under_construction!
         allowed_states = %w(initialized completed approved
-                            organization_deactivated checkup_process)
+                            organization_deactivated)
         offers.where(aasm_state: allowed_states).find_each do |offer|
           next if offer.website_under_construction!
           raise "#deactivate_offer_to_under_construction failed for #{offer.id}"

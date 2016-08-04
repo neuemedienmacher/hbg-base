@@ -1,6 +1,6 @@
 class Offer
-  # This module provides a lot of search configurations that should stay
-  # together:
+  # This module represents the entire offer state machine and should stay
+  # together
   # rubocop:disable Metrics/ModuleLength
   module StateMachine
     extend ActiveSupport::Concern
@@ -22,7 +22,7 @@ class Offer
         state :under_construction_pre # Website under construction pre approve
 
         # Special states object might enter after it was approved
-        state :paused # I.e. Seasonal offer is in off-season
+        state :paused # I.e. Seasonal offer is in off-season (set automatically)
         state :expired # Happens automatically after a pre-set amount of time
         state :internal_feedback # There was an issue (internal)
         state :external_feedback # There was an issue (external)
@@ -54,8 +54,7 @@ class Offer
           transitions from: :completed, to: :approval_process # , guard: :different_actor?
         end
 
-        event :approve, before: :set_approved_information,
-                        success: :increase_expiry_date_if_not_seasonal do
+        event :approve, before: :set_approved_information do
           transitions from: :approval_process, to: :seasonal_pending,
                       guard: :seasonal_offer_not_yet_to_be_approved?
           transitions from: :checkup_process, to: :seasonal_pending,
@@ -110,6 +109,7 @@ class Offer
         end
 
         event :start_checkup_process do
+          transitions from: :approved, to: :checkup_process
           transitions from: :paused, to: :checkup_process
           transitions from: :expired, to: :checkup_process
           transitions from: :internal_feedback, to: :checkup_process
@@ -117,6 +117,12 @@ class Offer
           transitions from: :under_construction_post, to: :checkup_process
           transitions from: :website_unreachable, to: :checkup_process
           transitions from: :organization_deactivated, to: :checkup_process
+        end
+
+        event :return_to_editing do
+          transitions from: :completed, to: :checkup_process,
+                      guard: :was_approved?
+          transitions from: :completed, to: :initialized
         end
       end
 
@@ -150,9 +156,10 @@ class Offer
         !starts_at.nil? && starts_at <= Time.zone.now # && different_actor?
       end
 
-      # advance expiry date by one year for non-seasonal offers
-      def increase_expiry_date_if_not_seasonal
-        self.expires_at = self.expires_at + 1.year unless self.starts_at?
+      # indicates that the offer was already approved once. Required in order to
+      # filter re-write offers
+      def was_approved?
+        !self.approved_by.nil? && !self.approved_at.nil?
       end
     end
   end

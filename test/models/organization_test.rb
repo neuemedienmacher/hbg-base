@@ -195,13 +195,6 @@ describe Organization do
         assert_raises(AASM::InvalidTransition) { organization.complete }
         organization.must_be :approval_process?
       end
-
-      it 'wont enter checkup_process' do
-        assert_raises(AASM::InvalidTransition) do
-          organization.start_checkup_process
-        end
-        organization.must_be :approval_process?
-      end
     end
 
     describe 'approved' do
@@ -226,11 +219,6 @@ describe Organization do
         organization.deactivate_external
         organization.must_be :external_feedback?
       end
-
-      it 'must enter checkup_process' do
-        organization.start_checkup_process
-        organization.must_be :checkup_process?
-      end
     end
 
     describe 'internal_feedback' do
@@ -243,7 +231,6 @@ describe Organization do
 
       it 'must approve, even with same actor' do
         organization.stubs(:different_actor?).returns(false)
-        organization.start_checkup_process
         organization.approve
         organization.must_be :approved?
       end
@@ -271,7 +258,6 @@ describe Organization do
 
       it 'must approve, even with same actor' do
         organization.stubs(:different_actor?).returns(false)
-        organization.start_checkup_process
         organization.approve
         organization.must_be :approved?
       end
@@ -289,41 +275,8 @@ describe Organization do
       end
     end
 
-    describe 'checkup_process' do
-      before { organization.aasm_state = :checkup_process }
-
-      it 'should approve with a different actor' do
-        organization.stubs(:different_actor?).returns(true)
-        organization.approve
-        organization.must_be :approved?
-      end
-
-      # it 'wont approve with the same actor' do
-      #   organization.stubs(:different_actor?).returns(false)
-      #   assert_raises(AASM::InvalidTransition) { organization.start_approval_process }
-      #   organization.must_be :completed?
-      # end
-
-      it 'should complete' do
-        organization.complete
-        organization.must_be :completed?
-      end
-
-      it 'wont enter approval_process' do
-        assert_raises(AASM::InvalidTransition) do
-          organization.start_approval_process
-        end
-        organization.must_be :checkup_process?
-      end
-    end
-
     describe 'all_done' do
       before { organization.aasm_state = :all_done }
-
-      it 'must enter checkup_process' do
-        organization.start_checkup_process
-        organization.must_be :checkup_process?
-      end
 
       it 'must deactivate_internal' do
         organization.deactivate_internal
@@ -374,13 +327,12 @@ describe Organization do
         offer.reload.must_be :approved?
       end
 
-      it 'should not do anything with the offer when orga goes into checkup\
-          but approve the offers when the organization is approved ' do
+      it 'should approve the orga and its offers when the event is used' do
+        orga.update_column :aasm_state, :internal_feedback
         offer.update_column :aasm_state, :organization_deactivated
-        orga.start_checkup_process!
-        offer.reload.must_be :organization_deactivated?
         orga.approve_with_deactivated_offers!
         offer.reload.must_be :approved?
+        orga.reload.must_be :approved?
       end
 
       it 'wont approve offers, that have another deactivated orga' do
@@ -389,7 +341,7 @@ describe Organization do
           FactoryGirl.create(:organization, aasm_state: 'external_feedback')
 
         orga.reactivate_offers!
-        offer.reload.must_be :checkup_process?
+        offer.reload.must_be :organization_deactivated?
       end
     end
 
@@ -400,8 +352,6 @@ describe Organization do
         orga.offers.first.must_be :approved?
         orga.website_under_construction!
         orga.offers.first.must_be :under_construction_post?
-        orga.start_checkup_process!
-        orga.offers.first.reload.must_be :under_construction_post?
         orga.approve_with_deactivated_offers!
         orga.offers.first.reload.must_be :approved?
       end
@@ -438,13 +388,11 @@ describe Organization do
       end
 
       it 'should deactivate an offer belonging to this organization and \
-          only set is to initialized when the orga goes into checkup' do
+          only set is to initialized when the orga is approved' do
         offer.update_column :aasm_state, :completed
         orga.website_under_construction!
         offer.reload.must_be :under_construction_pre?
-        orga.start_checkup_process!
-        offer.reload.must_be :initialized?
-        orga.approve_with_deactivated_offers!
+        orga.approve!
         offer.reload.must_be :initialized?
       end
 

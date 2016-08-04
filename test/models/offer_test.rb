@@ -537,6 +537,17 @@ describe Offer do
           basicOffer.must_be :approved?
         end
       end
+
+      describe '#was_approved?' do
+        it 'should return true for an offer with approve information' do
+          approved_offer = FactoryGirl.create :offer, :approved
+          approved_offer.send(:was_approved?).must_equal true
+        end
+
+        it 'should return false for an offer w/o approve information' do
+          basicOffer.send(:was_approved?).must_equal false
+        end
+      end
     end
 
     describe '#opening_details?' do
