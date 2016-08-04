@@ -12,6 +12,14 @@ describe ContactPersonOffer do
 
       it 'should validate the uniqueness between different fields' do
         ContactPersonOffer.create! offer_id: 1, contact_person_id: 1
+        duplicate = ContactPersonOffer.create offer_id: 1, contact_person_id: 1
+        duplicate.valid?.must_equal false
+        duplicate.errors.messages.length.must_equal 2
+
+        duplicate.contact_person_id = 2
+        duplicate.valid?.must_equal true
+        duplicate.save!
+        duplicate.errors.messages.length.must_equal 0
       end
     end
   end
