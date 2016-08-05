@@ -356,44 +356,13 @@ describe Organization do
         orga.offers.first.reload.must_be :approved?
       end
 
-      it 'should should work from deactivated state with offers' do
+      it 'should work from deactivated state but ignore offers' do
         orga.offers.first.must_be :approved?
         orga.deactivate_internal!
         orga.offers.first.must_be :organization_deactivated?
         orga.website_under_construction!
-        orga.offers.first.must_be :under_construction_post?
-      end
-
-      it 'should choose the correct state for an initialized offer' do
-        orga.offers.first.update_columns aasm_state: :initialized
-        orga.offers.first.must_be :initialized?
-        orga.website_under_construction!
-        orga.offers.first.must_be :under_construction_pre?
-      end
-
-      it 'should raise an error when deactivation fails for an offer' do
-        Offer.any_instance.expects(:website_under_construction!)
-             .returns(false)
-
-        assert_raise(RuntimeError) { orga.deactivate_offers_to_under_construction! }
-      end
-    end
-
-    describe 'reactivate_offers_from_under_construction! pre approve' do
-      let(:offer) { offers(:basic) }
-      it 'should reactivate associated under_construction offers' do
-        offer.update_column :aasm_state, :under_construction_pre
-        orga.reinitialize_offers_from_under_construction!
-        offer.reload.must_be :initialized?
-      end
-
-      it 'should deactivate an offer belonging to this organization and \
-          only set is to initialized when the orga is approved' do
-        offer.update_column :aasm_state, :completed
-        orga.website_under_construction!
-        offer.reload.must_be :under_construction_pre?
-        orga.approve!
-        offer.reload.must_be :initialized?
+        orga.offers.first.must_be :organization_deactivated?
+        orga.must_be :under_construction_post?
       end
 
       it 'should raise an error when deactivation fails for an offer' do

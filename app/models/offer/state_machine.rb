@@ -59,8 +59,6 @@ class Offer
                       guard: :seasonal_offer_not_yet_to_be_approved?
           transitions from: :checkup_process, to: :seasonal_pending,
                       guard: :seasonal_offer_not_yet_to_be_approved?
-          transitions from: :seasonal_pending, to: :approved,
-                      guard: :seasonal_offer_ready_for_approve?
           # TODO: reactivate guard!!!
           transitions from: :approval_process, to: :approved # , guard: :different_actor?
           transitions from: :checkup_process, to: :approved # , guard: :different_actor?
@@ -140,6 +138,8 @@ class Offer
       end
 
       def set_completed_information
+        self.completed_at = Time.zone.now
+        self.completed_by = current_actor
         # update to current LogicVersion
         self.logic_version_id = LogicVersion.last.id
       end
@@ -150,10 +150,6 @@ class Offer
 
       def seasonal_offer_not_yet_to_be_approved?
         !starts_at.nil? && starts_at > Time.zone.now # && different_actor?
-      end
-
-      def seasonal_offer_ready_for_approve?
-        !starts_at.nil? && starts_at <= Time.zone.now # && different_actor?
       end
 
       # indicates that the offer was already approved once. Required in order to

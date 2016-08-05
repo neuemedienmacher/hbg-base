@@ -15,8 +15,7 @@ class Organization
 
         # Special states object might enter before it is approved
         state :under_construction_pre, # Website under construction pre approve
-              after_enter: :deactivate_offers_to_under_construction!,
-              after_exit: :reinitialize_offers_from_under_construction!
+              after_enter: :deactivate_offers_to_under_construction!
 
         # Special states object might enter after it was approved
         state :internal_feedback, # There was an issue (internal)
@@ -24,8 +23,7 @@ class Organization
         state :external_feedback, # There was an issue (external)
               after_enter: :deactivate_offers!
         state :under_construction_post, # Website under construction post approve
-              after_enter: :deactivate_offers_to_under_construction!,
-              after_exit: :reinitialize_offers_from_under_construction!
+              after_enter: :deactivate_offers_to_under_construction!
 
         ## Transitions
 
@@ -112,20 +110,12 @@ class Organization
       end
 
       # When an organization switches to a website_under_construction state, the
-      # associated offers (in states: initialized, completed, approved or
-      # organization_deactivated) also transitions to under_construction
+      # associated approved offers also transitions to under_construction
       def deactivate_offers_to_under_construction!
-        allowed_states = %w(initialized completed approved
-                            organization_deactivated)
-        offers.where(aasm_state: allowed_states).find_each do |offer|
+        offers.approved.find_each do |offer|
           next if offer.website_under_construction!
           raise "#deactivate_offer_to_under_construction failed for #{offer.id}"
         end
-      end
-
-      def reinitialize_offers_from_under_construction!
-        offers.where(aasm_state: 'under_construction_pre')
-              .find_each(&:reinitialize!)
       end
     end
   end

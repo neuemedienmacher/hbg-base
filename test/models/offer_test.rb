@@ -31,6 +31,8 @@ describe Offer do
     it { subject.must_respond_to :split_base_id }
     it { subject.must_respond_to :all_inclusive }
     it { subject.must_respond_to :starts_at }
+    it { subject.must_respond_to :completed_at }
+    it { subject.must_respond_to :completed_by }
   end
 
   describe 'validations' do
@@ -660,23 +662,6 @@ describe Offer do
       it 'should be true with a start date in the future' do
         basicOffer.starts_at = Time.zone.now + 1.day
         basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal true
-      end
-    end
-
-    describe '#seasonal_offer_ready_for_approve' do
-      it 'should be false without a start date' do
-        basicOffer.starts_at = nil
-        basicOffer.send(:seasonal_offer_ready_for_approve?).must_equal false
-      end
-
-      it 'should be false with a start date in the future' do
-        basicOffer.starts_at = Time.zone.now + 1.day
-        basicOffer.send(:seasonal_offer_ready_for_approve?).must_equal false
-      end
-
-      it 'should be true with a start date in the past' do
-        basicOffer.starts_at = Time.zone.now - 1.day
-        basicOffer.send(:seasonal_offer_ready_for_approve?).must_equal true
       end
     end
 
