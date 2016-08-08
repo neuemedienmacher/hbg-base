@@ -101,4 +101,8 @@ class Organization < ActiveRecord::Base
   def mailings_enabled?
     mailings == 'enabled'
   end
+
+  def approved?
+    aasm_state == 'approved' || aasm_state == 'all_done'
+  end
 end

@@ -474,4 +474,28 @@ describe Organization do
       orga.mailings_enabled?.must_equal false
     end
   end
+
+  describe '#approved?' do
+    it 'should return true for approved or all_done states' do
+      orga.aasm_state = 'approved'
+      orga.approved?.must_equal true
+      orga.aasm_state = 'all_done'
+      orga.approved?.must_equal true
+    end
+
+    it 'should return false for other states' do
+      orga.aasm_state = 'initialized'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'completed'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'approval_process'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'internal_feedback'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'internal_feedback'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'website_unreachable'
+      orga.approved?.must_equal false
+    end
+  end
 end

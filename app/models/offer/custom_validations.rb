@@ -73,7 +73,7 @@ class Offer
         return unless association_instance_get(:organizations) # tests fail w/o
         if organizations.to_a.count { |orga| !orga.approved? } > 0
           approved_organization_names =
-            organizations.to_a.select(&:approved?).map(&:name).join(', ')
+            organizations.approved.pluck(:name).join(', ')
 
           fail_validation :organizations, 'only_approved_organizations',
                           list: approved_organization_names
