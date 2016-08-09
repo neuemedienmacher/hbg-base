@@ -23,5 +23,21 @@ class ChangeStatistics < ActiveRecord::Migration
 
     add_column :users, :current_team_id, :integer
     add_index :users, :current_team_id
+
+    create_table :time_allocations do |t|
+      t.integer :user_id, null: false
+      t.integer :year, limit: 4, null: false
+      t.integer :week_number, limit: 2, null: false
+      t.integer :wa_hours, limit: 3, null: false
+    end
+    add_index :time_allocations, :user_id
+
+    create_table :absences do |t|
+      t.date :starts_at, null: false
+      t.date :ends_at, null: false
+      t.integer :user_id, null: false
+      t.boolean :sync, default: true
+    end
+    add_index :absences, :user_id
   end
 end

@@ -468,6 +468,13 @@ ActiveRecord::Schema.define(version: 20160725143013) do
     t.datetime "updated_at"
   end
 
+  create_table "time_allocations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "year",        limit: 4
+    t.integer "week_number", limit: 2
+    t.integer "wa_hours",    limit: 3
+  end
+
   create_table "update_requests", force: :cascade do |t|
     t.string   "search_location", null: false
     t.string   "email",           null: false
