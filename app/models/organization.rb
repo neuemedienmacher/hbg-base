@@ -27,6 +27,7 @@ class Organization < ActiveRecord::Base
   extend Enumerize
   enumerize :legal_form, in: %w(ev ggmbh gag foundation gug gmbh ag ug kfm gbr
                                 ohg kg eg sonstige state_entity)
+  enumerize :mailings, in: %w(disabled enabled force_disabled big_player)
 
   # Sanitization
   extend Sanitization
@@ -40,7 +41,7 @@ class Organization < ActiveRecord::Base
   translate :description
 
   # Scopes
-  scope :approved, -> { where(aasm_state: 'approved') }
+  scope :approved, -> { where(aasm_state: %w(approved all_done)) }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
 
@@ -50,6 +51,7 @@ class Organization < ActiveRecord::Base
   validates :legal_form, presence: true
   validates :founded, length: { is: 4 }, allow_blank: true
   validates :slug, uniqueness: true
+  validates :mailings, presence: true
   # Custom Validations
   validate :validate_hq_location, on: :update
   validate :validate_websites_hosts
@@ -94,5 +96,13 @@ class Organization < ActiveRecord::Base
 
   def different_actor?
     created_by && current_actor && created_by != current_actor
+  end
+
+  def mailings_enabled?
+    mailings == 'enabled'
+  end
+
+  def approved?
+    aasm_state == 'approved' || aasm_state == 'all_done'
   end
 end

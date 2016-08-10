@@ -30,6 +30,9 @@ describe Offer do
     it { subject.must_respond_to :logic_version_id }
     it { subject.must_respond_to :split_base_id }
     it { subject.must_respond_to :all_inclusive }
+    it { subject.must_respond_to :starts_at }
+    it { subject.must_respond_to :completed_at }
+    it { subject.must_respond_to :completed_by }
   end
 
   describe 'validations' do
@@ -115,6 +118,17 @@ describe Offer do
         subject.errors.messages[:expires_at].must_include(
           I18n.t('shared.validations.later_date')
         )
+      end
+
+      it 'should validate start date' do
+        basicOffer.expires_at = Time.zone.now + 1.day
+        basicOffer.valid?.must_equal true
+
+        basicOffer.starts_at = Time.zone.now + 2.day
+        basicOffer.valid?.must_equal false
+
+        basicOffer.starts_at = Time.zone.now
+        basicOffer.valid?.must_equal true
       end
 
       it 'should validate age_from' do
@@ -500,8 +514,40 @@ describe Offer do
           offer.send(:complete)
           offer.logic_version_id.must_equal new_logic1.id
           new_logic2 = LogicVersion.create(name: 'Bar', version: 201)
+          offer.send(:start_approval_process)
           offer.send(:approve)
           offer.logic_version_id.must_equal new_logic2.id
+        end
+      end
+
+      describe 'seasonal offers' do
+        it 'should transition to seasonal_pending for a future start_date' do
+          basicOffer.update_columns aasm_state: 'approval_process',
+                                    starts_at: Time.zone.now + 1.day,
+                                    expires_at: Time.zone.now + 30.days
+          basicOffer.must_be :valid?
+          basicOffer.send(:approve)
+          basicOffer.must_be :seasonal_pending?
+        end
+
+        it 'should transition to approved for a past start_date' do
+          basicOffer.update_columns aasm_state: 'approval_process',
+                                    starts_at: Time.zone.now - 1.day,
+                                    expires_at: Time.zone.now + 30.days
+          basicOffer.must_be :valid?
+          basicOffer.send(:approve)
+          basicOffer.must_be :approved?
+        end
+      end
+
+      describe '#was_approved?' do
+        it 'should return true for an offer with approve information' do
+          approved_offer = FactoryGirl.create :offer, :approved
+          approved_offer.send(:was_approved?).must_equal true
+        end
+
+        it 'should return false for an offer w/o approve information' do
+          basicOffer.send(:was_approved?).must_equal false
         end
       end
     end
@@ -599,6 +645,23 @@ describe Offer do
 
       it 'should correctly return language_filters' do
         basicOffer._language_filters.must_equal(['deu'])
+      end
+    end
+
+    describe '#seasonal_offer_not_yet_to_be_approved' do
+      it 'should be false without a start date' do
+        basicOffer.starts_at = nil
+        basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+      end
+
+      it 'should be false with a start date in the past' do
+        basicOffer.starts_at = Time.zone.now - 1.day
+        basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal false
+      end
+
+      it 'should be true with a start date in the future' do
+        basicOffer.starts_at = Time.zone.now + 1.day
+        basicOffer.send(:seasonal_offer_not_yet_to_be_approved?).must_equal true
       end
     end
 

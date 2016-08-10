@@ -21,7 +21,7 @@ describe Organization do
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :aasm_state }
-    it { subject.must_respond_to :mailings_enabled }
+    it { subject.must_respond_to :mailings }
   end
 
   describe 'validations' do
@@ -33,6 +33,7 @@ describe Organization do
       it { subject.must validate_presence_of :description }
       it { subject.must validate_presence_of :legal_form }
       it { subject.must validate_uniqueness_of :slug }
+      it { subject.must validate_presence_of :mailings }
 
       it 'should ensure there is exactly one hq location' do
         orga.locations.destroy_all
@@ -94,6 +95,20 @@ describe Organization do
     end
   end
 
+  describe 'Scopes' do
+    describe 'approved' do
+      it 'should return approved offers' do
+        Organization.approved.count.must_equal 1
+      end
+
+      it 'should return approved and done offers' do
+        Organization.approved.count.must_equal 1
+        FactoryGirl.create(:organization, aasm_state: 'all_done')
+        Organization.approved.count.must_equal 2 # one approved and one done
+      end
+    end
+  end
+
   describe 'State Machine' do
     describe 'initialized' do
       it 'should complete' do
@@ -124,17 +139,22 @@ describe Organization do
     describe 'completed' do
       before { organization.aasm_state = :completed }
 
-      it 'should approve with a different actor' do
+      it 'should enter approval_process with a different actor' do
         organization.stubs(:different_actor?).returns(true)
-        organization.approve
-        organization.must_be :approved?
+        organization.start_approval_process
+        organization.must_be :approval_process?
       end
 
-      # it 'wont approve with the same actor' do
+      # it 'wont enter approval_process with the same actor' do
       #   organization.stubs(:different_actor?).returns(false)
-      #   assert_raises(AASM::InvalidTransition) { organization.approve }
+      #   assert_raises(AASM::InvalidTransition) { organization.start_approval_process }
       #   organization.must_be :completed?
       # end
+
+      it 'should enter under_construction_pre' do
+        organization.website_under_construction
+        organization.must_be :under_construction_pre?
+      end
 
       it 'wont complete' do
         assert_raises(AASM::InvalidTransition) { organization.complete }
@@ -153,6 +173,27 @@ describe Organization do
           organization.deactivate_external
         end
         organization.must_be :completed?
+      end
+    end
+
+    describe 'approval_process' do
+      before { organization.aasm_state = :approval_process }
+
+      it 'should approve with a different actor' do
+        organization.stubs(:different_actor?).returns(true)
+        organization.approve
+        organization.must_be :approved?
+      end
+
+      # it 'wont approve with the same actor' do
+      #   organization.stubs(:different_actor?).returns(false)
+      #   assert_raises(AASM::InvalidTransition) { organization.start_approval_process }
+      #   organization.must_be :completed?
+      # end
+
+      it 'wont complete' do
+        assert_raises(AASM::InvalidTransition) { organization.complete }
+        organization.must_be :approval_process?
       end
     end
 
@@ -234,6 +275,34 @@ describe Organization do
       end
     end
 
+    describe 'all_done' do
+      before { organization.aasm_state = :all_done }
+
+      it 'must deactivate_internal' do
+        organization.deactivate_internal
+        organization.must_be :internal_feedback?
+      end
+
+      it 'must deactivate_external' do
+        organization.deactivate_external
+        organization.must_be :external_feedback?
+      end
+
+      it 'wont approve' do
+        assert_raises(AASM::InvalidTransition) do
+          organization.approve
+        end
+        organization.must_be :all_done?
+      end
+
+      it 'wont enter approval_process' do
+        assert_raises(AASM::InvalidTransition) do
+          organization.start_approval_process
+        end
+        organization.must_be :all_done?
+      end
+    end
+
     describe 'deactivate_offers!' do
       it 'should deactivate an approved offer belonging to this organization' do
         orga.offers.first.must_be :approved?
@@ -258,6 +327,14 @@ describe Organization do
         offer.reload.must_be :approved?
       end
 
+      it 'should approve the orga and its offers when the event is used' do
+        orga.update_column :aasm_state, :internal_feedback
+        offer.update_column :aasm_state, :organization_deactivated
+        orga.approve_with_deactivated_offers!
+        offer.reload.must_be :approved?
+        orga.reload.must_be :approved?
+      end
+
       it 'wont approve offers, that have another deactivated orga' do
         offer.update_column :aasm_state, :organization_deactivated
         offer.organizations <<
@@ -270,25 +347,22 @@ describe Organization do
 
     describe 'deactivate_offers_to_under_construction!' do
       let(:offer) { offers(:basic) }
-      it 'should deactivate an offer belonging to this organization' do
+      it 'should deactivate an offer belonging to this organization and \
+          re-activate it properly' do
         orga.offers.first.must_be :approved?
         orga.website_under_construction!
         orga.offers.first.must_be :under_construction_post?
+        orga.approve_with_deactivated_offers!
+        orga.offers.first.reload.must_be :approved?
       end
 
-      it 'should should work from deactivated state with offers' do
+      it 'should work from deactivated state but ignore offers' do
         orga.offers.first.must_be :approved?
         orga.deactivate_internal!
         orga.offers.first.must_be :organization_deactivated?
         orga.website_under_construction!
-        orga.offers.first.must_be :under_construction_post?
-      end
-
-      it 'should choose the correct state for an initialized offer' do
-        orga.offers.first.update_columns aasm_state: :initialized
-        orga.offers.first.must_be :initialized?
-        orga.website_under_construction!
-        orga.offers.first.must_be :under_construction_pre?
+        orga.offers.first.must_be :organization_deactivated?
+        orga.must_be :under_construction_post?
       end
 
       it 'should raise an error when deactivation fails for an offer' do
@@ -296,31 +370,6 @@ describe Organization do
              .returns(false)
 
         assert_raise(RuntimeError) { orga.deactivate_offers_to_under_construction! }
-      end
-    end
-
-    describe 'reactivate_offers_from_under_construction! pre approve' do
-      let(:offer) { offers(:basic) }
-      it 'should reactivate associated under_construction offers' do
-        offer.update_column :aasm_state, :under_construction_pre
-        orga.reactivate_offers_from_under_construction!
-        offer.reload.must_be :initialized?
-      end
-
-      it 'should raise an error when deactivation fails for an offer' do
-        Offer.any_instance.expects(:website_under_construction!)
-             .returns(false)
-
-        assert_raise(RuntimeError) { orga.deactivate_offers_to_under_construction! }
-      end
-    end
-
-    describe 'reactivate_offers_from_under_construction! post approve' do
-      let(:offer) { offers(:basic) }
-      it 'should reactivate associated under_construction offers' do
-        offer.update_column :aasm_state, :under_construction_post
-        orga.reactivate_offers_from_under_construction!
-        offer.reload.must_be :approved?
       end
     end
 
@@ -385,7 +434,7 @@ describe Organization do
       EasyTranslate.translated_with 'CHANGED' do
         new_orga.description_ar.must_equal 'GET READY FOR CANADA'
         # changing untranslated field => translations must stay the same
-        new_orga.mailings_enabled = true
+        new_orga.mailings = 'enabled'
         new_orga.save!
         new_orga.reload.description_ar.must_equal 'GET READY FOR CANADA'
         new_orga.description = 'changing descr, should update translation'
@@ -407,6 +456,46 @@ describe Organization do
     it 'should return the hq location of the orga' do
       FactoryGirl.create :location, organization: orga, hq: false # decoy
       orga.location.must_equal locations(:basic)
+    end
+  end
+
+  describe '#mailings_enabled?' do
+    it 'should return true for mailings=enabled' do
+      orga.mailings = 'enabled'
+      orga.mailings_enabled?.must_equal true
+    end
+
+    it 'should return false for any other option' do
+      orga.mailings = 'disabled'
+      orga.mailings_enabled?.must_equal false
+      orga.mailings = 'force_disabled'
+      orga.mailings_enabled?.must_equal false
+      orga.mailings = 'big_player'
+      orga.mailings_enabled?.must_equal false
+    end
+  end
+
+  describe '#approved?' do
+    it 'should return true for approved or all_done states' do
+      orga.aasm_state = 'approved'
+      orga.approved?.must_equal true
+      orga.aasm_state = 'all_done'
+      orga.approved?.must_equal true
+    end
+
+    it 'should return false for other states' do
+      orga.aasm_state = 'initialized'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'completed'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'approval_process'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'internal_feedback'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'internal_feedback'
+      orga.approved?.must_equal false
+      orga.aasm_state = 'website_unreachable'
+      orga.approved?.must_equal false
     end
   end
 end
