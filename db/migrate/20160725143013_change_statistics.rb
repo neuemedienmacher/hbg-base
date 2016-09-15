@@ -4,7 +4,7 @@ class ChangeStatistics < ActiveRecord::Migration
     rename_column :statistics, :y, :count
     reversible do |dir|
       dir.up do
-        change_column :statistics, :count, :integer, default: 0
+        change_column :statistics, :count, :float, default: 0
         change_column :statistics, :topic, :string, null: true
       end
       dir.down do
@@ -18,6 +18,7 @@ class ChangeStatistics < ActiveRecord::Migration
     add_column :statistics, :field_name, :string
     add_column :statistics, :field_start_value, :string
     add_column :statistics, :field_end_value, :string
+    add_column :statistics, :time_frame, :string, default: 'daily'
 
     add_index :statistics, :user_team_id
 
@@ -28,7 +29,8 @@ class ChangeStatistics < ActiveRecord::Migration
       t.integer :user_id, null: false
       t.integer :year, limit: 4, null: false
       t.integer :week_number, limit: 2, null: false
-      t.integer :wa_hours, limit: 3, null: false
+      t.integer :desired_wa_hours, limit: 3, null: false
+      t.integer :actual_wa_hours, limit: 3
     end
     add_index :time_allocations, :user_id
 

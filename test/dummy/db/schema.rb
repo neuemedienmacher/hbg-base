@@ -13,6 +13,15 @@
 
 ActiveRecord::Schema.define(version: 20160725143013) do
 
+  create_table "absences", force: :cascade do |t|
+    t.date    "starts_at",                null: false
+    t.date    "ends_at",                  null: false
+    t.integer "user_id",                  null: false
+    t.boolean "sync",      default: true
+  end
+
+  add_index "absences", ["user_id"], name: "index_absences_on_user_id"
+
   create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
     t.float    "minlat",     null: false
@@ -450,13 +459,14 @@ ActiveRecord::Schema.define(version: 20160725143013) do
   create_table "statistics", force: :cascade do |t|
     t.string  "topic",             limit: 40
     t.integer "user_id"
-    t.date    "date",                                     null: false
-    t.integer "count",                        default: 0, null: false
+    t.date    "date",                                           null: false
+    t.float   "count",                        default: 0.0,     null: false
     t.integer "user_team_id"
     t.string  "model"
     t.string  "field_name"
     t.string  "field_start_value"
     t.string  "field_end_value"
+    t.string  "time_frame",                   default: "daily"
   end
 
   add_index "statistics", ["user_id"], name: "index_statistics_on_user_id"
@@ -469,11 +479,14 @@ ActiveRecord::Schema.define(version: 20160725143013) do
   end
 
   create_table "time_allocations", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "year",        limit: 4
-    t.integer "week_number", limit: 2
-    t.integer "wa_hours",    limit: 3
+    t.integer "user_id",                    null: false
+    t.integer "year",             limit: 4, null: false
+    t.integer "week_number",      limit: 2, null: false
+    t.integer "desired_wa_hours", limit: 3, null: false
+    t.integer "actual_wa_hours",  limit: 3
   end
+
+  add_index "time_allocations", ["user_id"], name: "index_time_allocations_on_user_id"
 
   create_table "update_requests", force: :cascade do |t|
     t.string   "search_location", null: false
