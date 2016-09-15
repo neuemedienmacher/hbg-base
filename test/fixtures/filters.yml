@@ -51,3 +51,9 @@ everyone:
   type: TargetAudienceFilter
   name: Alle
   identifier: family_everyone
+
+diakonie:
+  id: 11
+  type: UmbrellaFilter
+  name: Diakonie
+  identifier: diakonie

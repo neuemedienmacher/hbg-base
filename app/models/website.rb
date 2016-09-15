@@ -1,6 +1,7 @@
 # The external web addresses of organizations and offers.
-
 class Website < ActiveRecord::Base
+  UNREACHABLE_THRESHOLD = 2
+
   # associtations
   has_many :hyperlinks, dependent: :destroy
   has_many :organizations, through: :hyperlinks,
@@ -17,6 +18,7 @@ class Website < ActiveRecord::Base
 
   # Validations
   validates :host, presence: true
+  validates :unreachable_count, presence: true
   validates :url, format: %r{\Ahttps?://\S+\.\S+\z}, uniqueness: true,
                   presence: true
 
@@ -26,4 +28,9 @@ class Website < ActiveRecord::Base
   # .. by url
   scope :pdf, -> { where('websites.url LIKE ?', '%.pdf') }
   scope :non_pdf, -> { where.not('websites.url LIKE ?', '%.pdf') }
+
+  # Methods
+  def unreachable?
+    unreachable_count >= UNREACHABLE_THRESHOLD
+  end
 end

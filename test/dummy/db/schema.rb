@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160725143013) do
+ActiveRecord::Schema.define(version: 20160819135238) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -74,6 +74,12 @@ ActiveRecord::Schema.define(version: 20160725143013) do
 
   add_index "category_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "category_anc_desc_idx", unique: true
   add_index "category_hierarchies", ["descendant_id"], name: "category_desc_idx"
+
+  create_table "cities", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "contact_people", force: :cascade do |t|
     t.integer  "organization_id",                              null: false
@@ -159,6 +165,14 @@ ActiveRecord::Schema.define(version: 20160725143013) do
   add_index "filters_offers", ["filter_id"], name: "index_filters_offers_on_filter_id"
   add_index "filters_offers", ["offer_id"], name: "index_filters_offers_on_offer_id"
 
+  create_table "filters_organizations", id: false, force: :cascade do |t|
+    t.integer "filter_id",       null: false
+    t.integer "organization_id", null: false
+  end
+
+  add_index "filters_organizations", ["filter_id"], name: "index_filters_organizations_on_filter_id"
+  add_index "filters_organizations", ["organization_id"], name: "index_filters_organizations_on_organization_id"
+
   create_table "gengo_orders", force: :cascade do |t|
     t.integer  "order_id"
     t.string   "expected_slug"
@@ -192,7 +206,6 @@ ActiveRecord::Schema.define(version: 20160725143013) do
     t.string   "street",                          null: false
     t.text     "addition"
     t.string   "zip",                             null: false
-    t.string   "city",                            null: false
     t.boolean  "hq"
     t.float    "latitude"
     t.float    "longitude"
@@ -204,8 +217,10 @@ ActiveRecord::Schema.define(version: 20160725143013) do
     t.string   "display_name",                    null: false
     t.boolean  "visible",          default: true
     t.boolean  "in_germany",       default: true
+    t.integer  "city_id"
   end
 
+  add_index "locations", ["city_id"], name: "index_locations_on_city_id"
   add_index "locations", ["created_at"], name: "index_locations_on_created_at"
   add_index "locations", ["federal_state_id"], name: "index_locations_on_federal_state_id"
   add_index "locations", ["organization_id"], name: "index_locations_on_organization_id"
@@ -317,6 +332,9 @@ ActiveRecord::Schema.define(version: 20160725143013) do
     t.integer  "logic_version_id"
     t.integer  "split_base_id"
     t.boolean  "all_inclusive",                           default: false
+    t.date     "starts_at"
+    t.datetime "completed_at"
+    t.integer  "completed_by"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
@@ -371,24 +389,23 @@ ActiveRecord::Schema.define(version: 20160725143013) do
   add_index "organization_translations", ["organization_id"], name: "index_organization_translations_on_organization_id"
 
   create_table "organizations", force: :cascade do |t|
-    t.string   "name",                                              null: false
-    t.text     "description",                                       null: false
-    t.string   "legal_form",                                        null: false
-    t.boolean  "charitable",                        default: false
+    t.string   "name",                                                    null: false
+    t.text     "description",                                             null: false
+    t.string   "legal_form",                                              null: false
+    t.boolean  "charitable",                         default: false
     t.integer  "founded"
-    t.string   "umbrella",               limit: 8
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "approved_at"
-    t.integer  "offers_count",                      default: 0
-    t.integer  "locations_count",                   default: 0
+    t.integer  "offers_count",                       default: 0
+    t.integer  "locations_count",                    default: 0
     t.integer  "created_by"
     t.integer  "approved_by"
-    t.boolean  "accredited_institution",            default: false
+    t.boolean  "accredited_institution",             default: false
     t.text     "description_html"
-    t.boolean  "mailings_enabled",                  default: false
     t.string   "aasm_state",             limit: 32
+    t.string   "mailings",               limit: 255, default: "disabled", null: false
   end
 
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state"
@@ -537,10 +554,11 @@ ActiveRecord::Schema.define(version: 20160725143013) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
   create_table "websites", force: :cascade do |t|
-    t.string   "host",       null: false
-    t.string   "url",        null: false
+    t.string   "host",                          null: false
+    t.string   "url",                           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "unreachable_count", default: 0, null: false
   end
 
   add_index "websites", ["host"], name: "index_websites_on_host"

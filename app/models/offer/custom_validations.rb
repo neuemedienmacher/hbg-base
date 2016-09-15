@@ -15,6 +15,7 @@ class Offer
                on: :update
       validate :no_more_than_10_next_steps
       validate :split_base_id_if_version_greater_7
+      validate :start_date_must_be_before_expiry_date
 
       private
 
@@ -72,7 +73,7 @@ class Offer
         return unless association_instance_get(:organizations) # tests fail w/o
         if organizations.to_a.count { |orga| !orga.approved? } > 0
           approved_organization_names =
-            organizations.to_a.select(&:approved?).map(&:name).join(', ')
+            organizations.approved.pluck(:name).join(', ')
 
           fail_validation :organizations, 'only_approved_organizations',
                           list: approved_organization_names
@@ -118,6 +119,11 @@ class Offer
       def split_base_id_if_version_greater_7
         return if !logic_version || logic_version.version < 7 || split_base_id
         fail_validation :split_base, 'is_needed'
+      end
+
+      def start_date_must_be_before_expiry_date
+        return if !starts_at || !expires_at || expires_at > starts_at
+        fail_validation :starts_at, 'must_be_smaller_than_expiry_date'
       end
     end
   end

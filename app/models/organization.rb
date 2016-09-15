@@ -18,13 +18,16 @@ class Organization < ActiveRecord::Base
   has_many :emails, through: :contact_people, inverse_of: :organizations
   has_many :section_filters, through: :offers
   has_many :split_bases, inverse_of: :organization
+  has_and_belongs_to_many :filters
+  has_and_belongs_to_many :umbrella_filters,
+                          association_foreign_key: 'filter_id',
+                          join_table: 'filters_organizations'
 
   # Enumerization
   extend Enumerize
   enumerize :legal_form, in: %w(ev ggmbh gag foundation gug gmbh ag ug kfm gbr
                                 ohg kg eg sonstige state_entity)
-  enumerize :umbrella, in: %w(caritas diakonie awo dpw drk asb zwst dbs vdw bags
-                              svdkd bkd church hospital public other)
+  enumerize :mailings, in: %w(disabled enabled force_disabled big_player)
 
   # Sanitization
   extend Sanitization
@@ -38,7 +41,7 @@ class Organization < ActiveRecord::Base
   translate :description
 
   # Scopes
-  scope :approved, -> { where(aasm_state: 'approved') }
+  scope :approved, -> { where(aasm_state: %w(approved all_done)) }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
 
@@ -48,9 +51,11 @@ class Organization < ActiveRecord::Base
   validates :legal_form, presence: true
   validates :founded, length: { is: 4 }, allow_blank: true
   validates :slug, uniqueness: true
+  validates :mailings, presence: true
   # Custom Validations
   validate :validate_hq_location, on: :update
   validate :validate_websites_hosts
+  validate :must_have_umbrella_filter
 
   def validate_hq_location
     if locations.to_a.count(&:hq) != 1
@@ -64,6 +69,12 @@ class Organization < ActiveRecord::Base
         :base,
         I18n.t('organization.validations.website_host', website: website.url)
       )
+    end
+  end
+
+  def must_have_umbrella_filter
+    if umbrella_filters.empty?
+      fail_validation :umbrella_filters, 'needs_umbrella_filters'
     end
   end
 
@@ -85,5 +96,13 @@ class Organization < ActiveRecord::Base
 
   def different_actor?
     created_by && current_actor && created_by != current_actor
+  end
+
+  def mailings_enabled?
+    mailings == 'enabled'
+  end
+
+  def approved?
+    aasm_state == 'approved' || aasm_state == 'all_done'
   end
 end

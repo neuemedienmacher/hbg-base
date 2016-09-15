@@ -15,8 +15,9 @@ class Offer < ActiveRecord::Base
     %w(personal hotline email chat forum online-course portal fax letter).freeze
   TREATMENT_TYPES = %w(in-patient semi-residential out-patient).freeze
   PARTICIPANT_STRUCTURES =
-    %w(target_audience_alone target_audience_and_others
-       target_audience_and_others_with_same_problem).freeze
+    %w(target_audience_alone
+       target_audience_in_group_with_others_with_different_problems
+       target_audience_in_group_with_others_with_same_problem).freeze
   EXCLUSIVE_GENDERS = %w(boys_only girls_only).freeze
   BENEFICIARY_GENDERS = %w(female male).freeze
   STAMP_SECOND_PART_GENDERS = %w(female male neutral).freeze
