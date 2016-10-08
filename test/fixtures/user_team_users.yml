@@ -1,0 +1,7 @@
+researcher:
+  user_id: 1
+  user_team_id: 1
+
+super:
+  user_id: 2
+  user_team_id: 2

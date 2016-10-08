@@ -6,4 +6,7 @@ class UserTeam < ActiveRecord::Base
 
   has_many :productivity_goals, inverse_of: :user_team
   has_many :statistics, inverse_of: :user_team
+
+  has_many :created_assignments, class_name: 'Assignment', inverse_of: :creator_team
+  has_many :recieved_assignments, class_name: 'Assignment', inverse_of: :reciever_team
 end
