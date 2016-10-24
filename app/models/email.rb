@@ -6,8 +6,9 @@ class Email < ActiveRecord::Base
 
   # Associations
   has_many :contact_people, inverse_of: :email
-  has_many :offers, through: :contact_people, inverse_of: :emails
-  has_many :organizations, through: :contact_people, inverse_of: :emails
+  has_many :offers, -> { uniq }, through: :contact_people, inverse_of: :emails
+  has_many :organizations, -> { uniq }, through: :contact_people,
+                                        inverse_of: :emails
 
   # Validations
   # no whitespaces allowed.. whitespacec are theoratically allowed within " "
