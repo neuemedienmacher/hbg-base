@@ -11,12 +11,15 @@ module Assignable
       self.assignments.field
     end
 
+    # the current assignment must be active (open), a root assignment (no
+    # parent) and it must belong to the model (and not to a field of the model).
+    # There must always be exactly one current_assignment for each assignable.
     def current_assignment
       self.assignments.active.root.base.first
     end
 
     def current_field_assignment field
-      # return nil if the required field is not existing on the Assignable model
+      # return nil if the required field is not existing on the assignable model
       return nil unless self.respond_to?(field)
       # return open field assignment if one exists or current model assignment
       assignments.active.root.where(assignable_field_type: field).first ||
@@ -27,9 +30,9 @@ module Assignable
       create_new_assignment!(creator_id, creator_team_id, nil, reciever_team_id, message)
     end
 
-    # closes the current assignment and creates a new one
+    # closes the current assignment (if one exists) and creates a new one
     def create_new_assignment! creator_id, creator_team_id, reciever_id, reciever_team_id, message = ''
-      current_assignment.close!
+      current_assignment.close! if current_assignment
       Assignment.create!(
         assignable: self,
         assignable_type: self.class.name,
@@ -42,6 +45,6 @@ module Assignable
     end
 
     # TODO: Restrictions (e.g. may_assign?, can_assign?)
-    # TODO: Sub-Assignments ()
+    # TODO: Sub-Assignments (assignment with parent)
   end
 end
