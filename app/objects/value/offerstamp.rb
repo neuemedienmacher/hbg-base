@@ -1,7 +1,9 @@
 class Offerstamp
   def self.generate_stamp offer, current_section, locale
     # filter target_audience array to only include those of the current_section
-    target_audience_for_section = offer._target_audience_filters.select { |ta| ta.index(current_section) == 0 }
+    target_audience_for_section = offer.target_audience_filters
+                                       .pluck(:identifier)
+                                       .select { |ta| ta.index(current_section) == 0 }
     # return empty string if there is not exactly one target_audience
     return '' unless target_audience_for_section.length == 1
     # generate frontend stamp
@@ -79,10 +81,10 @@ class Offerstamp
     append_age = offer.age_visible && stamp_append_age?(offer, ta)
     child_age = stamp_child_age? offer, ta
 
-    if append_age && !offer._age_filters.empty?
+    if append_age
       stamp += generate_age_for_stamp(
-        offer._age_filters.first,
-        offer._age_filters.last,
+        offer.age_from,
+        offer.age_to,
         child_age ? "#{I18n.t('offer.stamp.age.of_child', locale: locale)} " : '',
         current_section,
         locale

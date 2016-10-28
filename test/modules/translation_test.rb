@@ -48,6 +48,16 @@ describe Translation do
     end
   end
 
+  describe 'changed_translatable_fields' do
+    it 'should correctly return the changed translatable fields' do
+      # TestClass doesn't respond to FIELD_changed?; we need an AR model
+      offer = Offer.new
+      offer.changed_translatable_fields.must_equal []
+      offer.description = 'SomeOtherText'
+      offer.changed_translatable_fields.must_equal [:description]
+    end
+  end
+
   describe 'cache key' do
     it 'should set the cache key to include the current locale' do
       # TestClass doesn't have super; we need an AR model including Translation

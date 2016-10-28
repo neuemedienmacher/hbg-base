@@ -6,16 +6,6 @@ class OfferObserver < ActiveRecord::Observer
     end
   end
 
-  def after_create offer
-    offer.generate_translations!
-  end
-
-  def after_update offer
-    fields = offer.changed_translatable_fields
-    return true if fields.empty?
-    offer.generate_translations! fields
-  end
-
   def before_create offer
     return if offer.created_by
     current_user = ::PaperTrail.whodunnit

@@ -376,108 +376,85 @@ describe Offer do
       end
     end
 
+    describe '::personal_index_name' do
+      it 'should respond with corrent name for non-development env' do
+        Offer.personal_index_name('de').must_equal 'Offer_test_personal_de'
+      end
+
+      it 'should attach the user name to the development env' do
+        Rails.stubs(:env)
+             .returns ActiveSupport::StringInquirer.new('development')
+        ENV.stubs(:[]).returns 'foobar'
+        Offer.personal_index_name('de')
+             .must_equal 'Offer_development_foobar_personal_de'
+      end
+    end
+
+    describe '::remote_index_name' do
+      it 'should respond with corrent name for non-development env' do
+        Offer.remote_index_name('de').must_equal 'Offer_test_remote_de'
+      end
+
+      it 'should attach the user name to the development env' do
+        Rails.stubs(:env)
+             .returns ActiveSupport::StringInquirer.new('development')
+        ENV.stubs(:[]).returns 'foobar'
+        Offer.remote_index_name('de')
+             .must_equal 'Offer_development_foobar_remote_de'
+      end
+    end
+
+    # Testing only BaseTranslation Logic here
     describe 'translation' do
-      it 'should get translated name, description, and old_next_steps' do
-        Offer.any_instance.stubs(:generate_translations!)
-        offer = FactoryGirl.create :offer
-        offer.translations <<
-          FactoryGirl.create(:offer_translation, locale: :de, name: 'de name',
-                                                 description: 'de desc',
-                                                 old_next_steps: 'de next')
-        offer.translations <<
-          FactoryGirl.create(:offer_translation, locale: :en, name: 'en name',
-                                                 description: 'en desc',
-                                                 old_next_steps: 'en next')
-        old_locale = I18n.locale
+      let(:translation) { OfferTranslation.new }
+      subject { translation }
 
-        I18n.locale = :de
-        offer.name.must_equal 'de name'
-        offer.description.must_equal 'de desc'
-        offer.old_next_steps.must_equal 'de next'
-
-        I18n.locale = :en
-        offer = Offer.find(offer.id) # clear memoization
-        offer.name.must_equal 'en name'
-        offer.description.must_equal 'en desc'
-        offer.old_next_steps.must_equal 'en next'
-
-        I18n.locale = old_locale
-      end
-
-      it 'should always get de translation, others on completion and change' do
-        # Setup
-        new_offer = FactoryGirl.create(:offer)
-        new_offer.translations.count.must_equal 1
-        new_offer.translations.first.locale.must_equal 'de'
-        new_offer.aasm_state.must_equal 'initialized'
-
-        # Changing things on an initialized offer doesn't change translations
-        new_offer.reload.name_ar.must_equal nil
-        new_offer.name = 'changing name, wont update translation'
-        new_offer.save!
-        new_offer.translations.count.must_equal 1
-        new_offer.reload.name_ar.must_equal nil
-
-        # Completion generates all translations initially
-        new_offer.complete!
-        new_offer.translations.count.must_equal I18n.available_locales.count
-
-        # Now changes to the model change the corresponding translated fields
-
-        EasyTranslate.translated_with 'CHANGED' do
-          new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
-          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
-          new_offer.name = 'changing name, should update translation'
-          new_offer.save!
-          new_offer.reload.name_ar.must_equal 'CHANGED'
-          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
+      describe 'methods' do
+        describe '#automated' do
+          it 'must be true for source=GoogleTranslate' do
+            subject.source = 'GoogleTranslate'
+            subject.automated?.must_equal true
+          end
+          it 'must be false for other source' do
+            subject.source = 'researcher'
+            subject.automated?.must_equal false
+          end
         end
-      end
 
-      it 'should update an existing translation only when the field changed' do
-        # Setup
-        new_offer = FactoryGirl.create(:offer)
-        new_offer.complete!
-        new_offer.translations.count.must_equal I18n.available_locales.count
-
-        # Now changes to the model change the corresponding translated fields
-        EasyTranslate.translated_with 'CHANGED' do
-          new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
-          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
-          # changing untranslated field => translations must stay the same
-          new_offer.age_from = 0
-          new_offer.save!
-          new_offer.reload.name_ar.must_equal 'GET READY FOR CANADA'
-          new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
-          new_offer.name = 'changing name, should update translation'
-          new_offer.save!
-          new_offer.reload.name_ar.must_equal 'CHANGED'
-          new_offer.reload.description_ar.must_equal 'GET READY FOR CANADA'
+        describe '#manually_editable' do
+          it 'must be true for every manually translated locale' do
+            BaseTranslation::MANUALLY_TRANSLATED_LOCALES.map do |l|
+              subject.locale = l.to_s
+              subject.manually_editable?.must_equal true
+            end
+          end
+          it 'must be false for any other available_locale' do
+            (I18n.available_locales.map(&:to_s) - BaseTranslation::MANUALLY_TRANSLATED_LOCALES)
+              .map do |l|
+              subject.locale = l
+              subject.manually_editable?.must_equal false
+            end
+          end
         end
-      end
 
-      it 'wont update changed fields for manually translated locales when the'\
-         ' existing translation came from a human' do
-        # Setup: Offer is first created
-        new_offer = FactoryGirl.create(:offer)
-        new_offer.complete!
-        new_offer.translations.count.must_equal I18n.available_locales.count
+        describe '#manually_edited' do
+          it 'must be false for a new record' do
+            subject.manually_edited?.must_equal false
+          end
 
-        # Setup: A human edits the arabic translation and en
-        ar_translation = new_offer.translations.find_by(locale: :ar)
-        ar_translation.update_columns name: 'MANUAL EDIT', source: 'researcher'
-
-        # Now changes to the model change the corresponding translated fields
-        EasyTranslate.translated_with 'CHANGED' do
-          new_offer.reload.name_ar.must_equal 'MANUAL EDIT'
-          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
-          new_offer.name_ru.must_equal 'GET READY FOR CANADA'
-          new_offer.name = 'changing name, should update some translations'
-          new_offer.save!
-          new_offer.reload.name_ar.must_equal 'MANUAL EDIT'
-          new_offer.description_ar.must_equal 'GET READY FOR CANADA'
-          new_offer.name_ru.must_equal 'CHANGED'
-          ar_translation.reload.possibly_outdated?.must_equal true
+          it 'must be true for manually edited record' do
+            offer = FactoryGirl.create :offer
+            translation =
+              FactoryGirl.create(:offer_translation, locale: :en,
+                                                     name: 'en name',
+                                                     description: 'en desc',
+                                                     old_next_steps: 'en next')
+            offer.translations << translation
+            translation.description = 'en new desc'
+            translation.source = 'researcher'
+            translation.save
+            translation.manually_edited?.must_equal true
+          end
         end
       end
     end

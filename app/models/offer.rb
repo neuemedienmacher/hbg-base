@@ -37,7 +37,6 @@ class Offer < ActiveRecord::Base
 
   # Translation
   translate :name, :description, :old_next_steps, :opening_specification
-  # keywords ?
 
   def slug_candidates
     [
@@ -62,10 +61,6 @@ class Offer < ActiveRecord::Base
   delegate :minlat, :maxlat, :minlong, :maxlong,
            to: :area, prefix: true, allow_nil: true
 
-  def opening_details?
-    !openings.blank? || !opening_specification.blank?
-  end
-
   def organization_count
     organizations.count
   end
@@ -78,7 +73,40 @@ class Offer < ActiveRecord::Base
     next_steps.select("text_#{locale}").map(&:"text_#{locale}").join(' ')
   end
 
+  # stamp-generation methods for each section
+  def stamp_family locale
+    Offerstamp.generate_stamp self, 'family', locale
+  end
+
+  def stamp_refugees locale
+    Offerstamp.generate_stamp self, 'refugees', locale
+  end
+
   def in_section? section
     section_filters.where(identifier: section).count > 0
   end
+
+  def opening_details?
+    !openings.blank? || !opening_specification.blank?
+  end
+
+  # def personal?
+  #   encounter == 'personal'
+  # end
+  #
+  # def self.per_env_index
+  #   if Rails.env.development?
+  #     "Offer_development_#{ENV['USER']}"
+  #   else
+  #     "Offer_#{Rails.env}"
+  #   end
+  # end
+  #
+  # def self.personal_index_name locale
+  #   "#{per_env_index}_personal_#{locale}"
+  # end
+  #
+  # def self.remote_index_name locale
+  #   "#{per_env_index}_remote_#{locale}"
+  # end
 end
