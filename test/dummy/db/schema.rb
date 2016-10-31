@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826130459) do
+ActiveRecord::Schema.define(version: 20161031110918) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -498,11 +498,12 @@ ActiveRecord::Schema.define(version: 20160826130459) do
   end
 
   create_table "time_allocations", force: :cascade do |t|
-    t.integer "user_id",                    null: false
-    t.integer "year",             limit: 4, null: false
-    t.integer "week_number",      limit: 2, null: false
-    t.integer "desired_wa_hours", limit: 3, null: false
-    t.integer "actual_wa_hours",  limit: 3
+    t.integer "user_id",                     null: false
+    t.integer "year",              limit: 4, null: false
+    t.integer "week_number",       limit: 2, null: false
+    t.integer "desired_wa_hours",  limit: 3, null: false
+    t.integer "actual_wa_hours",   limit: 3
+    t.string  "actual_wa_comment"
   end
 
   add_index "time_allocations", ["user_id"], name: "index_time_allocations_on_user_id"
