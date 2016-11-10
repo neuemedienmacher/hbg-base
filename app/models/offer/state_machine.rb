@@ -64,7 +64,7 @@ class Offer
           transitions from: :checkup_process, to: :approved # , guard: :different_actor?
           transitions from: :organization_deactivated, to: :approved
         end
-        
+
         event :expire do
           transitions from: :approved, to: :expired
         end

@@ -32,6 +32,29 @@ ActiveRecord::Schema.define(version: 20161031110918) do
     t.datetime "updated_at"
   end
 
+  create_table "assignments", force: :cascade do |t|
+    t.string   "assignable_type",       limit: 32,                    null: false
+    t.integer  "assignable_id",                                       null: false
+    t.string   "assignable_field_type", limit: 64,   default: "",     null: false
+    t.integer  "creator_id"
+    t.integer  "creator_team_id"
+    t.integer  "reciever_id"
+    t.integer  "reciever_team_id"
+    t.string   "message",               limit: 1000
+    t.integer  "parent_id"
+    t.string   "aasm_state",            limit: 32,   default: "open", null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+  end
+
+  add_index "assignments", ["aasm_state"], name: "index_assignments_on_aasm_state"
+  add_index "assignments", ["assignable_id", "assignable_type"], name: "index_assignments_on_assignable_id_and_assignable_type"
+  add_index "assignments", ["creator_id"], name: "index_assignments_on_creator_id"
+  add_index "assignments", ["creator_team_id"], name: "index_assignments_on_creator_team_id"
+  add_index "assignments", ["parent_id"], name: "index_assignments_on_parent_id"
+  add_index "assignments", ["reciever_id"], name: "index_assignments_on_reciever_id"
+  add_index "assignments", ["reciever_team_id"], name: "index_assignments_on_reciever_team_id"
+
   create_table "categories", force: :cascade do |t|
     t.string   "name_de",                              null: false
     t.datetime "created_at"

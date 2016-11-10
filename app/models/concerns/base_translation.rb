@@ -10,8 +10,13 @@ module BaseTranslation
     source == 'GoogleTranslate'
   end
 
+  # Is this translation editable by a human?
+  def manually_editable?
+    MANUALLY_TRANSLATED_LOCALES.include?(locale)
+  end
+
   # Was this translation manually edited by a human
   def manually_edited?
-    MANUALLY_TRANSLATED_LOCALES.include?(locale) && !new_record? && !automated?
+    manually_editable? && !new_record? && !automated?
   end
 end

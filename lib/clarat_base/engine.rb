@@ -11,7 +11,6 @@ module ClaratBase
     require 'redcarpet'
     require 'algoliasearch-rails'
     require 'sidekiq'
-    require 'easy_translate'
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(
