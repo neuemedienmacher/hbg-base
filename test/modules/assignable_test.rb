@@ -62,17 +62,5 @@ describe Assignable do
         subject.current_assignment.must_equal new_assignment
       end
     end
-
-    describe '#assign_new_user_team!' do
-      it 'must close current assignment and create a new one' do
-        subject.current_assignment.must_equal assignment
-        subject.assignments.count.must_equal 1
-        subject.assignments.closed.count.must_equal 0
-        new_assignment = subject.assign_new_user_team!(1, 1, 2, 'New Assignment!')
-        subject.assignments.count.must_equal 2
-        subject.assignments.closed.count.must_equal 1
-        subject.current_assignment.must_equal new_assignment
-      end
-    end
   end
 end

@@ -26,10 +26,6 @@ module Assignable
         current_assignment
     end
 
-    def assign_new_user_team! creator_id, creator_team_id, reciever_team_id, message = ''
-      create_new_assignment!(creator_id, creator_team_id, nil, reciever_team_id, message)
-    end
-
     # closes the current assignment (if one exists) and creates a new one
     def create_new_assignment! creator_id, creator_team_id, reciever_id, reciever_team_id, message = ''
       current_assignment.close! if current_assignment
@@ -44,7 +40,6 @@ module Assignable
       )
     end
 
-    # TODO: Restrictions (e.g. may_assign?, can_assign?)
     # TODO: Sub-Assignments (assignment with parent)
   end
 end
