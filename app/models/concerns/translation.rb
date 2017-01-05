@@ -33,9 +33,8 @@ module Translation
     end
 
     def changed_translatable_fields
-      translated_fields.select do |field|
-        send(:"#{field}_changed?")
-      end
+      changes = self.previous_changes
+      translated_fields.select { |f| changes[f.to_s] }
     end
 
     # empty stump for state_machine - should be overwritten
