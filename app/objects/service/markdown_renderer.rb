@@ -1,12 +1,15 @@
 # using redcarpet
 class MarkdownRenderer
+  # Quite, Rubocop! (Redcarpet error with frozen hashes)
+  # rubocop:disable Style/MutableConstant
   RENDERER_OPTIONS = {
     link_attributes: {
       target: '_blank'
     },
     hard_wrap: true
-  }.freeze
-  MARKDOWN_OPTIONS = {}.freeze
+  }
+  MARKDOWN_OPTIONS = {}
+  # rubocop:enable Style/MutableConstant
 
   @renderer = Redcarpet::Render::HTML.new RENDERER_OPTIONS
   @markdown = Redcarpet::Markdown.new(@renderer, MARKDOWN_OPTIONS)
