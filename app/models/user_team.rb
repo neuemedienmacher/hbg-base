@@ -9,4 +9,14 @@ class UserTeam < ActiveRecord::Base
 
   has_many :created_assignments, class_name: 'Assignment', foreign_key: 'creator_team_id', inverse_of: :creator_team
   has_many :recieved_assignments, class_name: 'Assignment', foreign_key: 'reciever_team_id', inverse_of: :reciever_team
+
+  # Enumerization
+  extend Enumerize
+  CLASSIFICATIONS = %w(researcher translator).freeze
+  enumerize :classification, in: CLASSIFICATIONS
+
+  # Scopes
+  CLASSIFICATIONS.each do |c_name|
+    scope c_name, -> { where(classification: c_name) }
+  end
 end
