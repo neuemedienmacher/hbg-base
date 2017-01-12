@@ -7,6 +7,7 @@ describe UserTeam do
   describe 'attributes' do
     it { subject.must_respond_to :id }
     it { subject.must_respond_to :name }
+    it { subject.must_respond_to :classification }
   end
 
   describe 'relations' do
