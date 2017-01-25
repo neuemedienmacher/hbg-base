@@ -10,7 +10,7 @@ class Organization < ActiveRecord::Base
 
   # Associtations
   has_many :locations
-  has_many :divisions
+  has_many :divisions, dependent: :destroy
   has_many :hyperlinks, as: :linkable, dependent: :destroy
   has_many :websites, through: :hyperlinks
   has_many :organization_offers, dependent: :destroy
@@ -105,7 +105,12 @@ class Organization < ActiveRecord::Base
     mailings == 'enabled'
   end
 
+  # TODO: This should NOT overwrite aasm's #approved? for clarity
   def approved?
     aasm_state == 'approved' || aasm_state == 'all_done'
+  end
+
+  def in_section? section
+    section_filters.where(identifier: section).count > 0
   end
 end

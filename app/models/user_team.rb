@@ -8,5 +8,5 @@ class UserTeam < ActiveRecord::Base
   has_many :statistics, inverse_of: :user_team
 
   has_many :created_assignments, class_name: 'Assignment', foreign_key: 'creator_team_id', inverse_of: :creator_team
-  has_many :recieved_assignments, class_name: 'Assignment', foreign_key: 'reciever_team_id', inverse_of: :reciever_team
+  has_many :received_assignments, class_name: 'Assignment', foreign_key: 'receiver_team_id', inverse_of: :receiver_team
 end

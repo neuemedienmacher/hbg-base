@@ -9,8 +9,8 @@ describe Assignment do
     it { subject.must_respond_to :assignable }
     it { subject.must_respond_to :creator }
     it { subject.must_respond_to :creator_team }
-    it { subject.must_respond_to :reciever }
-    it { subject.must_respond_to :reciever_team }
+    it { subject.must_respond_to :receiver }
+    it { subject.must_respond_to :receiver_team }
     it { subject.must_respond_to :parent }
     it { subject.must_respond_to :children }
     it { subject.must_respond_to :created_at }
