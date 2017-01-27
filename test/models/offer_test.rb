@@ -642,6 +642,36 @@ describe Offer do
       end
     end
 
+    describe '#visible_in_frontend?' do
+      it 'should return true for approved or expired states' do
+        basicOffer.aasm_state = 'approved'
+        basicOffer.visible_in_frontend?.must_equal true
+        basicOffer.aasm_state = 'expired'
+        basicOffer.visible_in_frontend?.must_equal true
+      end
+
+      it 'should return false for other states' do
+        basicOffer.aasm_state = 'initialized'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'completed'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'approval_process'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'internal_feedback'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'internal_feedback'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'website_unreachable'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'organization_deactivated'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'under_construction_pre'
+        basicOffer.visible_in_frontend?.must_equal false
+        basicOffer.aasm_state = 'under_construction_post'
+        basicOffer.visible_in_frontend?.must_equal false
+      end
+    end
+
     describe 'generated OfferStamp' do
       it 'should correctly respond to general _stamp_SECTION call' do
         basicOffer.target_audience_filters =

@@ -83,7 +83,9 @@ class Offer
 
         event :deactivate_through_organization do
           transitions from: :approved, to: :organization_deactivated,
-                      guard: :at_least_one_organization_not_approved?
+                      guard: :at_least_one_organization_not_visible?
+          transitions from: :expired, to: :organization_deactivated,
+                      guard: :at_least_one_organization_not_visible?
         end
 
         event :website_under_construction do
@@ -92,6 +94,7 @@ class Offer
           transitions from: :completed, to: :under_construction_pre
           # post approve
           transitions from: :approved, to: :under_construction_post
+          transitions from: :expired, to: :under_construction_post
           transitions from: :internal_feedback, to: :under_construction_post
           transitions from: :external_feedback, to: :under_construction_post
           transitions from: :organization_deactivated, to: :under_construction_post
@@ -122,7 +125,7 @@ class Offer
 
       private
 
-      def at_least_one_organization_not_approved?
+      def at_least_one_organization_not_visible?
         organizations.where.not(aasm_state: %w(approved all_done)).any?
       end
 

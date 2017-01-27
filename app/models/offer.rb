@@ -46,7 +46,7 @@ class Offer < ActiveRecord::Base
   end
 
   # Scopes
-  scope :approved, -> { where(aasm_state: 'approved') }
+  scope :visible_in_frontend, -> { where(aasm_state: %w(approved expired)) }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
   scope :in_section, lambda { |section|
@@ -88,6 +88,10 @@ class Offer < ActiveRecord::Base
 
   def opening_details?
     !openings.blank? || !opening_specification.blank?
+  end
+
+  def visible_in_frontend?
+    aasm_state == 'approved' || aasm_state == 'expired'
   end
 
   # def personal?

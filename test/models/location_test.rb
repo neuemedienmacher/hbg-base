@@ -120,7 +120,7 @@ describe Location do
   describe 'Observer' do
     it 'should call index on approved offers after visible change' do
       loc = locations(:basic)
-      Offer.approved.any_instance.expects :index!
+      Offer.visible_in_frontend.any_instance.expects :index!
       loc.visible = !loc.visible
       loc.save!
     end

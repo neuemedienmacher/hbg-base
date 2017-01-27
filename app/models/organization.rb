@@ -44,7 +44,7 @@ class Organization < ActiveRecord::Base
   translate :description
 
   # Scopes
-  scope :approved, -> { where(aasm_state: %w(approved all_done)) }
+  scope :visible_in_frontend, -> { where(aasm_state: %w(approved all_done)) }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
 
@@ -105,7 +105,7 @@ class Organization < ActiveRecord::Base
     mailings == 'enabled'
   end
 
-  def approved?
+  def visible_in_frontend?
     aasm_state == 'approved' || aasm_state == 'all_done'
   end
 end
