@@ -292,8 +292,20 @@ describe Offer do
         offer.personal_indexable?.must_equal true
       end
 
+      it 'should return true when personal and expired' do
+        offer.aasm_state = 'expired'
+        offer.stubs(:personal?).returns true
+        offer.personal_indexable?.must_equal true
+      end
+
       it 'should return false when not personal and approved' do
         offer.aasm_state = 'approved'
+        offer.stubs(:personal?).returns false
+        offer.personal_indexable?.must_equal false
+      end
+
+      it 'should return true when not personal and expired' do
+        offer.aasm_state = 'expired'
         offer.stubs(:personal?).returns false
         offer.personal_indexable?.must_equal false
       end
@@ -312,8 +324,20 @@ describe Offer do
         offer.remote_indexable?.must_equal true
       end
 
+      it 'should return true when not personal and expired' do
+        offer.aasm_state = 'expired'
+        offer.stubs(:personal?).returns false
+        offer.remote_indexable?.must_equal true
+      end
+
       it 'should return false when personal and approved' do
         offer.aasm_state = 'approved'
+        offer.stubs(:personal?).returns true
+        offer.remote_indexable?.must_equal false
+      end
+
+      it 'should return false when personal and expired' do
+        offer.aasm_state = 'expired'
         offer.stubs(:personal?).returns true
         offer.remote_indexable?.must_equal false
       end

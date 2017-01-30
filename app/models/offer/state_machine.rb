@@ -71,12 +71,14 @@ class Offer
 
         event :deactivate_internal do
           transitions from: :approved, to: :internal_feedback
+          transitions from: :expired, to: :internal_feedback
           transitions from: :external_feedback, to: :internal_feedback
           transitions from: :under_construction_post, to: :internal_feedback
         end
 
         event :deactivate_external do
           transitions from: :approved, to: :external_feedback
+          transitions from: :expired, to: :external_feedback
           transitions from: :internal_feedback, to: :external_feedback
           transitions from: :under_construction_post, to: :external_feedback
         end
@@ -99,10 +101,6 @@ class Offer
           transitions from: :external_feedback, to: :under_construction_post
           transitions from: :organization_deactivated, to: :under_construction_post
           transitions from: :checkup_process, to: :under_construction_post
-        end
-
-        event :website_twice_unreachable do
-          transitions from: :approved, to: :website_unreachable
         end
 
         event :start_checkup_process do
