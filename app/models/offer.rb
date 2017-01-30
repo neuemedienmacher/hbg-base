@@ -22,6 +22,7 @@ class Offer < ActiveRecord::Base
   BENEFICIARY_GENDERS = %w(female male).freeze
   STAMP_SECOND_PART_GENDERS = %w(female male neutral).freeze
   # ^ nil means inclusive to any gender
+  VISIBLE_FRONTEND_STATES = %w(approved expired).freeze
 
   enumerize :encounter, in: ENCOUNTERS
   enumerize :exclusive_gender, in: EXCLUSIVE_GENDERS
@@ -46,7 +47,7 @@ class Offer < ActiveRecord::Base
   end
 
   # Scopes
-  scope :visible_in_frontend, -> { where(aasm_state: %w(approved expired)) }
+  scope :visible_in_frontend, -> { where(aasm_state: VISIBLE_FRONTEND_STATES) }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
   scope :in_section, lambda { |section|
@@ -91,7 +92,7 @@ class Offer < ActiveRecord::Base
   end
 
   def visible_in_frontend?
-    aasm_state == 'approved' || aasm_state == 'expired'
+    VISIBLE_FRONTEND_STATES.include?(aasm_state)
   end
 
   # def personal?
