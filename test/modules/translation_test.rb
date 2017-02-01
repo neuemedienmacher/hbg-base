@@ -50,10 +50,12 @@ describe Translation do
 
   describe 'changed_translatable_fields' do
     it 'should correctly return the changed translatable fields' do
-      # TestClass doesn't respond to FIELD_changed?; we need an AR model
-      offer = Offer.new
-      offer.changed_translatable_fields.must_equal []
+      offer = FactoryGirl.create(:offer)
+      # contains all translatable fields for new records
+      offer.changed_translatable_fields.must_equal [:name, :description, :old_next_steps]
       offer.description = 'SomeOtherText'
+      offer.save!
+      # contains only the changed field
       offer.changed_translatable_fields.must_equal [:description]
     end
   end

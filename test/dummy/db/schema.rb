@@ -559,7 +559,8 @@ ActiveRecord::Schema.define(version: 20170112151713) do
   add_index "user_team_users", ["user_team_id"], name: "index_user_team_users_on_user_team_id"
 
   create_table "user_teams", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name",                                  null: false
+    t.string "classification", default: "researcher"
   end
 
   create_table "users", force: :cascade do |t|

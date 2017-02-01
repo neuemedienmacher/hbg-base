@@ -466,4 +466,10 @@ describe Organization do
       orga.approved?.must_equal false
     end
   end
+
+  describe '#in_section?' do
+    it 'should return true for family when the section_filter is present' do
+      orga.in_section?('family').must_equal true
+    end
+  end
 end

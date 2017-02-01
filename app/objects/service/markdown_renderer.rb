@@ -5,8 +5,6 @@ class MarkdownRenderer
     setup_markdown.render markdown_string
   end
 
-  private
-
   def self.setup_markdown
     options = {
       link_attributes: {
