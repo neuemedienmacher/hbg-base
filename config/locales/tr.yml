@@ -2,9 +2,9 @@ tr:
   offer:
     stamp:
       age:
-        age_from: 
+        age_from: "%{count} yılından"
         age_of_child: 'Çocuğun yaşı: %{age}'
-        age_to: 
+        age_to: "%{count} yılına kadar"
         suffix: Yaş
       format: "%{stamp}%{optional_age}%{optional_status}"
       status:
@@ -120,5 +120,5 @@ tr:
           neutral: ebeveyn olacak mülteciler için
         refugees_umf:
           female: refakatçısı olmaya,n reşit olmayan kız çocukları için
-          male: refakatçısı olmaya,n reşit olmayan erkek çocukları için
+          male: refakatçısı olmayan, reşit olmayan erkek çocukları için
           neutral: sahipsiz, reşit olmayan mülteciler için

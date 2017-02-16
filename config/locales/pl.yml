@@ -8,7 +8,7 @@ pl:
           other: od %{count} lat
         age_of_child: 'wiek dziecka: %{age}'
         age_to:
-          few: ''
+          few: do %{count} roku
           one: do %{count} roku
           other: do %{count} roku
         suffix: lata
