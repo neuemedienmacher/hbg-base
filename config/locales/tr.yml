@@ -8,11 +8,11 @@ tr:
         suffix: Yaş
       format: "%{stamp}%{optional_age}%{optional_status}"
       status:
-        before_the_asylum_application: 
-        during_the_asylum_procedure: 
-        with_a_residence_permit: 
-        with_deportation_decision: 
-        with_temporary_suspension_of_deportation: 
+        before_the_asylum_application: iltica talebinden önce
+        during_the_asylum_procedure: iltica prosedüründe
+        with_a_residence_permit: oturma izni ile
+        with_deportation_decision: sınırdışı belgesi ile
+        with_temporary_suspension_of_deportation: müsamaha ile
       target_audience:
         family_children:
           adolescents: Gençler için
@@ -69,56 +69,56 @@ tr:
             neutral: Ebeveyn adayları ve çocukları için
         family_relatives: Yakınları için
         refugees_children:
-          adolescents: Kaçan gençler için
+          adolescents: mülteci gençler için
           and_adolescents: Kaçan çocuk ve gençler için
           default: Kaçan çocuklar için
-          female: 
-          male: 
+          female: mülteci kız çocukları için
+          male: mülteci erkek çocuklar için
         refugees_families:
           default: Kaçan aileler için
           female:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
+            female: mülteci anneler ve kızları için
+            male: mülteci anneler ve oğulları için
+            neutral: mülteci anneler ve çocukları için
+            with_baby: mülteci anneler ve bebekleri için
           male:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
+            female: mülteci babalar ve kızları için
+            male: mülteci babalar ve oğulları için
+            neutral: mülteci babalar ve çocukları için
+            with_baby: mülteci babalar ve bebekleri için
           neutral:
-            female: 
-            male: 
-            neutral: 
-            with_baby: 
+            female: mülteci aileler ve kızları için
+            male: mülteci aileler ve oğulları için
+            neutral: mülteci aileler ve çocukları için
+            with_baby: mülteci aileler ve bebekleri için
         refugees_general:
           female:
-            default: 
-            special: 
+            default: mülteci kadınlar için
+            special: mülteci kadın ve kız çocukları için
           male:
-            default: 
-            special: 
+            default: mülteci erkekler için
+            special: mülteci erkek çocuk ve erkekler için
           neutral:
-            adults: 
+            adults: mülteci reşit kişiler için
             neutral: Mülteciler için
         refugees_parents:
           female:
-            female: 
-            male: 
-            neutral: 
+            female: kız çocuklarının mülteci anneleri için
+            male: erkek çocuklarının mülteci anneleri için
+            neutral: mülteci anneler için
           male:
-            female: 
-            male: 
-            neutral: 
+            female: kız çocuklarının mülteci babaları için
+            male: erkek çocuklarının mülteci babaları için
+            neutral: mülteci babalar için
           neutral:
-            female: 
-            male: 
+            female: kız çocukların mülteci ebeveynleri için
+            male: erkek çocukların mülteci ebeveynleri için
             neutral: Kaçan ebeveynler için
         refugees_parents_to_be:
-          female: 
-          male: 
-          neutral: 
+          female: mülteci hamileler için
+          male: baba olacak mülteciler için
+          neutral: ebeveyn olacak mülteciler için
         refugees_umf:
-          female: 
-          male: 
+          female: refakatçısı olmaya,n reşit olmayan kız çocukları için
+          male: refakatçısı olmaya,n reşit olmayan erkek çocukları için
           neutral: sahipsiz, reşit olmayan mülteciler için

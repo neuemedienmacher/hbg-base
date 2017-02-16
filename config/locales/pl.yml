@@ -3,7 +3,7 @@ pl:
     stamp:
       age:
         age_from:
-          few: ''
+          few: od %{count} lat
           one: od %{count} roku
           other: od %{count} lat
         age_of_child: 'wiek dziecka: %{age}'
