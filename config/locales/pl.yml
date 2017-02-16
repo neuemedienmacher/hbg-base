@@ -4,13 +4,15 @@ pl:
       age:
         age_from:
           few: od %{count} lat
+          many: od %{count} lat
           one: od %{count} roku
           other: od %{count} lat
         age_of_child: 'wiek dziecka: %{age}'
         age_to:
-          few: do %{count} roku
+          few: do %{count} lat
+          many: do %{count} lat
           one: do %{count} roku
-          other: do %{count} roku
+          other: do %{count} lat
         suffix: lata
       format: "%{stamp}%{optional_age}%{optional_status}"
       status:
