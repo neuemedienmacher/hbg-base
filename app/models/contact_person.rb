@@ -17,6 +17,9 @@ class ContactPerson < ActiveRecord::Base
   enumerize :academic_title, in: %w(dr prof_dr)
   enumerize :position, in: %w(superior public_relations other)
 
+  # Translation
+  translate :responsibility
+
   # Validations
   validates :organization_id, presence: true
   validates :area_code_1, format: /\A\d*\z/, length: { maximum: 6 }
