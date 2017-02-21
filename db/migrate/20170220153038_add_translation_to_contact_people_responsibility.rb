@@ -2,7 +2,7 @@ class AddTranslationToContactPeopleResponsibility < ActiveRecord::Migration
   def change
 
     create_table "contact_person_translations", force: true do |t|
-      t.integer  "contact_people_id",              null: false
+      t.integer  "contact_person_id",              null: false
       t.string   "locale",                       null: false
       t.string   "source",          default: "", null: false
       t.datetime "created_at"
