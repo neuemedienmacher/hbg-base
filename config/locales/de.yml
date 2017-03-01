@@ -2,12 +2,22 @@ de:
   offer:
     stamp:
       age:
-        from: ab
-        of_child: 'Alter des Kindes:'
+        age_from:
+          one: ab %{count} Jahr
+          other: ab %{count} Jahren
+        age_of_child: 'Alter des Kindes: %{age}'
+        age_to:
+          one: bis %{count} Jahr
+          other: bis %{count} Jahre
         suffix: Jahre
-        to: bis
+      format: "%{stamp}%{optional_age}%{optional_status}"
+      status:
+        before_the_asylum_application: "– vor dem Asylantrag"
+        during_the_asylum_procedure: "– im Asylverfahren"
+        with_a_residence_permit: "– mit Aufenthaltserlaubnis"
+        with_deportation_decision: "– mit Abschiebebescheid"
+        with_temporary_suspension_of_deportation: "– mit Duldung"
       target_audience:
-        family_acquaintances: für Bekannte und Verwandte
         family_children:
           adolescents: für Jugendliche
           and_adolescents: für Kinder und Jugendliche
@@ -61,17 +71,58 @@ de:
             female: für werdende Eltern und ihre Töchter
             male: für werdende Eltern und ihre Söhne
             neutral: für werdende Eltern und ihre Kinder
-        family_pregnant_woman: für Schwangere
-        refugees_adolescents: für geflüchtete Jugendliche
-        refugees_asylum_procedure: für Flüchtlinge im Asylverfahren
-        refugees_children: für geflüchtete Kinder
-        refugees_children_and_adolescents: für geflüchtete Kinder und Jugendliche
-        refugees_deportation_decision: für Flüchtlinge mit Abschiebebescheid
-        refugees_families: für geflüchtete Familien
-        refugees_general: für Flüchtlinge
-        refugees_parents: für geflüchtete Eltern
-        refugees_pre_asylum_procedure: für Flüchtlinge vor dem Asylantrag
-        refugees_residence_permit: für Flüchtlinge mit Aufenthaltserlaubnis
-        refugees_toleration_decision: für Flüchtlinge mit Duldung
-        refugees_ujf: für unbegleitete junge Flüchtlinge
-        refugees_umf: für unbegleitete minderjährige Flüchtlinge
+        family_relatives: für Angehörige
+        refugees_children:
+          adolescents: für geflüchtete Jugendliche
+          and_adolescents: für geflüchtete Kinder und Jugendliche
+          default: für geflüchtete Kinder
+          female: für geflüchtete Mädchen
+          male: für geflüchtete Jungen
+        refugees_families:
+          default: für geflüchtete Familien
+          female:
+            female: für geflüchtete Mütter und ihre Töchter
+            male: für geflüchtete Mütter und ihre Söhne
+            neutral: für geflüchtete Mütter und ihre Kinder
+            with_baby: für geflüchtete Mütter und ihre Babys
+          male:
+            female: für geflüchtete Väter und ihre Töchter
+            male: für geflüchtete Väter und ihre Söhne
+            neutral: für geflüchtete Väter und ihre Kinder
+            with_baby: für geflüchtete Väter und ihre Babys
+          neutral:
+            female: für geflüchtete Familien und ihre Töchter
+            male: für geflüchtete Familien und ihre Söhne
+            neutral: für geflüchtete Familien und ihre Kinder
+            with_baby: für geflüchtete Familien und ihre Babys
+        refugees_general:
+          female:
+            default: für geflüchtete Frauen
+            special: für geflüchtete Mädchen und Frauen
+          male:
+            default: für geflüchtete Männer
+            special: für geflüchtete Jungen und Männer
+          neutral:
+            adults: für geflüchtete Erwachsene
+            neutral: für Flüchtlinge
+        refugees_parents:
+          female:
+            female: für geflüchtete Mütter von Töchtern
+            male: für geflüchtete Mütter von Söhnen
+            neutral: für geflüchtete Mütter
+          male:
+            female: für geflüchtete Väter von Töchtern
+            male: für geflüchtete Väter von Söhnen
+            neutral: für geflüchtete Väter
+          neutral:
+            female: für geflüchtete Eltern von Töchtern
+            male: für geflüchtete Eltern von Söhnen
+            neutral: für geflüchtete Eltern
+        refugees_parents_to_be:
+          female: für geflüchtete Schwangere
+          male: für geflüchtete werdende Väter
+          neutral: für geflüchtete werdende Eltern
+        refugees_umf:
+          female: für unbegleitete minderjährige Mädchen
+          male: für unbegleitete minderjährige Jungen
+          neutral: für unbegleitete minderjährige Flüchtlinge

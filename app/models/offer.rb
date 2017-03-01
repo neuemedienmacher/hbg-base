@@ -22,6 +22,12 @@ class Offer < ActiveRecord::Base
   BENEFICIARY_GENDERS = %w(female male).freeze
   STAMP_SECOND_PART_GENDERS = %w(female male neutral).freeze
   # ^ nil means inclusive to any gender
+  CONTACT_TYPES = %w(personal remote).freeze
+  RESIDENCY_STATUSES =
+    %w(before_the_asylum_application during_the_asylum_procedure
+       with_a_residence_permit with_temporary_suspension_of_deportation
+       with_deportation_decision).freeze
+  VISIBLE_FRONTEND_STATES = %w(approved expired).freeze
 
   enumerize :encounter, in: ENCOUNTERS
   enumerize :exclusive_gender, in: EXCLUSIVE_GENDERS
@@ -29,7 +35,7 @@ class Offer < ActiveRecord::Base
   enumerize :gender_second_part_of_stamp, in: STAMP_SECOND_PART_GENDERS
   enumerize :treatment_type, in: TREATMENT_TYPES
   enumerize :participant_structure, in: PARTICIPANT_STRUCTURES
-  CONTACT_TYPES = %w(personal remote).freeze
+  enumerize :residency_status, in: RESIDENCY_STATUSES
 
   # Friendly ID
   extend FriendlyId
@@ -46,7 +52,7 @@ class Offer < ActiveRecord::Base
   end
 
   # Scopes
-  scope :approved, -> { where(aasm_state: 'approved') }
+  scope :visible_in_frontend, -> { where(aasm_state: VISIBLE_FRONTEND_STATES) }
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
   scope :in_section, lambda { |section|
@@ -88,6 +94,10 @@ class Offer < ActiveRecord::Base
 
   def opening_details?
     !openings.blank? || !opening_specification.blank?
+  end
+
+  def visible_in_frontend?
+    VISIBLE_FRONTEND_STATES.include?(aasm_state)
   end
 
   # def personal?
