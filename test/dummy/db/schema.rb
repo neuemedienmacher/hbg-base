@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170120120937) do
+ActiveRecord::Schema.define(version: 20170222135228) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 20170120120937) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "internal_mail",              default: false
+    t.string   "city"
   end
 
   create_table "definitions", force: :cascade do |t|
