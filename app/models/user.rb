@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :time_allocations, inverse_of: :user
 
   has_many :created_assignments, class_name: 'Assignment', foreign_key: 'creator_id', inverse_of: :creator
-  has_many :recieved_assignments, class_name: 'Assignment', foreign_key: 'reciever_id', inverse_of: :reciever
+  has_many :received_assignments, class_name: 'Assignment', foreign_key: 'receiver_id', inverse_of: :receiver
 
   # Validations
   # validates :email, uniqueness: true, presence: true
