@@ -4,15 +4,12 @@ class Organization < ActiveRecord::Base
 
   VISIBLE_FRONTEND_STATES = %w(approved all_done).freeze
 
-  # Modules
-  include StateMachine
-
   # Concerns
-  include Creator, CustomValidatable, Notable, Translation
+  include CustomValidatable, Notable, Translation
 
   # Associtations
   has_many :locations
-  has_many :divisions
+  has_many :divisions, dependent: :destroy
   has_many :hyperlinks, as: :linkable, dependent: :destroy
   has_many :websites, through: :hyperlinks
   has_many :organization_offers, dependent: :destroy
@@ -94,20 +91,15 @@ class Organization < ActiveRecord::Base
     websites.find_by_host('own')
   end
 
-  def set_approved_information
-    self.approved_at = Time.zone.now
-    self.approved_by = current_actor
-  end
-
-  def different_actor?
-    created_by && current_actor && created_by != current_actor
-  end
-
   def mailings_enabled?
     mailings == 'enabled'
   end
 
   def visible_in_frontend?
     VISIBLE_FRONTEND_STATES.include?(aasm_state)
+  end
+
+  def in_section? section
+    section_filters.where(identifier: section).count > 0
   end
 end

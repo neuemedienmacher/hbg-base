@@ -10,9 +10,9 @@ class Assignment < ActiveRecord::Base
   # Creator
   belongs_to :creator, class_name: 'User', inverse_of: :created_assignments
   belongs_to :creator_team, class_name: 'UserTeam', inverse_of: :created_assignments
-  # Reciever
-  belongs_to :reciever, class_name: 'User', inverse_of: :recieved_assignments
-  belongs_to :reciever_team, class_name: 'UserTeam', inverse_of: :recieved_assignments
+  # Receiver
+  belongs_to :receiver, class_name: 'User', inverse_of: :received_assignments
+  belongs_to :receiver_team, class_name: 'UserTeam', inverse_of: :received_assignments
 
   belongs_to :parent, class_name: 'Assignment', inverse_of: :children
   has_many :children, class_name: 'Assignment', inverse_of: :parent
@@ -52,8 +52,8 @@ class Assignment < ActiveRecord::Base
   # Methods
   # delegate :name, to: :creator, prefix: true
   # delegate :name, to: :creator_team, prefix: true
-  # delegate :name, to: :reciever, prefix: true
-  # delegate :name, to: :reciever_team, prefix: true
+  # delegate :name, to: :receiver, prefix: true
+  # delegate :name, to: :receiver_team, prefix: true
 
   # def close_and_assign_system!
   #   # TODO
