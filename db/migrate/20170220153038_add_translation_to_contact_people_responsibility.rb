@@ -7,7 +7,7 @@ class AddTranslationToContactPeopleResponsibility < ActiveRecord::Migration
       t.string   "source",          default: "", null: false
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.text     "responsibility",     default: "", null: false
+      t.text     "responsibility"
     end
 
     add_index "contact_person_translations", ["locale"], name: "index_contact_person_translations_on_locale"
