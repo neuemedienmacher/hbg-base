@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308130003) do
+ActiveRecord::Schema.define(version: 20170326080706) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -516,15 +516,13 @@ ActiveRecord::Schema.define(version: 20170308130003) do
   add_index "statistic_chart_transitions", ["statistic_transition_id"], name: "index_statistic_chart_transitions_on_statistic_transition_id"
 
   create_table "statistic_charts", force: :cascade do |t|
-    t.string  "title",        null: false
-    t.date    "starts_at",    null: false
-    t.date    "ends_at",      null: false
-    t.integer "user_team_id"
+    t.string  "title",     null: false
+    t.date    "starts_at", null: false
+    t.date    "ends_at",   null: false
     t.integer "user_id"
   end
 
   add_index "statistic_charts", ["user_id"], name: "index_statistic_charts_on_user_id"
-  add_index "statistic_charts", ["user_team_id"], name: "index_statistic_charts_on_user_team_id"
 
   create_table "statistic_goals", force: :cascade do |t|
     t.integer "amount",    null: false

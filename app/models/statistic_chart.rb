@@ -10,9 +10,9 @@ class StatisticChart < ActiveRecord::Base
   has_many :statistic_goals, through: :statistic_chart_goals,
                              inverse_of: :statistic_charts
 
-   # Enumerization
-   extend Enumerize
-   TITLES = %w(completion approval).freeze
+  # Enumerization
+  extend Enumerize
+  TITLES = %w(completion approval).freeze
 
-   enumerize :title, in: TITLES
+  enumerize :title, in: TITLES
 end

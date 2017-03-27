@@ -16,7 +16,7 @@ describe StatisticChart do
   end
 
   describe 'relations' do
-    it { subject.must belong_to :user_team }
+    # it { subject.must belong_to :user_team }
     it { subject.must belong_to :user }
     it { subject.must have_many :statistic_chart_transitions }
     it { subject.must have_many :statistic_chart_goals }
