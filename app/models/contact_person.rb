@@ -2,7 +2,7 @@
 # offer.
 class ContactPerson < ActiveRecord::Base
   # Concerns
-  include Notable, Translation
+  include Notable
 
   # Associations
   belongs_to :organization, inverse_of: :contact_people
@@ -16,9 +16,6 @@ class ContactPerson < ActiveRecord::Base
   enumerize :gender, in: %w(female male)
   enumerize :academic_title, in: %w(dr prof_dr)
   enumerize :position, in: %w(superior public_relations other)
-
-  # Translation
-  translate :responsibility
 
   # Validations
   validates :organization_id, presence: true
