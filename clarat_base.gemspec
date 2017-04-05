@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'web-console', '~> 2.0'
   s.add_dependency 'rails-observers' # observers got extracted since rails 4
   s.add_dependency 'enumerize'
-  s.add_dependency 'paper_trail'
+  s.add_dependency 'paper_trail', '6.0.2' # fixated paper_trail version (V7 causes problems!)
   s.add_dependency 'sanitize' # parser based sanitization
   s.add_dependency 'closure_tree'
   s.add_dependency 'aasm' # State Machine
