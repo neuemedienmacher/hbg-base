@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326080706) do
+ActiveRecord::Schema.define(version: 20170405115051) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -138,6 +138,18 @@ ActiveRecord::Schema.define(version: 20170326080706) do
 
   add_index "contact_person_offers", ["contact_person_id"], name: "index_contact_person_offers_on_contact_person_id"
   add_index "contact_person_offers", ["offer_id"], name: "index_contact_person_offers_on_offer_id"
+
+  create_table "contact_person_translations", force: :cascade do |t|
+    t.integer  "contact_person_id",              null: false
+    t.string   "locale",                         null: false
+    t.string   "source",            default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "responsibility"
+  end
+
+  add_index "contact_person_translations", ["contact_person_id"], name: "index_contact_person_translations_on_contact_person_id"
+  add_index "contact_person_translations", ["locale"], name: "index_contact_person_translations_on_locale"
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -538,19 +550,18 @@ ActiveRecord::Schema.define(version: 20170326080706) do
 
   create_table "statistics", force: :cascade do |t|
     t.string  "topic",             limit: 40
-    t.integer "user_id"
     t.date    "date",                                           null: false
     t.float   "count",                        default: 0.0,     null: false
-    t.integer "user_team_id"
     t.string  "model"
     t.string  "field_name"
     t.string  "field_start_value"
     t.string  "field_end_value"
     t.string  "time_frame",                   default: "daily"
+    t.string  "trackable_type"
+    t.integer "trackable_id"
   end
 
-  add_index "statistics", ["user_id"], name: "index_statistics_on_user_id"
-  add_index "statistics", ["user_team_id"], name: "index_statistics_on_user_team_id"
+  add_index "statistics", ["trackable_id", "trackable_type"], name: "index_statistics_on_trackable_id_and_trackable_type"
 
   create_table "subscriptions", force: :cascade do |t|
     t.string   "email"
