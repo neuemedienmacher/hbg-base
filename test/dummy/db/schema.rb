@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326080706) do
+ActiveRecord::Schema.define(version: 20170407081405) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -138,6 +138,18 @@ ActiveRecord::Schema.define(version: 20170326080706) do
 
   add_index "contact_person_offers", ["contact_person_id"], name: "index_contact_person_offers_on_contact_person_id"
   add_index "contact_person_offers", ["offer_id"], name: "index_contact_person_offers_on_offer_id"
+
+  create_table "contact_person_translations", force: :cascade do |t|
+    t.integer  "contact_person_id",              null: false
+    t.string   "locale",                         null: false
+    t.string   "source",            default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "responsibility"
+  end
+
+  add_index "contact_person_translations", ["contact_person_id"], name: "index_contact_person_translations_on_contact_person_id"
+  add_index "contact_person_translations", ["locale"], name: "index_contact_person_translations_on_locale"
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -353,7 +365,6 @@ ActiveRecord::Schema.define(version: 20170326080706) do
     t.text     "description_html"
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
-    t.string   "exclusive_gender"
     t.integer  "age_from",                                default: 0
     t.integer  "age_to",                                  default: 99
     t.string   "target_audience"
