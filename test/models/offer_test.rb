@@ -19,7 +19,6 @@ describe Offer do
     it { subject.must_respond_to :legal_information }
     it { subject.must_respond_to :age_from }
     it { subject.must_respond_to :age_to }
-    it { subject.must_respond_to :exclusive_gender }
     it { subject.must_respond_to :target_audience }
     it { subject.must_respond_to :hide_contact_people }
     it { subject.must_respond_to :code_word }
@@ -556,8 +555,8 @@ describe Offer do
       end
 
       it 'should correctly return _exclusive_gender_filters' do
-        basicOffer.exclusive_gender = 'boys_only'
-        basicOffer._exclusive_gender_filters.must_equal(['boys_only'])
+        basicOffer.gender_first_part_of_stamp = 'female'
+        basicOffer._exclusive_gender_filters.must_equal(['female'])
       end
 
       it 'should correctly return target_audience_filters' do
