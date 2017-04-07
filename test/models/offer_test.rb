@@ -113,12 +113,9 @@ describe Offer do
         basicOffer.reload.must_be :valid?
       end
 
-      it 'should validate expiration date' do
-        subject.expires_at = Time.zone.now
-        subject.valid?
-        subject.errors.messages[:expires_at].must_include(
-          I18n.t('shared.validations.later_date')
-        )
+      it 'should validate presence of expiration date' do
+        subject.expires_at = nil
+        subject.valid?.must_equal false
       end
 
       it 'should validate start date' do
