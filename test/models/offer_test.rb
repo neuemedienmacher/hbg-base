@@ -16,7 +16,6 @@ describe Offer do
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :opening_specification }
     it { subject.must_respond_to :aasm_state }
-    it { subject.must_respond_to :legal_information }
     it { subject.must_respond_to :age_from }
     it { subject.must_respond_to :age_to }
     it { subject.must_respond_to :exclusive_gender }
@@ -41,7 +40,6 @@ describe Offer do
       it { subject.must validate_presence_of :name }
       it { subject.must validate_presence_of :description }
       it { subject.must validate_presence_of :encounter }
-      it { subject.must validate_length_of(:legal_information).is_at_most 400 }
       it { subject.must validate_presence_of :expires_at }
       it { subject.must validate_length_of(:code_word).is_at_most 140 }
 
