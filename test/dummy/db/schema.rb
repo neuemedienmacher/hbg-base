@@ -357,7 +357,6 @@ ActiveRecord::Schema.define(version: 20170407110105) do
     t.datetime "updated_at"
     t.text     "opening_specification"
     t.datetime "approved_at"
-    t.text     "legal_information"
     t.integer  "created_by"
     t.integer  "approved_by"
     t.date     "expires_at",                                              null: false
@@ -365,7 +364,6 @@ ActiveRecord::Schema.define(version: 20170407110105) do
     t.text     "description_html"
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
-    t.string   "exclusive_gender"
     t.integer  "age_from",                                default: 0
     t.integer  "age_to",                                  default: 99
     t.string   "target_audience"
