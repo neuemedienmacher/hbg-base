@@ -12,7 +12,6 @@ class Offer
       validates :slug, uniqueness: true
       validates :encounter, presence: true
       validates :expires_at, presence: true
-      validates :expires_at, later_date: true
       validates :code_word, length: { maximum: 140 }
 
       MIN_AGE = 0

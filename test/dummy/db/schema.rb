@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407093344) do
+ActiveRecord::Schema.define(version: 20170407081405) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -364,7 +364,6 @@ ActiveRecord::Schema.define(version: 20170407093344) do
     t.text     "description_html"
     t.text     "next_steps_html"
     t.text     "opening_specification_html"
-    t.string   "exclusive_gender"
     t.integer  "age_from",                                default: 0
     t.integer  "age_to",                                  default: 99
     t.string   "target_audience"

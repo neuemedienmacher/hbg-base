@@ -18,7 +18,6 @@ describe Offer do
     it { subject.must_respond_to :aasm_state }
     it { subject.must_respond_to :age_from }
     it { subject.must_respond_to :age_to }
-    it { subject.must_respond_to :exclusive_gender }
     it { subject.must_respond_to :target_audience }
     it { subject.must_respond_to :hide_contact_people }
     it { subject.must_respond_to :code_word }
@@ -111,12 +110,9 @@ describe Offer do
         basicOffer.reload.must_be :valid?
       end
 
-      it 'should validate expiration date' do
-        subject.expires_at = Time.zone.now
-        subject.valid?
-        subject.errors.messages[:expires_at].must_include(
-          I18n.t('shared.validations.later_date')
-        )
+      it 'should validate presence of expiration date' do
+        subject.expires_at = nil
+        subject.valid?.must_equal false
       end
 
       it 'should validate start date' do
@@ -554,8 +550,8 @@ describe Offer do
       end
 
       it 'should correctly return _exclusive_gender_filters' do
-        basicOffer.exclusive_gender = 'boys_only'
-        basicOffer._exclusive_gender_filters.must_equal(['boys_only'])
+        basicOffer.gender_first_part_of_stamp = 'female'
+        basicOffer._exclusive_gender_filters.must_equal(['female'])
       end
 
       it 'should correctly return target_audience_filters' do
