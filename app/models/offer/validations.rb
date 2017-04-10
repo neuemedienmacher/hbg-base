@@ -9,7 +9,6 @@ class Offer
       #           uniqueness: { scope: :location_id },
       #           unless: ->(offer) { offer.location.nil? }
       validates :description, presence: true
-      validates :legal_information, length: { maximum: 400 }
       validates :slug, uniqueness: true
       validates :encounter, presence: true
       validates :expires_at, presence: true
