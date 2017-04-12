@@ -5,7 +5,7 @@ class LanguageFilter < Filter
 
   # sorted by german display name
   IDENTIFIER = %w(cau aar sqi abk amh ara arc arm aze ban bam ben ber bos bul zho
-                  639 deu 150 dyu dan eng ewo fin fra ell hau heb hin ita cpe kik kin
+                  639 deu 150 dyu dan eng ewo fil fin fra ell hau heb hin ita cpe kik kin
                   kor hrv kur lav lin lit luo ltz msa man mkd hbs mos 568 nor pan pus
                   fas pol por fuf rom ron srp skr slo slv som snk ckb spa swa
                   rus swe cus tgk tgl tam tel tha tig tir cze tur tuk twi 326
