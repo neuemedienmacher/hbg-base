@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
 
   has_many :user_team_users, inverse_of: :user
   has_many :user_teams, through: :user_team_users, inverse_of: :users
-  belongs_to :current_team, class_name: 'UserTeam', inverse_of: :current_users
   has_many :led_teams, class_name: 'UserTeam', foreign_key: 'lead_id', inverse_of: :lead
 
   # has_many :statistics, inverse_of: :user
