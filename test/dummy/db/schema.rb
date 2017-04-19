@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407110105) do
+ActiveRecord::Schema.define(version: 20170419100056) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -614,10 +614,8 @@ ActiveRecord::Schema.define(version: 20170407110105) do
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
-    t.integer  "current_team_id"
   end
 
-  add_index "users", ["current_team_id"], name: "index_users_on_current_team_id"
   add_index "users", ["email"], name: "index_users_on_email", unique: true
 
   create_table "versions", force: :cascade do |t|

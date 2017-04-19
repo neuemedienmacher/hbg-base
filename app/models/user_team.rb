@@ -5,8 +5,6 @@ class UserTeam < ActiveRecord::Base
   # Associations
   has_many :user_team_users, inverse_of: :user_team
   has_many :users, through: :user_team_users, inverse_of: :user_teams
-  has_many :current_users, class_name: 'User', foreign_key: 'current_team_id',
-                           inverse_of: :current_team
   belongs_to :lead, class_name: 'User', inverse_of: :led_teams
 
   belongs_to :parent, class_name: 'UserTeam', inverse_of: :children

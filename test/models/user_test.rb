@@ -15,7 +15,6 @@ describe User do
   end
 
   describe 'relations' do
-    it { subject.must belong_to :current_team }
     it { subject.must have_many :authored_notes }
     it { subject.must have_many(:user_teams).through :user_team_users }
     it { subject.must have_many :led_teams }
