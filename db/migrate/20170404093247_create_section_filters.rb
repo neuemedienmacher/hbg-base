@@ -26,7 +26,7 @@ class CreateSectionFilters < ActiveRecord::Migration
 
     Offer.find_each do |offer|
       new_id = offer.filter_ids.include?(76) ? fam_new.id : ref_new.id
-      offer.section_filter_id = new_id
+      offer.update_columns section_filter_id: new_id
     end
   end
 
