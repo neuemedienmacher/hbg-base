@@ -34,4 +34,7 @@ class CreateSectionFilters < ActiveRecord::Migration
     drop_table :section_filters
     remove_column :offers, :section_filter_id
   end
+
+  SectionFilter.create(id: 76, name: "Family", identifier: "family")
+  SectionFilter.create(id: 77, name: "Refugees", identifier: "refugees")
 end
