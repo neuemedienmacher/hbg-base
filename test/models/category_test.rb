@@ -37,7 +37,7 @@ describe Category do
   describe 'scopes' do
     describe 'in_section' do
       it 'should scope to a specific section filter' do
-        Category.in_section('family').count.must_equal 3 # from fixtures
+        Category.in_section('family').count.must_equal 4 # from fixtures
         Category.in_section('refugees').count.must_equal 2 # from fixtures
       end
     end
