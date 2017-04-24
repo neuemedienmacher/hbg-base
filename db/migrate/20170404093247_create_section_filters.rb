@@ -21,11 +21,11 @@ class CreateSectionFilters < ActiveRecord::Migration
 
     add_column :offers, :section_filter_id, :integer
 
-    fam_new_id = SectionFilter.create(name: 'Family', identifier: 'family').id
-    ref_new_id = SectionFilter.create(name: 'Refugees', identifier: 'refugees').id
+    fam_new = SectionFilter.create(name: 'Family', identifier: 'family')
+    ref_new = SectionFilter.create(name: 'Refugees', identifier: 'refugees')
 
     Offer.find_each do |offer|
-      new_id = offer.filter_ids.include?(76) ? fam_new_id : ref_new_id
+      new_id = offer.filter_ids.include?(76) ? fam_new.id : ref_new.id
       offer.section_filter_id = new_id
     end
   end
@@ -34,7 +34,4 @@ class CreateSectionFilters < ActiveRecord::Migration
     drop_table :section_filters
     remove_column :offers, :section_filter_id
   end
-
-  SectionFilter.create(id: 76, name: "Family", identifier: "family")
-  SectionFilter.create(id: 77, name: "Refugees", identifier: "refugees")
 end
