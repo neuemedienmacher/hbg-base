@@ -12,10 +12,4 @@ class RenameSectionFiltersToSections < ActiveRecord::Migration
     add_index :divisions, :section_id
     add_index :offers, :section_id
   end
-
-  CategoriesSection.find_each do |c|
-    new_id = c.filter_id == 76 ? 1 : 2
-    c.update_columns id: new_id
-  end
-
 end
