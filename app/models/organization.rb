@@ -10,8 +10,7 @@ class Organization < ActiveRecord::Base
   # Associtations
   has_many :locations
   has_many :divisions, dependent: :destroy
-  has_many :hyperlinks, as: :linkable, dependent: :destroy
-  has_many :websites, through: :hyperlinks
+  belongs_to :website
   has_many :organization_offers, dependent: :destroy
   has_many :contact_people
   has_many :offers, through: :organization_offers, inverse_of: :organizations
@@ -47,38 +46,31 @@ class Organization < ActiveRecord::Base
   scope :created_at_day, ->(date) { where('created_at::date = ?', date) }
   scope :approved_at_day, ->(date) { where('approved_at::date = ?', date) }
 
-  # Validations
-  validates :name, length: { maximum: 100 }, presence: true, uniqueness: true
-  validates :description, presence: true
-  validates :legal_form, presence: true
-  validates :founded, length: { is: 4 }, allow_blank: true
-  validates :slug, uniqueness: true
-  validates :mailings, presence: true
-  # Custom Validations
-  validate :validate_hq_location, on: :update
-  validate :validate_websites_hosts
-  validate :must_have_umbrella_filter
-
-  def validate_hq_location
-    if locations.to_a.count(&:hq) != 1
-      errors.add(:base, I18n.t('organization.validations.hq_location'))
-    end
-  end
-
-  def validate_websites_hosts
-    websites.where.not(host: 'own').each do |website|
-      errors.add(
-        :base,
-        I18n.t('organization.validations.website_host', website: website.url)
-      )
-    end
-  end
-
-  def must_have_umbrella_filter
-    if umbrella_filters.empty?
-      fail_validation :umbrella_filters, 'needs_umbrella_filters'
-    end
-  end
+  # # Custom Validations
+  # validate :validate_hq_location, on: :update
+  # validate :validate_websites_hosts
+  # validate :must_have_umbrella_filter
+  #
+  # def validate_hq_location
+  #   if locations.to_a.count(&:hq) != 1
+  #     errors.add(:base, I18n.t('organization.validations.hq_location'))
+  #   end
+  # end
+  #
+  # def validate_websites_hosts
+  #   websites.where.not(host: 'own').each do |website|
+  #     errors.add(
+  #       :base,
+  #       I18n.t('organization.validations.website_host', website: website.url)
+  #     )
+  #   end
+  # end
+  #
+  # def must_have_umbrella_filter
+  #   if umbrella_filters.empty?
+  #     fail_validation :umbrella_filters, 'needs_umbrella_filters'
+  #   end
+  # end
 
   # Methods
 
@@ -87,9 +79,7 @@ class Organization < ActiveRecord::Base
     @location ||= locations.hq.first
   end
 
-  def homepage
-    websites.find_by_host('own')
-  end
+  alias :homepage :website
 
   def mailings_enabled?
     mailings == 'enabled'

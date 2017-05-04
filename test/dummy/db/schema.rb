@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424081649) do
+ActiveRecord::Schema.define(version: 20170427161550) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -180,16 +180,34 @@ ActiveRecord::Schema.define(version: 20170424081649) do
   end
 
   create_table "divisions", force: :cascade do |t|
-    t.string   "name",            null: false
-    t.text     "description"
+    t.string   "name",                               null: false
     t.integer  "organization_id"
-    t.integer  "section_id",      null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "section_id",                         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.text     "comment"
+    t.boolean  "done",            default: false
+    t.string   "size",            default: "medium", null: false
   end
 
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id"
   add_index "divisions", ["section_id"], name: "index_divisions_on_section_id"
+
+  create_table "divisions_presumed_categories", id: false, force: :cascade do |t|
+    t.integer "division_id", null: false
+    t.integer "category_id", null: false
+  end
+
+  add_index "divisions_presumed_categories", ["category_id"], name: "index_divisions_presumed_categories_on_category_id"
+  add_index "divisions_presumed_categories", ["division_id"], name: "index_divisions_presumed_categories_on_division_id"
+
+  create_table "divisions_presumed_solution_categories", id: false, force: :cascade do |t|
+    t.integer "division_id",          null: false
+    t.integer "solution_category_id", null: false
+  end
+
+  add_index "divisions_presumed_solution_categories", ["division_id"], name: "index_divisions_presumed_solution_categories_on_division_id"
+  add_index "divisions_presumed_solution_categories", ["solution_category_id"], name: "index_presumed_s_categories_on_s_category"
 
   create_table "emails", force: :cascade do |t|
     t.string   "address",       limit: 64,                        null: false
@@ -451,8 +469,8 @@ ActiveRecord::Schema.define(version: 20170424081649) do
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name",                                                    null: false
-    t.text     "description",                                             null: false
-    t.string   "legal_form",                                              null: false
+    t.text     "description"
+    t.text     "legal_form"
     t.boolean  "charitable",                         default: false
     t.integer  "founded"
     t.string   "slug"
@@ -468,6 +486,8 @@ ActiveRecord::Schema.define(version: 20170424081649) do
     t.string   "aasm_state",             limit: 32
     t.string   "mailings",               limit: 255, default: "disabled", null: false
     t.boolean  "priority",                           default: false,      null: false
+    t.text     "comment"
+    t.integer  "website_id"
   end
 
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state"
