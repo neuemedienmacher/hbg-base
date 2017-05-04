@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427161550) do
+ActiveRecord::Schema.define(version: 20170428085131) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -56,13 +56,13 @@ ActiveRecord::Schema.define(version: 20170427161550) do
   add_index "assignments", ["receiver_team_id"], name: "index_assignments_on_receiver_team_id"
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name_de",                              null: false
+    t.string   "name_de",                               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "icon",       limit: 12
+    t.string   "icon",        limit: 12
     t.integer  "parent_id"
     t.integer  "sort_order"
-    t.boolean  "visible",               default: true
+    t.boolean  "visible",                default: true
     t.string   "name_en"
     t.string   "name_ar"
     t.string   "name_fr"
@@ -70,9 +70,21 @@ ActiveRecord::Schema.define(version: 20170427161550) do
     t.string   "name_tr"
     t.string   "name_ru"
     t.string   "name_fa"
+    t.text     "keywords_de"
+    t.text     "keywords_en"
+    t.text     "keywords_ar"
+    t.text     "keywords_fa"
   end
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de"
+
+  create_table "categories_filters", id: false, force: :cascade do |t|
+    t.integer "filter_id",   null: false
+    t.integer "category_id", null: false
+  end
+
+  add_index "categories_filters", ["category_id"], name: "index_filters_categories_on_category_id"
+  add_index "categories_filters", ["filter_id"], name: "index_filters_categories_on_filter_id"
 
   create_table "categories_offers", id: false, force: :cascade do |t|
     t.integer "offer_id",    null: false
@@ -82,15 +94,15 @@ ActiveRecord::Schema.define(version: 20170427161550) do
   add_index "categories_offers", ["category_id"], name: "index_categories_offers_on_category_id"
   add_index "categories_offers", ["offer_id"], name: "index_categories_offers_on_offer_id"
 
-  create_table "categories_sections", id: false, force: :cascade do |t|
-    t.integer "section_id",  null: false
-    t.integer "category_id", null: false
+  create_table "categories_sections", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "section_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "categories_sections", ["category_id"], name: "index_categories_sections_on_category_id"
-  add_index "categories_sections", ["category_id"], name: "index_filters_categories_on_category_id"
   add_index "categories_sections", ["section_id"], name: "index_categories_sections_on_section_id"
-  add_index "categories_sections", ["section_id"], name: "index_filters_categories_on_filter_id"
 
   create_table "category_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
@@ -485,6 +497,7 @@ ActiveRecord::Schema.define(version: 20170427161550) do
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state"
   add_index "organizations", ["approved_at"], name: "index_organizations_on_approved_at"
   add_index "organizations", ["created_at"], name: "index_organizations_on_created_at"
+  add_index "organizations", ["website_id"], name: "index_organizations_on_website_id"
 
   create_table "search_locations", force: :cascade do |t|
     t.string   "query",                 null: false

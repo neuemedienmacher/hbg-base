@@ -1,4 +1,7 @@
 class AddMoreDataForOrgasAndDivisions < ActiveRecord::Migration
+  class Organization < ActiveRecord::Base
+  end
+
   def change
     create_table :divisions_presumed_categories, id: false do |t|
       t.integer :division_id, null: false
@@ -23,6 +26,7 @@ class AddMoreDataForOrgasAndDivisions < ActiveRecord::Migration
     remove_column :divisions, :description, :text
 
     add_column :organizations, :website_id, :integer
+    add_index :organizations, ['website_id']
 
     reversible do |direction|
       direction.up do
@@ -30,6 +34,8 @@ class AddMoreDataForOrgasAndDivisions < ActiveRecord::Migration
         change_column :organizations, :legal_form, :text, null: true
       end
       direction.down do
+        Organization.where('description IS NULL OR legal_form IS NULL')
+          .delete_all
         change_column :organizations, :description, :text, null: false
         change_column :organizations, :legal_form, :text, null: false
       end

@@ -5,8 +5,9 @@ class Division < ActiveRecord::Base
   belongs_to :section, inverse_of: :divisions
 
   has_many :divisions_presumed_categories, inverse_of: :division
-  has_many :presumed_categories, through: :divisions_presumed_categories,
-           source: :category, inverse_of: :presuming_divisions
+  has_many :presumed_categories,
+           through: :divisions_presumed_categories, source: :category,
+           inverse_of: :presuming_divisions
   has_many :divisions_presumed_solution_categories, inverse_of: :division
   has_many :presumed_solution_categories,
            through: :divisions_presumed_solution_categories,

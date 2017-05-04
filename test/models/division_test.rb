@@ -7,7 +7,6 @@ describe Division do
   describe 'attributes' do
     it { subject.must_respond_to :id }
     it { subject.must_respond_to :name }
-    it { subject.must_respond_to :description }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
   end

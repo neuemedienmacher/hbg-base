@@ -79,7 +79,7 @@ class Organization < ActiveRecord::Base
     @location ||= locations.hq.first
   end
 
-  alias :homepage :website
+  alias homepage website # Deprecated
 
   def mailings_enabled?
     mailings == 'enabled'
