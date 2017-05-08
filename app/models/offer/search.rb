@@ -78,13 +78,22 @@ class Offer
       end
 
       # additional searchable string made from keywords
-      def keyword_string
-        keywords.pluck(:name, :synonyms).flatten.compact.uniq.join(', ')
+      def tag_string locale = :en
+        (
+          tags.map { |t| t.try("keywords_#{locale}") } +
+          tags.pluck("name_#{locale}")
+        ).compact.uniq.join(', ')
       end
 
       # concatenated organization name for search index
       def organization_names
         organizations.pluck(:name).join(', ')
+      end
+
+      def definitions_string locale = :de
+        if locale == :de
+          definitions.pluck(:explanation).join(', ')
+        end
       end
 
       def location_visible
