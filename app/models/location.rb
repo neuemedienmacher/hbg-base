@@ -23,15 +23,6 @@ class Location < ActiveRecord::Base
   delegate :name, to: :city, prefix: true, allow_nil: true
   delegate :name, to: :organization, prefix: true, allow_nil: true
 
-  before_validation :generate_display_name
-  def generate_display_name
-    display = organization_name.to_s
-    display += ", #{name}" unless name.blank?
-    display += " | #{street}"
-    display += ", #{addition}," unless addition.blank?
-    self.display_name = display + " #{zip} #{city_name}"
-  end
-
   def address
     "#{street}, #{zip} #{city_name}"
   end

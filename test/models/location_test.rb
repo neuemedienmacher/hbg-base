@@ -33,51 +33,15 @@ describe Location do
     end
   end
 
-  describe 'methods' do
-    describe '#generate_display_name' do
-      before do
-        loc.assign_attributes street: 'street',
-                              zip: 'zip',
-                              city_id: 1,         # fixture City
-                              organization_id: 1  # fixture Orga
-      end
+  # this method is stubbed out for the entire rest of the test suite
+  describe '#full_address' do
+    it 'should return address and federal state name' do
+      loc.assign_attributes street: 'street',
+                            zip: 'zip',
+                            city: City.new(name: 'city'),
+                            federal_state: FederalState.new(name: 'state')
 
-      it 'should show the basic info if nothing else exists' do
-        loc.display_name.must_be_nil
-        loc.generate_display_name
-        loc.display_name.must_equal 'foobar | street zip Berlin'
-      end
-
-      it 'should show the location name if one exists' do
-        loc.name = 'name'
-        loc.generate_display_name
-        loc.display_name.must_equal 'foobar, name | street zip Berlin'
-      end
-
-      it 'should show the addition if one exists' do
-        loc.addition = 'addition'
-        loc.generate_display_name
-        loc.display_name.must_equal 'foobar | street, addition, zip Berlin'
-      end
-
-      it 'should show name & addition if both exist' do
-        loc.name = 'name'
-        loc.addition = 'addition'
-        loc.generate_display_name
-        loc.display_name.must_equal 'foobar, name | street, addition, zip Berlin'
-      end
-    end
-
-    # this method is stubbed out for the entire rest of the test suite
-    describe '#full_address' do
-      it 'should return address and federal state name' do
-        loc.assign_attributes street: 'street',
-                              zip: 'zip',
-                              city: City.new(name: 'city'),
-                              federal_state: FederalState.new(name: 'state')
-
-        loc.send(:full_address).must_equal 'street, zip city state'
-      end
+      loc.send(:full_address).must_equal 'street, zip city state'
     end
   end
 
