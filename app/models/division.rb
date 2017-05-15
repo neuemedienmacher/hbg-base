@@ -12,4 +12,7 @@ class Division < ActiveRecord::Base
   has_many :presumed_solution_categories,
            through: :divisions_presumed_solution_categories,
            source: :solution_category, inverse_of: :presuming_divisions
+
+  has_many :hyperlinks, dependent: :destroy, as: :linkable
+  has_many :websites, through: :hyperlinks, inverse_of: :divisions
 end
