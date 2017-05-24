@@ -499,7 +499,7 @@ describe Offer do
       it 'should correctly return geolocation hash for algolia' do
         loc = FactoryGirl.create(:location)
         basicOffer.location_id = loc.id
-        basicOffer._geoloc.must_equal('lat' => 10, 'lng' => 20)
+        basicOffer._geoloc.must_equal('lat' => loc.latitude, 'lng' => loc.longitude)
       end
 
       it 'should correctly return definitions_string' do
