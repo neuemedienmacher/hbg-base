@@ -2,7 +2,7 @@
 class Website < ActiveRecord::Base
   UNREACHABLE_THRESHOLD = 2
 
-  # associtations
+  # Associations
   has_many :hyperlinks, dependent: :destroy
   has_many :organizations, inverse_of: :website
   has_many :offers, through: :hyperlinks, inverse_of: :websites,

@@ -7,7 +7,7 @@ class Organization < ActiveRecord::Base
   # Concerns
   include CustomValidatable, Notable, Translation
 
-  # Associtations
+  # Associations
   has_many :locations
   has_many :divisions, dependent: :destroy
   belongs_to :website
