@@ -10,7 +10,7 @@ class Organization < ActiveRecord::Base
   # Associations
   has_many :locations
   has_many :divisions, dependent: :destroy
-  belongs_to :website
+  belongs_to :website, inverse_of: :organizations
   has_many :organization_offers, dependent: :destroy
   has_many :contact_people
   has_many :offers, through: :organization_offers, inverse_of: :organizations
