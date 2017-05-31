@@ -11,6 +11,7 @@ class Email < ActiveRecord::Base
                                         inverse_of: :emails
 
   # Validations moved to claradmin
+  FORMAT = /\A\S+@\S+\.\S+\z/
 
   # State Machine
   aasm do
