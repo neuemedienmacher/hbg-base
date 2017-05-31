@@ -581,6 +581,16 @@ describe Offer do
         basicOffer._target_audience_filters.must_equal(['family_children'])
       end
 
+      it 'should correctly return uniq target_audience_filters' do
+        basicOffer.target_audience_filters <<
+          TargetAudienceFilter.find_by(identifier: 'family_children')
+        basicOffer.target_audience_filters.count.must_equal 2
+        basicOffer.target_audience_filters.pluck(:identifier).must_equal(
+          %w(family_children family_children)
+        )
+        basicOffer._target_audience_filters.must_equal(['family_children'])
+      end
+
       it 'should correctly return language_filters' do
         basicOffer._language_filters.must_equal(['deu'])
       end
