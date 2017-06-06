@@ -14,7 +14,7 @@ ru:
           one: до %{count} года
           other: до %{count} лет
         suffix: лет
-      format: "%{stamp}%{optional_age}%{optional_status}%{optional_addition}"
+      format: "%{stamp}%{optional_age}%{optional_status}"
       status:
         before_the_asylum_application: до подачи ходатайства о предоставлении убежища
         before_the_asylum_decision: до принятия решения о предоставлении убежища
