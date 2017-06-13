@@ -5,7 +5,7 @@ class Organization < ActiveRecord::Base
   VISIBLE_FRONTEND_STATES = %w(approved all_done).freeze
 
   # Concerns
-  include CustomValidatable, Notable, Translation
+  include CustomValidatable, Notable, Translation, Assignable
 
   # Associations
   has_many :locations
