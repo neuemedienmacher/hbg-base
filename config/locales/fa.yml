@@ -6,7 +6,7 @@ fa:
         age_of_child: 'سن کودک: %{age}'
         age_to: تا %{count} سال
         suffix: سال
-      format: "%{stamp}%{optional_age}%{optional_status}%{optional_addition}"
+      format: "%{stamp}%{optional_age}%{optional_status}"
       status:
         before_the_asylum_application: قبل از درخواست پناهندگی
         before_the_asylum_decision: قبل از تصمیم گیری در مورد پناهندگی
@@ -119,6 +119,10 @@ fa:
           female: برای زنان باردار پناهنده
           male: برای پدران پناهنده چشم به راه کودک
           neutral: برای والدین پناهنده چشم به راه کودک
+        refugees_uf:
+          minor:
+            neutral: برای پناهندگان زیر سن و بدون همراه
+          neutral: برای پناهندگان بدون همراه
         refugees_umf:
           female: برای دختران زیر سن و بدون همراه
           male: برای پسران زیر سن و بدون همراه

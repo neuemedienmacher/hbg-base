@@ -13,16 +13,9 @@ class Offer < ActiveRecord::Base
   extend Enumerize
   ENCOUNTERS =
     %w(personal hotline email chat forum online-course portal).freeze
-  TREATMENT_TYPES = %w(in-patient semi-residential out-patient).freeze
-  PARTICIPANT_STRUCTURES =
-    %w(target_audience_alone
-       target_audience_in_group_with_others_with_different_problems
-       target_audience_in_group_with_others_with_same_problem).freeze
   CONTACT_TYPES = %w(personal remote).freeze
   VISIBLE_FRONTEND_STATES = %w(approved expired).freeze
   enumerize :encounter, in: ENCOUNTERS
-  enumerize :treatment_type, in: TREATMENT_TYPES
-  enumerize :participant_structure, in: PARTICIPANT_STRUCTURES
 
   # NOTE: moved to FiltersOffer! Only keep this here until the data fields can
   # be removed from the offer-table

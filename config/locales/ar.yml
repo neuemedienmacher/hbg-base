@@ -18,7 +18,7 @@ ar:
           two: حتى %{count} سنتان
           zero: حتى %{count} سنة
         suffix: سنوات
-      format: "%{stamp}%{optional_age}%{optional_status}%{optional_addition}"
+      format: "%{stamp}%{optional_age}%{optional_status}"
       status:
         before_the_asylum_application: قبل تقديم طلب اللجوء
         before_the_asylum_decision: قبل الحكم في قضية اللجوء
@@ -131,6 +131,10 @@ ar:
           female: للاجئات الحوامل
           male: للاجئين الرجال الذين سيصيرون قريباً آباء
           neutral: للاجئين الذين سيصيرون قريباً آباء
+        refugees_uf:
+          minor:
+            neutral: للاجئين القصر غير المصحوبين بذويهم
+          neutral: للاجئين غير المصحوبين
         refugees_umf:
           female: للفتيات القاصرات غير المصحوبات
           male: للصبيان القصر غير المصحوبين

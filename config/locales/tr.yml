@@ -6,7 +6,7 @@ tr:
         age_of_child: 'Çocuğun yaşı: %{age}'
         age_to: "%{count} yılına kadar"
         suffix: Yaş
-      format: "%{stamp}%{optional_age}%{optional_status}%{optional_addition}"
+      format: "%{stamp}%{optional_age}%{optional_status}"
       status:
         before_the_asylum_application: iltica talebinden önce
         before_the_asylum_decision: iltica kararından önce
@@ -119,6 +119,10 @@ tr:
           female: mülteci hamileler için
           male: baba olacak mülteciler için
           neutral: ebeveyn olacak mülteciler için
+        refugees_uf:
+          minor:
+            neutral: sahipsiz, reşit olmayan mülteciler için
+          neutral: sahipsiz, reşit olmayan mülteciler için
         refugees_umf:
           female: refakatçısı olmaya,n reşit olmayan kız çocukları için
           male: refakatçısı olmayan, reşit olmayan erkek çocukları için

@@ -21,8 +21,6 @@ describe Offer do
     it { subject.must_respond_to :target_audience }
     it { subject.must_respond_to :hide_contact_people }
     it { subject.must_respond_to :code_word }
-    it { subject.must_respond_to :treatment_type }
-    it { subject.must_respond_to :participant_structure }
     it { subject.must_respond_to :gender_first_part_of_stamp }
     it { subject.must_respond_to :gender_second_part_of_stamp }
     it { subject.must_respond_to :logic_version_id }
@@ -439,6 +437,16 @@ describe Offer do
       end
 
       it 'should correctly return target_audience_filters' do
+        basicOffer._target_audience_filters.must_equal(['family_children'])
+      end
+
+      it 'should correctly return uniq target_audience_filters' do
+        basicOffer.target_audience_filters <<
+          TargetAudienceFilter.find_by(identifier: 'family_children')
+        basicOffer.target_audience_filters.count.must_equal 2
+        basicOffer.target_audience_filters.pluck(:identifier).must_equal(
+          %w(family_children family_children)
+        )
         basicOffer._target_audience_filters.must_equal(['family_children'])
       end
 

@@ -11,7 +11,6 @@ describe TargetAudienceFiltersOffer do
     it { subject.must_respond_to :residency_status }
     it { subject.must_respond_to :gender_first_part_of_stamp }
     it { subject.must_respond_to :gender_second_part_of_stamp }
-    it { subject.must_respond_to :addition }
     it { subject.must_respond_to :age_from }
     it { subject.must_respond_to :age_to }
     it { subject.must_respond_to :age_visible }

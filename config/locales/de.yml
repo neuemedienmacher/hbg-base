@@ -10,7 +10,7 @@ de:
           one: bis %{count} Jahr
           other: bis %{count} Jahre
         suffix: Jahre
-      format: "%{stamp}%{optional_age}%{optional_status}%{optional_addition}"
+      format: "%{stamp}%{optional_age}%{optional_status}"
       status:
         before_the_asylum_application: "– vor dem Asylantrag"
         before_the_asylum_decision: "– vor der Asylentscheidung"
@@ -123,6 +123,10 @@ de:
           female: für geflüchtete Schwangere
           male: für geflüchtete werdende Väter
           neutral: für geflüchtete werdende Eltern
+        refugees_uf:
+          minor:
+            neutral: für unbegleitete minderjährige Flüchtlinge
+          neutral: 'für unbegleitete Flüchtlinge '
         refugees_umf:
           female: für unbegleitete minderjährige Mädchen
           male: für unbegleitete minderjährige Jungen
