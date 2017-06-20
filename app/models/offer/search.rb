@@ -119,11 +119,13 @@ class Offer
       end
 
       def _age_filters
-        (age_from..age_to).to_a
+        target_audience_filters_offers.map do |tafo|
+          (tafo.age_from..tafo.age_to).to_a
+        end.flatten.sort.uniq
       end
 
       def _exclusive_gender_filters
-        [gender_first_part_of_stamp]
+        target_audience_filters_offers.pluck(:gender_first_part_of_stamp).uniq
       end
 
       def _next_steps locale

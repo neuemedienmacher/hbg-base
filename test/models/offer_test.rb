@@ -587,7 +587,9 @@ describe Offer do
       end
 
       it 'should correctly return _exclusive_gender_filters' do
-        basicOffer.gender_first_part_of_stamp = 'female'
+        basicOffer.target_audience_filters_offers.first.update_columns(
+          gender_first_part_of_stamp: 'female'
+        )
         basicOffer._exclusive_gender_filters.must_equal(['female'])
       end
 
