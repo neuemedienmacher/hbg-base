@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(version: 20170627081215) do
     t.boolean  "done",            default: false
     t.string   "size",            default: "medium", null: false
     t.integer  "city_id"
+    t.integer  "area_id"
   end
 
   add_index "divisions", ["city_id"], name: "index_divisions_on_city_id"
