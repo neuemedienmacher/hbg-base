@@ -22,6 +22,7 @@ describe Organization do
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :aasm_state }
     it { subject.must_respond_to :mailings }
+    it { subject.must_respond_to :pending_reason }
   end
 
   # describe 'validations' do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622100956) do
+ActiveRecord::Schema.define(version: 20170627081215) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -214,8 +214,10 @@ ActiveRecord::Schema.define(version: 20170622100956) do
     t.text     "comment"
     t.boolean  "done",            default: false
     t.string   "size",            default: "medium", null: false
+    t.integer  "city_id"
   end
 
+  add_index "divisions", ["city_id"], name: "index_divisions_on_city_id"
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id"
   add_index "divisions", ["section_id"], name: "index_divisions_on_section_id"
 
@@ -499,6 +501,7 @@ ActiveRecord::Schema.define(version: 20170622100956) do
     t.boolean  "priority",                           default: false,      null: false
     t.text     "comment"
     t.integer  "website_id"
+    t.string   "pending_reason"
   end
 
   add_index "organizations", ["aasm_state"], name: "index_organizations_on_aasm_state"
@@ -687,6 +690,16 @@ ActiveRecord::Schema.define(version: 20170622100956) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "user_team_observing_users", force: :cascade do |t|
+    t.integer  "user_id",      null: false
+    t.integer  "user_team_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_team_observing_users", ["user_id"], name: "index_user_team_observing_users_on_user_id"
+  add_index "user_team_observing_users", ["user_team_id"], name: "index_user_team_observing_users_on_user_team_id"
 
   create_table "user_team_users", force: :cascade do |t|
     t.integer "user_team_id"

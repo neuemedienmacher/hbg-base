@@ -1,13 +1,12 @@
 class InstallTrigramSearch < ActiveRecord::Migration
   def up
-    # testing environment does not use postgresql
-    unless Rails.env.test?
+    if Rails.configuration.database_configuration[Rails.env]['adapter'] == 'postgresql'
       execute "CREATE EXTENSION pg_trgm;"
     end
   end
 
   def down
-    unless Rails.env.test?
+    if Rails.configuration.database_configuration[Rails.env]['adapter'] == 'postgresql'
       execute "DROP EXTENSION pg_trgm;"
     end
   end

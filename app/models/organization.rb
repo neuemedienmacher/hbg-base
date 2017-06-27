@@ -31,6 +31,7 @@ class Organization < ActiveRecord::Base
   enumerize :legal_form, in: %w(ev ggmbh gag foundation gug gmbh ag ug kfm gbr
                                 ohg kg eg sonstige state_entity)
   enumerize :mailings, in: %w(disabled enabled force_disabled)
+  enumerize :pending_reason, in: %w(unstable on_hold foreign)
 
   # Sanitization
   extend Sanitization

@@ -15,6 +15,8 @@ describe Division do
     describe 'associations' do
       it { subject.must belong_to :organization }
       it { subject.must belong_to :section }
+      it { subject.must belong_to :city }
+      it { subject.must belong_to :division }
     end
   end
 end

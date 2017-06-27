@@ -5,6 +5,8 @@ class Division < ActiveRecord::Base
   # Associations
   belongs_to :organization, inverse_of: :divisions
   belongs_to :section, inverse_of: :divisions
+  belongs_to :city, inverse_of: :divisions
+  belongs_to :area, inverse_of: :divisions
 
   has_many :divisions_presumed_categories, inverse_of: :division
   has_many :presumed_categories,
