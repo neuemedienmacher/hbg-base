@@ -16,20 +16,15 @@ describe Offer do
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :opening_specification }
     it { subject.must_respond_to :aasm_state }
-    it { subject.must_respond_to :age_from }
-    it { subject.must_respond_to :age_to }
     it { subject.must_respond_to :target_audience }
     it { subject.must_respond_to :hide_contact_people }
     it { subject.must_respond_to :code_word }
-    it { subject.must_respond_to :gender_first_part_of_stamp }
-    it { subject.must_respond_to :gender_second_part_of_stamp }
     it { subject.must_respond_to :logic_version_id }
     it { subject.must_respond_to :split_base_id }
     it { subject.must_respond_to :all_inclusive }
     it { subject.must_respond_to :starts_at }
     it { subject.must_respond_to :completed_at }
     it { subject.must_respond_to :completed_by }
-    it { subject.must_respond_to :residency_status }
   end
 
   describe 'validations' do
@@ -529,7 +524,7 @@ describe Offer do
       end
 
       it 'should correctly return age_filters' do
-        basicOffer._age_filters.must_equal((0..17).to_a)
+        basicOffer._age_filters.must_equal((0..20).to_a)
       end
 
       it 'should correctly return organization_names' do
