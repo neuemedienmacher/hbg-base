@@ -23,7 +23,7 @@ class Offer
                through: :filters_offers,
                source: :filter
 
-      has_many :target_audience_filters_offers
+      has_many :target_audience_filters_offers, dependent: :destroy
       has_many :target_audience_filters,
                class_name: 'TargetAudienceFilter',
                through: :target_audience_filters_offers,

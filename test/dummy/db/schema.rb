@@ -708,11 +708,12 @@ ActiveRecord::Schema.define(version: 20170627152610) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
   create_table "websites", force: :cascade do |t|
-    t.string   "host",                          null: false
-    t.string   "url",                           null: false
+    t.string   "host",                               null: false
+    t.string   "url",                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "unreachable_count", default: 0, null: false
+    t.integer  "unreachable_count",  default: 0,     null: false
+    t.boolean  "ignored_by_crawler", default: false
   end
 
   add_index "websites", ["host"], name: "index_websites_on_host"
