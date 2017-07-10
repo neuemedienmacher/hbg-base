@@ -269,6 +269,18 @@ describe Offer do
       end
     end
 
+    describe '#category_explanations' do
+      it 'should return unique explanations of offer categories' do
+        Category.find(1).update_column :explanations_de, 'foo, bar'
+        Category.find(2).update_column :explanations_de, 'foo, bar'
+        Category.find(3).update_column :explanations_de, 'bar, code me'
+        offers(:basic).categories << Category.find(1)
+        offers(:basic).categories << Category.find(2)
+        offers(:basic).categories << Category.find(3)
+        offers(:basic).category_explanations.must_equal 'foo, bar, bar, code me'
+      end
+    end
+
     describe '#category_names' do
       it 'should refer to tags to gather category information' do
         offer = offers(:basic)
@@ -511,13 +523,14 @@ describe Offer do
         basicOffer._geoloc.must_equal('lat' => loc.latitude, 'lng' => loc.longitude)
       end
 
-      it 'should correctly return definitions_string' do
+      it 'should correctly return tags_string' do
         basicOffer.tags << tags(:basic)
         basicOffer.tag_string.must_include 'synonym'
         basicOffer.tag_string.must_include 'test'
+        basicOffer.tag_string.must_include 'en_xplanations'
       end
 
-      it 'should correctly return tags_string' do
+      it 'should correctly return definitions_string' do
         definition = Definition.new key: 'foo', explanation: 'bar'
         basicOffer.definitions << definition
         basicOffer.definitions_string.must_include 'bar'
