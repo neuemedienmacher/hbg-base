@@ -77,10 +77,17 @@ class Offer
         _keywords(locale).join ' '
       end
 
+      def category_explanations locale = :de
+        (
+          categories.map { |t| t.try("explanations_#{locale}") }
+        ).compact.uniq.join(', ')
+      end
+
       # additional searchable string made from keywords
       def tag_string locale = :en
         (
           tags.map { |t| t.try("keywords_#{locale}") } +
+          tags.map { |t| t.try("explanations_#{locale}") } +
           tags.pluck("name_#{locale}")
         ).compact.uniq.join(', ')
       end
