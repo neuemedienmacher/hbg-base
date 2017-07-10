@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170627152610) do
+ActiveRecord::Schema.define(version: 20170628153424) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
