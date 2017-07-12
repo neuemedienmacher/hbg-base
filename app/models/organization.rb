@@ -8,14 +8,14 @@ class Organization < ActiveRecord::Base
   include CustomValidatable, Notable, Translation, Assignable
 
   # Associations
-  has_many :locations
-  has_many :divisions, dependent: :destroy
+  has_many :locations, inverse_of: :organization
+  has_many :divisions, inverse_of: :organization, dependent: :destroy
   belongs_to :website, inverse_of: :organizations
   has_many :organization_offers, dependent: :destroy
-  has_many :contact_people
+  has_many :contact_people, inverse_of: :organization
   has_many :offers, through: :organization_offers, inverse_of: :organizations
   has_many :emails, through: :contact_people, inverse_of: :organizations
-  has_many :sections, -> { uniq }, through: :offers
+  has_many :sections, -> { uniq }, through: :offers, inverse_of: :organizations
   has_many :split_bases, inverse_of: :organization
   has_and_belongs_to_many :filters
   has_and_belongs_to_many :umbrella_filters,
@@ -24,7 +24,8 @@ class Organization < ActiveRecord::Base
   has_many :cities, -> { uniq }, through: :locations,
                                  inverse_of: :organizations
   has_many :definitions_organizations
-  has_many :definitions, through: :definitions_organizations
+  has_many :definitions, through: :definitions_organizations,
+                         inverse_of: :organizations
 
   # Enumerization
   extend Enumerize
