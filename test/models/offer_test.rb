@@ -16,20 +16,15 @@ describe Offer do
     it { subject.must_respond_to :updated_at }
     it { subject.must_respond_to :opening_specification }
     it { subject.must_respond_to :aasm_state }
-    it { subject.must_respond_to :age_from }
-    it { subject.must_respond_to :age_to }
     it { subject.must_respond_to :target_audience }
     it { subject.must_respond_to :hide_contact_people }
     it { subject.must_respond_to :code_word }
-    it { subject.must_respond_to :gender_first_part_of_stamp }
-    it { subject.must_respond_to :gender_second_part_of_stamp }
     it { subject.must_respond_to :logic_version_id }
     it { subject.must_respond_to :split_base_id }
     it { subject.must_respond_to :all_inclusive }
     it { subject.must_respond_to :starts_at }
     it { subject.must_respond_to :completed_at }
     it { subject.must_respond_to :completed_by }
-    it { subject.must_respond_to :residency_status }
   end
 
   describe 'observers' do
@@ -116,6 +111,18 @@ describe Offer do
         category.parent = categories(:main2)
         offers(:basic).categories << category
         offers(:basic).category_keywords.must_equal 'main1kw sub1kw'
+      end
+    end
+
+    describe '#category_explanations' do
+      it 'should return unique explanations of offer categories' do
+        Category.find(1).update_column :explanations_de, 'foo, bar'
+        Category.find(2).update_column :explanations_de, 'foo, bar'
+        Category.find(3).update_column :explanations_de, 'bar, code me'
+        offers(:basic).categories << Category.find(1)
+        offers(:basic).categories << Category.find(2)
+        offers(:basic).categories << Category.find(3)
+        offers(:basic).category_explanations.must_equal 'foo, bar, bar, code me'
       end
     end
 
@@ -361,20 +368,21 @@ describe Offer do
         basicOffer._geoloc.must_equal('lat' => loc.latitude, 'lng' => loc.longitude)
       end
 
-      it 'should correctly return definitions_string' do
+      it 'should correctly return tags_string' do
         basicOffer.tags << tags(:basic)
         basicOffer.tag_string.must_include 'synonym'
         basicOffer.tag_string.must_include 'test'
+        basicOffer.tag_string.must_include 'en_xplanations'
       end
 
-      it 'should correctly return tags_string' do
+      it 'should correctly return definitions_string' do
         definition = Definition.new key: 'foo', explanation: 'bar'
         basicOffer.definitions << definition
         basicOffer.definitions_string.must_include 'bar'
       end
 
       it 'should correctly return age_filters' do
-        basicOffer._age_filters.must_equal((0..17).to_a)
+        basicOffer._age_filters.must_equal((0..20).to_a)
       end
 
       it 'should correctly return organization_names' do
