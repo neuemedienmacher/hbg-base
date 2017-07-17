@@ -12,6 +12,7 @@ class AddCityIdAreaIdObservingUsersAndPendingReason < ActiveRecord::Migration
     end
 
     add_index :divisions, [:city_id]
+    add_index :divisions, [:area_id]
     add_index :user_team_observing_users, [:user_id]
     add_index :user_team_observing_users, [:user_team_id]
   end
