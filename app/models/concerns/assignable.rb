@@ -6,6 +6,9 @@ module Assignable
     has_many :assignments, as: :assignable, inverse_of: :assignable,
                            dependent: :destroy
 
+    # the current assignment must be active (open), a root assignment (no
+    # parent) and it must belong to the model (and not to a field of the model).
+    # There must always be exactly one current_assignment for each assignable.
     has_one :current_assignment,
             -> { active.root.base },
             class_name: 'Assignment', foreign_key: :assignable_id
