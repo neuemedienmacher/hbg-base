@@ -1,4 +1,4 @@
-class RenameSectionFiltersToSections < ActiveRecord::Migration
+class RenameSectionFiltersToSections < ActiveRecord::Migration[4.2]
   def change
     rename_table :section_filters, :sections
     rename_table :categories_section_filters, :categories_sections

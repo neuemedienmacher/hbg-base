@@ -1,4 +1,4 @@
-class CreateBaseOffers < ActiveRecord::Migration
+class CreateBaseOffers < ActiveRecord::Migration[4.2]
   def change
     create_table :base_offers do |t|
       t.string :name

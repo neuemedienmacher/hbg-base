@@ -1,4 +1,4 @@
-class DefinitionsOffers < ActiveRecord::Migration
+class DefinitionsOffers < ActiveRecord::Migration[4.2]
   def change
     create_table "definitions_offers", force: true do |t|
       t.integer  "definition_id",              null: false

@@ -1,4 +1,4 @@
-class AddExplanationsToTagsAndCategories < ActiveRecord::Migration
+class AddExplanationsToTagsAndCategories < ActiveRecord::Migration[4.2]
   def change
     add_column :categories, :explanations_de, :text
     add_column :categories, :explanations_en, :text

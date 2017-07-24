@@ -1,4 +1,4 @@
-class AddTranslationToContactPeopleResponsibility < ActiveRecord::Migration
+class AddTranslationToContactPeopleResponsibility < ActiveRecord::Migration[4.2]
   def change
 
     create_table "contact_person_translations", force: true do |t|

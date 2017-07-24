@@ -1,4 +1,4 @@
-class ChangeBaseOffers < ActiveRecord::Migration
+class ChangeBaseOffers < ActiveRecord::Migration[4.2]
   def change
     drop_table :base_offers do |t|
       t.string :name

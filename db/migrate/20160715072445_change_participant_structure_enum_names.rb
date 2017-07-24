@@ -1,4 +1,4 @@
-class ChangeParticipantStructureEnumNames < ActiveRecord::Migration
+class ChangeParticipantStructureEnumNames < ActiveRecord::Migration[4.2]
   def change
     Offer.where(participant_structure: 'target_audience_and_others').
       update_all(participant_structure: 'target_audience_in_group_with_others_with_different_problems')

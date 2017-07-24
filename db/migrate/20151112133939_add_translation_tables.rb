@@ -1,4 +1,4 @@
-class AddTranslationTables < ActiveRecord::Migration
+class AddTranslationTables < ActiveRecord::Migration[4.2]
   def change
     create_table "offer_translations", force: true do |t|
       t.integer  "offer_id",                            null: false

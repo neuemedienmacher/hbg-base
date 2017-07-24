@@ -1,4 +1,4 @@
-class CreateLogicVersions < ActiveRecord::Migration
+class CreateLogicVersions < ActiveRecord::Migration[4.2]
   def change
     create_table :logic_versions do |t|
       t.integer :version

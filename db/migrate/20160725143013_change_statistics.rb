@@ -1,4 +1,4 @@
-class ChangeStatistics < ActiveRecord::Migration
+class ChangeStatistics < ActiveRecord::Migration[4.2]
   def change
     rename_column :statistics, :x, :date
     rename_column :statistics, :y, :count
