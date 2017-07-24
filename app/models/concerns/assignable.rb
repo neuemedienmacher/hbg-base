@@ -5,6 +5,11 @@ module Assignable
     # Associations
     has_many :assignments, as: :assignable, inverse_of: :assignable,
                            dependent: :destroy
+
+    has_one :current_assignment,
+            -> { active.root.base },
+            class_name: 'Assignment', foreign_key: :assignable_id
+
     # # accepts_nested_attributes_for :assignments
     #
     # # Methods

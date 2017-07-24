@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(version: 20170628153424) do
     t.integer  "area_id"
   end
 
+  add_index "divisions", ["area_id"], name: "index_divisions_on_area_id"
   add_index "divisions", ["city_id"], name: "index_divisions_on_city_id"
   add_index "divisions", ["organization_id"], name: "index_divisions_on_organization_id"
   add_index "divisions", ["section_id"], name: "index_divisions_on_section_id"

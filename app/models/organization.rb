@@ -27,9 +27,7 @@ class Organization < ActiveRecord::Base
   has_many :definitions, through: :definitions_organizations,
                          inverse_of: :organizations
   has_many :offer_cities, -> { uniq },
-                          through: :offers,
-                          class_name: 'City',
-                          source: 'city'
+           through: :offers, class_name: 'City', source: 'city'
 
   # Enumerization
   extend Enumerize
