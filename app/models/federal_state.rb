@@ -1,5 +1,5 @@
 # Normalization of (German) federal states.
-class FederalState < ActiveRecord::Base
+class FederalState < ApplicationRecord
   # Associations
   has_many :locations, inverse_of: :federal_state
 

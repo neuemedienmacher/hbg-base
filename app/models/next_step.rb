@@ -1,5 +1,5 @@
 # A building block to form the "next steps" description for Offers
-class NextStep < ActiveRecord::Base
+class NextStep < ApplicationRecord
   # Associations
   has_many :next_steps_offers, inverse_of: :next_step
   has_many :offers, through: :next_steps_offers, inverse_of: :next_steps

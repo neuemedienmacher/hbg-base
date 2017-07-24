@@ -1,4 +1,4 @@
-class Section < ActiveRecord::Base
+class Section < ApplicationRecord
   has_many :offers
   has_many :organizations, through: :offers
   has_many :target_audience_filters

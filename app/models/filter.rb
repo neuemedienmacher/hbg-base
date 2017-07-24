@@ -1,6 +1,6 @@
 # STI parent model for different kinds of filters. Children located in the
 # filters subfolder.
-class Filter < ActiveRecord::Base
+class Filter < ApplicationRecord
   extend Enumerize
   has_many :filters_offers
 

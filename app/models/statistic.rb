@@ -6,7 +6,7 @@
 #           x (date)
 # #topic => the topic / category that this point belongs to
 # #user => Reference to the one this point is about
-class Statistic < ActiveRecord::Base
+class Statistic < ApplicationRecord
   # Associations
   belongs_to :trackable, polymorphic: true
 

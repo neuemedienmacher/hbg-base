@@ -1,5 +1,5 @@
 # A unique email address
-class Email < ActiveRecord::Base
+class Email < ApplicationRecord
   include AASM
 
   attr_accessor :given_security_code

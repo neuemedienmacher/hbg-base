@@ -1,4 +1,4 @@
-class UserTeam < ActiveRecord::Base
+class UserTeam < ApplicationRecord
   # Concerns
   include Trackable
 

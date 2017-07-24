@@ -1,6 +1,6 @@
 # The end point that can be contacted by a visitor to get Information about an
 # offer.
-class ContactPerson < ActiveRecord::Base
+class ContactPerson < ApplicationRecord
   # Concerns
   include Notable, Translation
 

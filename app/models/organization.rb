@@ -1,5 +1,5 @@
 # One of the main models. Represents the organizations that provide offers.
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   has_paper_trail
 
   VISIBLE_FRONTEND_STATES = %w(approved all_done).freeze

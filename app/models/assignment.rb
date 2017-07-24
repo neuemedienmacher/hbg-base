@@ -1,6 +1,6 @@
 # Basic Assignment Model. Can be connected to any other model via Assignable
 # module. Connects the Model with a user and/or a team. Only used in Backend.
-class Assignment < ActiveRecord::Base
+class Assignment < ApplicationRecord
   include AASM
   # Concerns
 

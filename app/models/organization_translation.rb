@@ -1,4 +1,4 @@
-class OrganizationTranslation < ActiveRecord::Base
+class OrganizationTranslation < ApplicationRecord
   include BaseTranslation
 
   # Concerns

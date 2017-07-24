@@ -1,5 +1,5 @@
 # Hierarchical solution categories for offers.
-class SolutionCategory < ActiveRecord::Base
+class SolutionCategory < ApplicationRecord
   # Closure Tree
   has_closure_tree
 

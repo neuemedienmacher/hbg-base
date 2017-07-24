@@ -1,5 +1,5 @@
 # Connector model
-class DefinitionsOffer < ActiveRecord::Base
+class DefinitionsOffer < ApplicationRecord
   belongs_to :offer
   belongs_to :definition
 end

@@ -1,6 +1,6 @@
 # Comment for internal use by admins.
 # Allows adding note to any other Model. Displayed in Admin backend.
-class Note < ActiveRecord::Base
+class Note < ApplicationRecord
   # Concerns
   include NoteReferencable # A note can be the target of references
 

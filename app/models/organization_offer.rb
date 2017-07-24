@@ -1,5 +1,5 @@
 # Connector model
-class OrganizationOffer < ActiveRecord::Base
+class OrganizationOffer < ApplicationRecord
   belongs_to :offer
   belongs_to :organization, counter_cache: :offers_count
 end

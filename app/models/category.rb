@@ -1,5 +1,5 @@
 # Hierarchical problem categories to sort offers.
-class Category < ActiveRecord::Base
+class Category < ApplicationRecord
   # Closure Tree
   has_closure_tree order: 'sort_order'
 

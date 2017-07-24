@@ -1,5 +1,5 @@
 # The external web addresses of organizations and offers.
-class Website < ActiveRecord::Base
+class Website < ApplicationRecord
   UNREACHABLE_THRESHOLD = 2
 
   # Associations

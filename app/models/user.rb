@@ -1,6 +1,6 @@
 # Devise user model, only used for researchers and supervisors to access the
 # backend. Not for clients yet.
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Concerns
   include Trackable
 
