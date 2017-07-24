@@ -1,5 +1,4 @@
 require 'json'
-require 'colored'
 
 # Check security
 def brakeman
