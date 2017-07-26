@@ -1,4 +1,4 @@
-class AddCityIdAreaIdObservingUsersAndPendingReason < ActiveRecord::Migration
+class AddCityIdAreaIdObservingUsersAndPendingReason < ActiveRecord::Migration[4.2]
   def change
     add_column :divisions, :city_id, :integer
     add_column :divisions, :area_id, :integer

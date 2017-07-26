@@ -1,4 +1,4 @@
-class AddMoreDataForOrgasAndDivisions < ActiveRecord::Migration
+class AddMoreDataForOrgasAndDivisions < ActiveRecord::Migration[4.2]
   class Organization < ActiveRecord::Base
   end
 
