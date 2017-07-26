@@ -4,7 +4,7 @@ class Offer < ApplicationRecord
   has_paper_trail
 
   # Modules
-  include Validations, CustomValidations, Associations, Search
+  include Associations, Search
 
   # Concerns
   include CustomValidatable, Notable, Translation

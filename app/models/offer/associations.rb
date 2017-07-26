@@ -13,7 +13,7 @@ class Offer
 
       has_many :filters_offers
       has_many :filters, through: :filters_offers, source: :filter
-      belongs_to :section
+      belongs_to :section, inverse_of: :offers
       has_many :language_filters,
                class_name: 'LanguageFilter',
                through: :filters_offers,

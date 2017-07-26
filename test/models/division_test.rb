@@ -7,7 +7,6 @@ describe Division do
   describe 'attributes' do
     it { subject.must_respond_to :id }
     it { subject.must_respond_to :name }
-    it { subject.must_respond_to :description }
     it { subject.must_respond_to :created_at }
     it { subject.must_respond_to :updated_at }
   end
@@ -16,6 +15,8 @@ describe Division do
     describe 'associations' do
       it { subject.must belong_to :organization }
       it { subject.must belong_to :section }
+      it { subject.must belong_to :city }
+      it { subject.must belong_to :area }
     end
   end
 end
