@@ -5,6 +5,14 @@ class Division < ActiveRecord::Base
 
   # Associations
   belongs_to :organization, inverse_of: :divisions
+  has_many :split_base_divisions, inverse_of: :division,
+                                  dependent: :destroy
+  has_many :split_bases, through: :split_base_divisions,
+                         inverse_of: :divisions,
+                         source: 'split_base'
+  has_many :offers, through: :split_bases,
+                    inverse_of: :divisions
+
   belongs_to :section, inverse_of: :divisions
   belongs_to :city, inverse_of: :divisions
   belongs_to :area, inverse_of: :divisions
