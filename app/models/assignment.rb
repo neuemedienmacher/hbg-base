@@ -24,6 +24,7 @@ class Assignment < ActiveRecord::Base
   scope :closed, -> { where(aasm_state: 'closed') }
   scope :base, -> { where(assignable_field_type: '') }
   scope :field, -> { where.not(assignable_field_type: '') }
+  scope :latest, -> { order(created_at: 'DESC') }
   scope :root, -> { where(parent_id: nil) } # Root Assignments have no parent
 
   # Enumerization

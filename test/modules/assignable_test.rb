@@ -37,6 +37,9 @@ describe Assignable do
   describe 'current_assignment' do
     it 'finds the newest active base association without a parent' do
       model = Organization.first
+      Assignment.create(
+        assignable: model, aasm_state: 'open', message: 'earlier decoy'
+      )
       correct_assignment = Assignment.create(
         assignable: model, aasm_state: 'open', message: 'correct'
       )
