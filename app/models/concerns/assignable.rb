@@ -9,11 +9,14 @@ module Assignable
     # the current assignment must be active (open), a root assignment (no
     # parent) and it must belong to the model (and not to a field of the model).
     # There must always be exactly one current_assignment for each assignable.
-    has_one :current_assignment,
-            ->(object) { where(assignable: object).active.root.base.latest },
-            class_name: 'Assignment', as: :assignable
-    has_one :active_assignment, -> { active.root.base.latest },
-            class_name: 'Assignment', as: :assignable
+    has_one(
+      :current_assignment,
+      lambda do |object|
+        where(assignable: object) if object.is_a?(ActiveRecord::Base)
+        active.root.base.latest
+      end,
+      class_name: 'Assignment', as: :assignable
+    )
 
     # # accepts_nested_attributes_for :assignments
     #
