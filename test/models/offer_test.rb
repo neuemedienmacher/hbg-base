@@ -109,9 +109,8 @@ describe Offer do
 
       it 'should return unique keywords of offer categories including parent' do
         category = categories(:sub1)
-        category.parent = categories(:main2)
-        offers(:basic).categories << category
-        offers(:basic).category_keywords.must_equal 'main1kw sub1kw'
+        offers(:basic).categories = [category]
+        offers(:basic).category_keywords.must_equal 'sub1kw main1kw'
       end
     end
 
