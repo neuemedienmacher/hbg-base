@@ -15,7 +15,9 @@ class UserTeam < ActiveRecord::Base
   belongs_to :lead, class_name: 'User', inverse_of: :led_teams
 
   belongs_to :parent, class_name: 'UserTeam', inverse_of: :children
-  has_many :children, class_name: 'UserTeam', foreign_key: 'parent_id', inverse_of: :parent
+  has_many :children, class_name: 'UserTeam',
+                      foreign_key: 'parent_id',
+                      inverse_of: :parent
 
   has_many :created_assignments, class_name: 'Assignment',
                                  foreign_key: 'creator_team_id',
@@ -26,7 +28,7 @@ class UserTeam < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  CLASSIFICATIONS = %w(researcher translator).freeze
+  CLASSIFICATIONS = %w(family refugees translator).freeze
   enumerize :classification, in: CLASSIFICATIONS
 
   # Scopes

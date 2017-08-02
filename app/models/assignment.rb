@@ -30,7 +30,9 @@ class Assignment < ActiveRecord::Base
   # Enumerization
   extend Enumerize
   # NOTE: meant to be extended (eg. approval, rewrite...)
-  TOPICS = %w(translation update rewrite crawler external_feedback new).freeze
+  TOPICS = %w(
+    translation update rewrite crawler external_feedback new approval
+  ).freeze
   enumerize :topic, in: TOPICS
 
   # State Machine
