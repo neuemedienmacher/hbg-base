@@ -8,7 +8,7 @@ class Organization < ActiveRecord::Base
   include CustomValidatable, Notable, Translation, Assignable
 
   # Associations
-  has_many :divisions, inverse_of: :organization, dependent: :destroy
+  has_many :divisions, inverse_of: :organization
   has_many :split_bases, through: :divisions, inverse_of: :organizations
   has_many :offers, through: :divisions, inverse_of: :organizations
 
