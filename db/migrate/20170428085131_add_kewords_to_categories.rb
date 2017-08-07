@@ -1,4 +1,4 @@
-class AddKewordsToCategories < ActiveRecord::Migration
+class AddKewordsToCategories < ActiveRecord::Migration[4.2]
   def change
     add_column :categories, :keywords_de, :text
     add_column :categories, :keywords_en, :text

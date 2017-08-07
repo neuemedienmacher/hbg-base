@@ -1,4 +1,4 @@
-class AddGengoOrder < ActiveRecord::Migration
+class AddGengoOrder < ActiveRecord::Migration[4.2]
   def change
     create_table 'gengo_orders' do |t|
       t.integer   'order_id'

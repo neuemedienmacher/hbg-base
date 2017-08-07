@@ -1,4 +1,4 @@
-class CreateClaratBase < ActiveRecord::Migration
+class CreateClaratBase < ActiveRecord::Migration[4.2]
   def up
     create_table "areas", force: true do |t|
       t.string   "name",       null: false

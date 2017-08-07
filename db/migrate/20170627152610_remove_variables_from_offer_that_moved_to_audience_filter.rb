@@ -1,4 +1,4 @@
-class RemoveVariablesFromOfferThatMovedToAudienceFilter < ActiveRecord::Migration
+class RemoveVariablesFromOfferThatMovedToAudienceFilter < ActiveRecord::Migration[4.2]
   def change
     remove_column :offers, :residency_status
     remove_column :offers, :age_to

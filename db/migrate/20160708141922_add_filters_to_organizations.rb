@@ -1,4 +1,4 @@
-class AddFiltersToOrganizations < ActiveRecord::Migration
+class AddFiltersToOrganizations < ActiveRecord::Migration[4.2]
   class Organizations < ActiveRecord::Base
     extend Enumerize
     enumerize :umbrella, in: %w(caritas diakonie awo dpw drk asb zwst dbs vdw bags

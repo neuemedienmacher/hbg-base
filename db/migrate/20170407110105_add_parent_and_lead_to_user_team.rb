@@ -1,4 +1,4 @@
-class AddParentAndLeadToUserTeam < ActiveRecord::Migration
+class AddParentAndLeadToUserTeam < ActiveRecord::Migration[4.2]
   def up
     add_column :user_teams, :lead_id, :integer
     add_column :user_teams, :parent_id, :integer

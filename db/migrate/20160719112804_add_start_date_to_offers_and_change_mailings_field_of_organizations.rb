@@ -1,4 +1,4 @@
-class AddStartDateToOffersAndChangeMailingsFieldOfOrganizations < ActiveRecord::Migration
+class AddStartDateToOffersAndChangeMailingsFieldOfOrganizations < ActiveRecord::Migration[4.2]
   def up
     # create new mailings field
     add_column :organizations, :mailings, :string, limit: 255, default: 'disabled', null: false

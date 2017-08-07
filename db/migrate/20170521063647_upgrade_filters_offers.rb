@@ -1,4 +1,4 @@
-class UpgradeFiltersOffers < ActiveRecord::Migration
+class UpgradeFiltersOffers < ActiveRecord::Migration[4.2]
   def change
     create_table :target_audience_filters_offers, force: true do |t|
       t.integer "target_audience_filter_id", null: false

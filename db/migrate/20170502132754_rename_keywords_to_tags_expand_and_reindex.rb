@@ -1,4 +1,4 @@
-class RenameKeywordsToTagsExpandAndReindex < ActiveRecord::Migration
+class RenameKeywordsToTagsExpandAndReindex < ActiveRecord::Migration[4.2]
   def change
     rename_table :keywords, :tags
     rename_column :tags, :synonyms, :keywords_de

@@ -94,7 +94,7 @@ class ActiveSupport::TestCase
   require 'enumerize/integrations/rspec'
   extend Enumerize::Integrations::RSpec
 
-  self.use_transactional_fixtures = true
+  self.use_transactional_tests = true
   self.fixture_path = ClaratBase::Engine.root.join('test', 'fixtures')
   fixtures :all
 

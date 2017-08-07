@@ -1,4 +1,4 @@
-class ChangeNameLengthOfferTranslations < ActiveRecord::Migration
+class ChangeNameLengthOfferTranslations < ActiveRecord::Migration[4.2]
   def up
     change_column :offer_translations, :name, :string, limit: 120, null: false
   end

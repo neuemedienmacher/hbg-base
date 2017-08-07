@@ -1,4 +1,4 @@
-class AddPgSearchAssociatedAgainstSupportFunctions < ActiveRecord::Migration
+class AddPgSearchAssociatedAgainstSupportFunctions < ActiveRecord::Migration[4.2]
   def self.up
     return if ActiveRecord::Base.connection.adapter_name != 'PostgreSQL'
     say_with_time("Adding support functions for pg_search :associated_against") do

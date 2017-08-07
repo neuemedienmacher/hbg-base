@@ -1,4 +1,4 @@
-class AddNextSteps < ActiveRecord::Migration
+class AddNextSteps < ActiveRecord::Migration[4.2]
   def change
     rename_column :offers, :next_steps, :old_next_steps
     rename_column :offer_translations, :next_steps, :old_next_steps

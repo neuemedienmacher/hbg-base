@@ -1,4 +1,4 @@
-class ChangeTranslationOfCategories < ActiveRecord::Migration
+class ChangeTranslationOfCategories < ActiveRecord::Migration[4.2]
   class CategoryTranslation < ActiveRecord::Base
     include BaseTranslation
 
