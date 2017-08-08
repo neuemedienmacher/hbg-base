@@ -158,6 +158,7 @@ describe Organization do
 
   describe '#in_section?' do
     it 'should return true for family when the section is present' do
+      binding.pry
       orga.in_section?('family').must_equal true
     end
   end
