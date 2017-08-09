@@ -1,5 +1,5 @@
 # Polymorphic join model between organizations/offers and websites.
-class Division < ActiveRecord::Base
+class Division < ApplicationRecord
   # Concerns
   include Assignable
 
