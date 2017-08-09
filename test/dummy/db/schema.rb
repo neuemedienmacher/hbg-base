@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802094621) do
+ActiveRecord::Schema.define(version: 20170809115013) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -83,14 +83,6 @@ ActiveRecord::Schema.define(version: 20170802094621) do
   end
 
   add_index "categories", ["name_de"], name: "index_categories_on_name_de"
-
-  create_table "categories_filters", id: false, force: :cascade do |t|
-    t.integer "filter_id",   null: false
-    t.integer "category_id", null: false
-  end
-
-  add_index "categories_filters", ["category_id"], name: "index_filters_categories_on_category_id"
-  add_index "categories_filters", ["filter_id"], name: "index_filters_categories_on_filter_id"
 
   create_table "categories_offers", id: false, force: :cascade do |t|
     t.integer "offer_id",    null: false
