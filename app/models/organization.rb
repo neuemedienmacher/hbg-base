@@ -16,17 +16,17 @@ class Organization < ApplicationRecord
   belongs_to :website, inverse_of: :organizations
   has_many :contact_people, inverse_of: :organization
   has_many :emails, through: :contact_people, inverse_of: :organizations
-  has_many :sections, -> { uniq }, through: :offers, inverse_of: :organizations
+  has_many :sections, -> { distinct }, through: :offers, inverse_of: :organizations
   has_and_belongs_to_many :filters
   has_and_belongs_to_many :umbrella_filters,
                           association_foreign_key: 'filter_id',
                           join_table: 'filters_organizations'
-  has_many :cities, -> { uniq }, through: :locations,
+  has_many :cities, -> { distinct }, through: :locations,
                                  inverse_of: :organizations
   has_many :definitions_organizations
   has_many :definitions, through: :definitions_organizations,
                          inverse_of: :organizations
-  has_many :offer_cities, -> { uniq }, through: :offers,
+  has_many :offer_cities, -> { distinct }, through: :offers,
                                        class_name: 'City',
                                        source: 'city'
 
