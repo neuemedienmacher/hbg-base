@@ -70,7 +70,7 @@ describe Organization do
     it { subject.must have_many :offers }
     it { subject.must have_many :locations }
     it { subject.must belong_to :website }
-    it { subject.must have_many(:sections).through :offers }
+    it { subject.must have_many(:sections).through :divisions }
     it { subject.must have_and_belong_to_many :filters }
     it { subject.must have_and_belong_to_many :umbrella_filters }
     it { subject.must have_many(:divisions) }
