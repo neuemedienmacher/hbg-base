@@ -13,7 +13,7 @@ describe Section do
   describe '::Base' do
     describe 'associations' do
       it { subject.must have_many :offers }
-      it { subject.must have_many(:organizations).through :offers }
+      it { subject.must have_many(:organizations).through :divisions }
       it { subject.must have_many(:target_audience_filters) }
       it { subject.must have_many(:divisions) }
       it { subject.must have_many(:categories_sections) }
