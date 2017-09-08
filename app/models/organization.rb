@@ -27,6 +27,8 @@ class Organization < ActiveRecord::Base
   has_many :definitions_organizations
   has_many :definitions, through: :definitions_organizations,
                          inverse_of: :organizations
+  has_many :topics_organizations
+  has_many :topics, through: :topics_organizations
   has_many :offer_cities, -> { uniq }, through: :offers,
                                        class_name: 'City',
                                        source: 'city'
