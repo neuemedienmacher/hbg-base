@@ -29,4 +29,7 @@ class Division < ActiveRecord::Base
 
   has_many :hyperlinks, dependent: :destroy, as: :linkable
   has_many :websites, through: :hyperlinks, inverse_of: :divisions
+
+  extend Enumerize
+  enumerize :size, in: %w(small medium large)
 end
