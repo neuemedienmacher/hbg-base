@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170908124329) do
+ActiveRecord::Schema.define(version: 20170913085323) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -649,7 +649,7 @@ ActiveRecord::Schema.define(version: 20170908124329) do
 
   create_table "target_audience_filters_offers", force: :cascade do |t|
     t.integer  "target_audience_filter_id",                   null: false
-    t.integer  "offer_id",                                    null: false
+    t.integer  "offer_id"
     t.string   "residency_status"
     t.string   "gender_first_part_of_stamp"
     t.string   "gender_second_part_of_stamp"

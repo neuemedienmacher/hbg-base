@@ -1,7 +1,8 @@
 # Connector Model Offer <-> Filter
 class TargetAudienceFiltersOffer < ActiveRecord::Base
   # Associations
-  belongs_to :target_audience_filter, inverse_of: :target_audience_filters_offers
+  belongs_to :target_audience_filter,
+             inverse_of: :target_audience_filters_offers
   belongs_to :offer, inverse_of: :target_audience_filters_offers
 
   # Constants
