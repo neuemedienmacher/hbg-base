@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913085323) do
+ActiveRecord::Schema.define(version: 20170913114320) do
 
   create_table "absences", force: :cascade do |t|
     t.date    "starts_at",                null: false
@@ -414,6 +414,7 @@ ActiveRecord::Schema.define(version: 20170913085323) do
     t.datetime "completed_at"
     t.integer  "completed_by"
     t.integer  "section_id"
+    t.string   "comment"
   end
 
   add_index "offers", ["aasm_state"], name: "index_offers_on_aasm_state"
