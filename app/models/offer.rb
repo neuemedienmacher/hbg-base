@@ -60,6 +60,8 @@ class Offer < ActiveRecord::Base
   delegate :minlat, :maxlat, :minlong, :maxlong,
            to: :area, prefix: true, allow_nil: true
 
+  delegate :code_word, to: :split_base, prefix: false
+
   def organization_count
     organizations.count
   end
