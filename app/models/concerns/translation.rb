@@ -36,8 +36,6 @@ module Translation
       translated_fields.select { |f| changes[f.to_s] }
     end
 
-    private
-
     # :name -> #translated_name getter in currently set locale
     def self.define_translated_field_getter field
       define_method "translated_#{field}" do

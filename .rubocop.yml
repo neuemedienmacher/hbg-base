@@ -45,4 +45,7 @@ Metrics/ModuleLength:
 
 Metrics/AbcSize:
   Max: 16
-  
+
+Metrics/BlockLength:
+  Enabled: false
+
