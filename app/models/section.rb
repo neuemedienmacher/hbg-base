@@ -8,5 +8,5 @@ class Section < ApplicationRecord
   has_many :categories, through: :categories_sections
   has_many :cities, -> { distinct }, through: :offers, inverse_of: :sections
 
-  IDENTIFIER = %w(family refugees).freeze
+  IDENTIFIER = %w[family refugees].freeze
 end

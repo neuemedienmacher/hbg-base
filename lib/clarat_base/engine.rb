@@ -13,18 +13,18 @@ module ClaratBase
     require 'sidekiq'
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(
+    config.autoload_paths += %W[
       #{config.root}/app/objects/service/
       #{config.root}/app/objects/value/
       #{config.root}/app/observers/
       #{config.root}/app/models/filters/
       #{config.root}/app/workers/
-    )
+    ]
 
     # Activate observers that should always be running.
-    config.active_record.observers = %w(
+    config.active_record.observers = %w[
       SubscriptionObserver OfferObserver OrganizationObserver
-    )
+    ]
 
     # Also store migrations here
     initializer :append_migrations do |app|

@@ -428,14 +428,16 @@ describe Offer do
       it 'should return a translation lang for automated translations' do
         OfferTranslation.create!(
           offer_id: 1, name: 'eng', description: 'eng', locale: :en,
-          source: 'GoogleTranslate')
+          source: 'GoogleTranslate'
+        )
         basicOffer.lang(:en).must_equal 'en-x-mtfrom-de'
       end
 
       it 'should return a locale lang for manual translations' do
         OfferTranslation.create!(
           offer_id: 1, name: 'eng', description: 'eng', locale: :en,
-          source: 'researcher')
+          source: 'researcher'
+        )
         basicOffer.lang(:en).must_equal 'en'
       end
 
@@ -455,7 +457,7 @@ describe Offer do
           TargetAudienceFilter.find_by(identifier: 'family_children')
         basicOffer.target_audience_filters.count.must_equal 2
         basicOffer.target_audience_filters.pluck(:identifier).must_equal(
-          %w(family_children family_children)
+          %w[family_children family_children]
         )
         basicOffer._target_audience_filters.must_equal(['family_children'])
       end

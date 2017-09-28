@@ -28,7 +28,7 @@ class UserTeam < ApplicationRecord
 
   # Enumerization
   extend Enumerize
-  CLASSIFICATIONS = %w(family refugees translator).freeze
+  CLASSIFICATIONS = %w[family refugees translator].freeze
   enumerize :classification, in: CLASSIFICATIONS
 
   # Scopes

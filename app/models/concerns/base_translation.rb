@@ -1,10 +1,10 @@
 module BaseTranslation
   # Enumerization
   extend Enumerize
-  SOURCES = %w(researcher GoogleTranslate user).freeze
+  SOURCES = %w[researcher GoogleTranslate user].freeze
   enumerize :source, in: SOURCES
 
-  MANUALLY_TRANSLATED_LOCALES = %w(ar fa en).freeze
+  MANUALLY_TRANSLATED_LOCALES = %w[ar fa en].freeze
 
   def automated?
     source == 'GoogleTranslate'

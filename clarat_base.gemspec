@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.name        = 'clarat_base'
   s.version     = ClaratBase::VERSION
-  s.authors     = %w(KonstantinKo Twiek NilsVollmer)
+  s.authors     = %w[KonstantinKo Twiek NilsVollmer]
   s.email       = ['dev@clarat.org']
   s.homepage    = 'http://www.clarat.org'
   s.summary     = 'The base for all clarat projects.'

@@ -5,7 +5,7 @@ class Opening < ApplicationRecord
 
   # Enumerization
   extend Enumerize
-  DAYS = %w(mon tue wed thu fri sat sun).freeze
+  DAYS = %w[mon tue wed thu fri sat sun].freeze
   enumerize :day, in: DAYS
 
   # Validations moved to claradmin

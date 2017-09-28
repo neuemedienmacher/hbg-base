@@ -11,7 +11,7 @@ class Definition < ApplicationRecord
 
   # Validations
   validates :key, presence: true, uniqueness: true,
-                  exclusion: { in: %w(dfn class JS tooltip data id) },
+                  exclusion: { in: %w[dfn class JS tooltip data id] },
                   length: { maximum: 400 }
   validates :explanation, presence: true, length: { maximum: 500 }
 end

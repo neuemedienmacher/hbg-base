@@ -12,7 +12,7 @@ class StatisticChart < ApplicationRecord
 
   # Enumerization
   extend Enumerize
-  TITLES = %w(completion approval).freeze
+  TITLES = %w[completion approval].freeze
 
   enumerize :title, in: TITLES
 end

@@ -8,7 +8,7 @@ class Email < ApplicationRecord
   has_many :contact_people, inverse_of: :email
   has_many :offers, -> { distinct }, through: :contact_people, inverse_of: :emails
   has_many :organizations, -> { distinct }, through: :contact_people,
-                                        inverse_of: :emails
+                                            inverse_of: :emails
 
   # Validations moved to claradmin
   FORMAT = /\A\S+@\S+\.\S+\z/

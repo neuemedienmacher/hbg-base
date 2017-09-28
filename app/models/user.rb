@@ -36,7 +36,7 @@ class User < ApplicationRecord
 
   # Enumerization
   extend Enumerize
-  enumerize :role, in: %w(standard researcher super)
+  enumerize :role, in: %w[standard researcher super]
 
   # Scopes
   scope :researcher, -> { where(role: 'researcher') }

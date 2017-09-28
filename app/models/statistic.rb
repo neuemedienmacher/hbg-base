@@ -12,9 +12,9 @@ class Statistic < ApplicationRecord
 
   # Enumerization
   extend Enumerize
-  TOPICS = %w(
+  TOPICS = %w[
     offer_created offer_approved organization_created organization_approved
-  ).freeze
+  ].freeze
   enumerize :topic, in: TOPICS
 
   # Scopes
