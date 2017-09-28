@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809115013) do
+ActiveRecord::Schema.define(version: 20170921090532) do
 
   create_table "absences", force: :cascade do |t|
     t.date "starts_at", null: false
@@ -372,7 +372,7 @@ ActiveRecord::Schema.define(version: 20170809115013) do
     t.datetime "approved_at"
     t.integer "created_by"
     t.integer "approved_by"
-    t.date "expires_at", null: false
+    t.date "ends_at"
     t.integer "area_id"
     t.text "description_html"
     t.text "next_steps_html"
@@ -389,6 +389,7 @@ ActiveRecord::Schema.define(version: 20170809115013) do
     t.datetime "completed_at"
     t.integer "completed_by"
     t.integer "section_id"
+    t.string "comment"
     t.index ["aasm_state"], name: "index_offers_on_aasm_state"
     t.index ["approved_at"], name: "index_offers_on_approved_at"
     t.index ["area_id"], name: "index_offers_on_area_id"
@@ -522,6 +523,7 @@ ActiveRecord::Schema.define(version: 20170809115013) do
     t.integer "solution_category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "code_word", limit: 140
     t.index ["organization_id"], name: "index_split_bases_on_organization_id"
     t.index ["solution_category_id"], name: "index_split_bases_on_solution_category_id"
   end
@@ -608,7 +610,7 @@ ActiveRecord::Schema.define(version: 20170809115013) do
 
   create_table "target_audience_filters_offers", force: :cascade do |t|
     t.integer "target_audience_filter_id", null: false
-    t.integer "offer_id", null: false
+    t.integer "offer_id"
     t.string "residency_status"
     t.string "gender_first_part_of_stamp"
     t.string "gender_second_part_of_stamp"
@@ -637,6 +639,17 @@ ActiveRecord::Schema.define(version: 20170809115013) do
     t.integer "actual_wa_hours", limit: 3
     t.string "actual_wa_comment"
     t.index ["user_id"], name: "index_time_allocations_on_user_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "topics_organizations", force: :cascade do |t|
+    t.integer "topic_id"
+    t.integer "organization_id"
+    t.index ["organization_id"], name: "index_topics_organizations_on_organization_id"
+    t.index ["topic_id"], name: "index_topics_organizations_on_topic_id"
   end
 
   create_table "update_requests", force: :cascade do |t|

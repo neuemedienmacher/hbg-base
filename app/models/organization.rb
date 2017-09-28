@@ -29,9 +29,14 @@ class Organization < ApplicationRecord
   has_many :definitions_organizations
   has_many :definitions, through: :definitions_organizations,
                          inverse_of: :organizations
+  has_many :topics_organizations
+  has_many :topics, through: :topics_organizations
   has_many :offer_cities, -> { distinct }, through: :offers,
                                            class_name: 'City',
                                            source: 'city'
+  has_many :division_cities, -> { distinct }, through: :divisions,
+                                              class_name: 'City',
+                                              source: 'city'
 
   # Enumerization
   extend Enumerize
