@@ -90,12 +90,12 @@ class Offer
 
       # additional searchable string made from keywords
       def tag_keywords locale = :en
-        tags.map { |t| t.try("keywords_#{locale}") }.reject(&:empty?).uniq.join(', ')
+        tags.map { |t| t.try("keywords_#{locale}") }.reject(&:blank?).uniq.join(', ')
       end
 
       # additional searchable string made from expalanations
       def tag_explanations locale = :en
-        tags.map { |t| t.try("explanations_#{locale}") }.reject(&:empty?).uniq.join(', ')
+        tags.map { |t| t.try("explanations_#{locale}") }.reject(&:blank?).uniq.join(', ')
       end
 
       # concatenated organization name for search index
