@@ -369,11 +369,11 @@ describe Offer do
         basicOffer._geoloc.must_equal('lat' => loc.latitude, 'lng' => loc.longitude)
       end
 
-      it 'should correctly return tags_string' do
+      it 'should correctly return tags' do
         basicOffer.tags << tags(:basic)
-        basicOffer.tag_string.must_include 'synonym'
-        basicOffer.tag_string.must_include 'test'
-        basicOffer.tag_string.must_include 'en_xplanations'
+        basicOffer.tag_names.must_include 'test'
+        basicOffer.tag_keywords.must_include 'synonym'
+        basicOffer.tag_explanations.must_include 'en_xplanations'
       end
 
       it 'should correctly return definitions_string' do
