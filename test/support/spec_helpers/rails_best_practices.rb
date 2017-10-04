@@ -2,7 +2,7 @@
 require 'rails_best_practices'
 
 def rails_best_practices
-  puts "\n\n[RailsBestPractices] Testing:\n".underline
+  puts "\n\n[RailsBestPractices] Testing:\n"
   bp_analyzer = RailsBestPractices::Analyzer.new(Rails.root)
   bp_analyzer.analyze
 

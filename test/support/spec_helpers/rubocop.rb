@@ -2,7 +2,7 @@ require 'json'
 
 # Check code style
 def rubocop
-  puts "\n\n[Rubocop] Checking Code Style:\n".underline
+  puts "\n\n[Rubocop] Checking Code Style:\n"
   output = %x( bundle exec rake app:test:rubocop )
   result = JSON.parse output
 
@@ -16,10 +16,10 @@ def rubocop
   end
 
   if offense_count == 0
-    puts 'Code styled well.'.green
+    puts 'Code styled well.'
   else
-    puts "Offenses: #{offense_count}".red
-    puts 'Suite failing due to code styling issues.'.red.underline
+    puts "Offenses: #{offense_count}"
+    puts 'Suite failing due to code styling issues.'
     exit 1
   end
 end
@@ -28,8 +28,8 @@ def rubocop_format obj
   output = ''
 
   obj['offenses'].each do |offense|
-    output += 'Offense in '.red
-    output += "#{obj['path']}:#{offense['location']['line']}:#{offense['location']['column']} ".blue
+    output += 'Offense in '
+    output += "#{obj['path']}:#{offense['location']['line']}:#{offense['location']['column']} "
     output += offense['message']
     output += "\n"
   end

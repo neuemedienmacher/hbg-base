@@ -38,7 +38,7 @@ describe Translation do
   describe 'field getter for specific translation' do
     it 'should find a specific translation' do
       subject.expect_chain(:translations, :where)
-        .stub_private(:select, returns: [translation])
+             .stub_private(:select, returns: [translation])
       subject.somefield_en.must_equal 'some translation'
     end
   end
