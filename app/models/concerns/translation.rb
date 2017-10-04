@@ -50,7 +50,7 @@ module Translation
     # :name, :de -> translated #name_de getter in specific given locale
     def self.define_specific_locale_field_getter field, locale
       define_method "#{field}_#{locale}" do
-        translation = translations.where(locale: locale).send(:select, field).first
+        translation = translations.where(locale: locale).select(field).first
         return nil unless translation
         translation.send(field)
       end
