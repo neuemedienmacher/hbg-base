@@ -1,4 +1,4 @@
-class ChangeStatisticsToPolymorphicRelation < ActiveRecord::Migration
+class ChangeStatisticsToPolymorphicRelation < ActiveRecord::Migration[4.2]
   def up
     add_column :statistics, :trackable_type, :string, null: true
     add_column :statistics, :trackable_id, :integer, null: true

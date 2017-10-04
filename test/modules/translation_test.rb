@@ -37,7 +37,8 @@ describe Translation do
 
   describe 'field getter for specific translation' do
     it 'should find a specific translation' do
-      subject.expect_chain(:translations, :where, :select).returns [translation]
+      subject.expect_chain(:translations, :where)
+             .stub_private(:select, returns: [translation])
       subject.somefield_en.must_equal 'some translation'
     end
   end
@@ -54,7 +55,7 @@ describe Translation do
     it 'should correctly return the changed translatable fields' do
       offer = FactoryGirl.create(:offer)
       # contains all translatable fields for new records
-      offer.changed_translatable_fields.must_equal [:name, :description, :old_next_steps]
+      offer.changed_translatable_fields.must_equal %i[name description old_next_steps]
       offer.description = 'SomeOtherText'
       offer.save!
       # contains only the changed field

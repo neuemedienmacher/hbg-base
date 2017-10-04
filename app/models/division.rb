@@ -1,5 +1,5 @@
 # Polymorphic join model between organizations/offers and websites.
-class Division < ActiveRecord::Base
+class Division < ApplicationRecord
   # Concerns
   include Assignable
 
@@ -31,5 +31,5 @@ class Division < ActiveRecord::Base
   has_many :websites, through: :hyperlinks, inverse_of: :divisions
 
   extend Enumerize
-  enumerize :size, in: %w(small medium large)
+  enumerize :size, in: %w[small medium large]
 end

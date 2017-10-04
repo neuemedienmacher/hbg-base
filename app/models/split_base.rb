@@ -1,4 +1,4 @@
-class SplitBase < ActiveRecord::Base
+class SplitBase < ApplicationRecord
   # Associations
   has_many :offers, inverse_of: :split_base
   has_many :split_base_divisions, inverse_of: :split_base,

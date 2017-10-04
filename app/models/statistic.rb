@@ -6,15 +6,15 @@
 #           x (date)
 # #topic => the topic / category that this point belongs to
 # #user => Reference to the one this point is about
-class Statistic < ActiveRecord::Base
+class Statistic < ApplicationRecord
   # Associations
   belongs_to :trackable, polymorphic: true
 
   # Enumerization
   extend Enumerize
-  TOPICS = %w(
+  TOPICS = %w[
     offer_created offer_approved organization_created organization_approved
-  ).freeze
+  ].freeze
   enumerize :topic, in: TOPICS
 
   # Scopes

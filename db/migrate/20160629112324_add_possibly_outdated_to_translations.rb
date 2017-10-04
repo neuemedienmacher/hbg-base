@@ -1,4 +1,4 @@
-class AddPossiblyOutdatedToTranslations < ActiveRecord::Migration
+class AddPossiblyOutdatedToTranslations < ActiveRecord::Migration[4.2]
   def change
     add_column :offer_translations, :possibly_outdated, :boolean,
                default: false

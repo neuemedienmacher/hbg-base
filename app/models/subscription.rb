@@ -1,5 +1,5 @@
 # Newsletter Subscription
-class Subscription < ActiveRecord::Base
+class Subscription < ApplicationRecord
   # Validations
   validates :email, format: Email::FORMAT
 end

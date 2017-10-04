@@ -1,4 +1,4 @@
-class UpgradeProductivityGoals < ActiveRecord::Migration
+class UpgradeProductivityGoals < ActiveRecord::Migration[4.2]
   class ProductivityGoal < ActiveRecord::Base
   end
 

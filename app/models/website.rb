@@ -1,5 +1,5 @@
 # The external web addresses of organizations and offers.
-class Website < ActiveRecord::Base
+class Website < ApplicationRecord
   UNREACHABLE_THRESHOLD = 2
 
   # Associations
@@ -12,9 +12,9 @@ class Website < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  HOSTS = %w(own facebook twitter youtube gplus pinterest document
+  HOSTS = %w[own facebook twitter youtube gplus pinterest document
              online_consulting chat forum online_course application_form
-             contact_form other).freeze
+             contact_form other].freeze
   enumerize :host, in: HOSTS
 
   # Scopes..

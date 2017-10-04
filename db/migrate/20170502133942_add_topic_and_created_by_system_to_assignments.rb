@@ -1,4 +1,4 @@
-class AddTopicAndCreatedBySystemToAssignments < ActiveRecord::Migration
+class AddTopicAndCreatedBySystemToAssignments < ActiveRecord::Migration[4.2]
   def up
     add_column :assignments, :topic, :string, :null => true
     add_column :assignments, :created_by_system, :boolean, default: false

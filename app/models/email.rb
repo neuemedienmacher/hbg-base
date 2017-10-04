@@ -1,14 +1,14 @@
 # A unique email address
-class Email < ActiveRecord::Base
+class Email < ApplicationRecord
   include AASM
 
   attr_accessor :given_security_code
 
   # Associations
   has_many :contact_people, inverse_of: :email
-  has_many :offers, -> { uniq }, through: :contact_people, inverse_of: :emails
-  has_many :organizations, -> { uniq }, through: :contact_people,
-                                        inverse_of: :emails
+  has_many :offers, -> { distinct }, through: :contact_people, inverse_of: :emails
+  has_many :organizations, -> { distinct }, through: :contact_people,
+                                            inverse_of: :emails
 
   # Validations moved to claradmin
   FORMAT = /\A\S+@\S+\.\S+\z/

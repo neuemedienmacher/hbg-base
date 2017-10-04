@@ -1,6 +1,6 @@
 # Comment for internal use by admins.
 # Allows adding note to any other Model. Displayed in Admin backend.
-class Note < ActiveRecord::Base
+class Note < ApplicationRecord
   # Concerns
   include NoteReferencable # A note can be the target of references
 
@@ -19,7 +19,7 @@ class Note < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  enumerize :topic, in: %w(internal_info external_info)
+  enumerize :topic, in: %w[internal_info external_info]
 
   # Validations
   validates :text, presence: true, length: { maximum: 800 }

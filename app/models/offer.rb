@@ -1,20 +1,23 @@
 # One of the main models. The offers that visitors want to find.
 # Has modules in offer subfolder.
-class Offer < ActiveRecord::Base
+class Offer < ApplicationRecord
   has_paper_trail
 
   # Modules
-  include Associations, Search
+  include Search
+  include Associations
 
   # Concerns
-  include CustomValidatable, Notable, Translation
+  include Translation
+  include Notable
+  include CustomValidatable
 
   # Enumerization
   extend Enumerize
   ENCOUNTERS =
-    %w(personal hotline email chat forum online-course portal).freeze
-  CONTACT_TYPES = %w(personal remote).freeze
-  VISIBLE_FRONTEND_STATES = %w(approved expired).freeze
+    %w[personal hotline email chat forum online-course portal].freeze
+  CONTACT_TYPES = %w[personal remote].freeze
+  VISIBLE_FRONTEND_STATES = %w[approved expired].freeze
   enumerize :encounter, in: ENCOUNTERS
 
   # NOTE: moved to FiltersOffer! Only keep this here until the data fields can
@@ -40,7 +43,7 @@ class Offer < ActiveRecord::Base
   def slug_candidates
     [
       :name,
-      [:name, :location_zip]
+      %i[name location_zip]
     ]
   end
 

@@ -1,5 +1,5 @@
 # Connector Model Offer <-> Filter
-class FiltersOffer < ActiveRecord::Base
+class FiltersOffer < ApplicationRecord
   # Associations
   belongs_to :filter, inverse_of: :filters_offers
   belongs_to :offer, inverse_of: :filters_offers

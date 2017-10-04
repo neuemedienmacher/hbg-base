@@ -1,4 +1,4 @@
-class InstallTrigramSearch < ActiveRecord::Migration
+class InstallTrigramSearch < ActiveRecord::Migration[4.2]
   def up
     if Rails.env.production? || Rails.env.staging? ||
        Rails.configuration.database_configuration[Rails.env]['adapter'] == 'postgresql'

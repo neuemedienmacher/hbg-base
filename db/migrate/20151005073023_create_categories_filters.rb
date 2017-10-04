@@ -1,4 +1,4 @@
-class CreateCategoriesFilters < ActiveRecord::Migration
+class CreateCategoriesFilters < ActiveRecord::Migration[4.2]
   def change
     create_table :categories_filters, id: false, force: true do |t|
       t.integer "filter_id", null: false

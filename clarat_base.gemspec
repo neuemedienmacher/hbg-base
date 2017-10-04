@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.name        = 'clarat_base'
   s.version     = ClaratBase::VERSION
-  s.authors     = %w(KonstantinKo Twiek NilsVollmer)
+  s.authors     = %w[KonstantinKo Twiek NilsVollmer]
   s.email       = ['dev@clarat.org']
   s.homepage    = 'http://www.clarat.org'
   s.summary     = 'The base for all clarat projects.'
@@ -27,13 +27,13 @@ Gem::Specification.new do |s|
   #########   DEPENDENCIES   #########
   ####################################
 
-  s.add_dependency 'rails', '~> 4.2'
+  s.add_dependency 'rails', '~> 5.1'
   s.add_dependency 'bundler', '>= 1.8.4'
 
   s.add_dependency 'rails-i18n'
   s.add_dependency 'web-console', '~> 2.0'
   s.add_dependency 'rails-observers' # observers got extracted since rails 4
-  s.add_dependency 'enumerize', '2.0.1'
+  s.add_dependency 'enumerize', '2.1.2'
   s.add_dependency 'paper_trail'
   s.add_dependency 'sanitize' # parser based sanitization
   s.add_dependency 'closure_tree'
@@ -56,7 +56,7 @@ Gem::Specification.new do |s|
 
   # test suite
   s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'minitest' # Testing using Minitest
+  s.add_development_dependency 'minitest', '5.10.1' # Testing using Minitest
   s.add_development_dependency 'minitest-matchers'
   s.add_development_dependency 'minitest-line'
   s.add_development_dependency 'minitest-rails-capybara'

@@ -5,7 +5,7 @@ class EmailPusherWorker
   def perform subscription_id
     subscription = Subscription.select(:id, :email).find(subscription_id)
     Gibbon::API.lists.subscribe(
-      id: Rails.application.secrets.mailchimp['list_id'],
+      id: Rails.application.secrets.mailchimp[:list_id],
       email: { email: subscription.email },
       double_optin: true
     )

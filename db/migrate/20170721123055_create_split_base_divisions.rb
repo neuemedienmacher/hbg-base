@@ -1,4 +1,4 @@
-class CreateSplitBaseDivisions < ActiveRecord::Migration
+class CreateSplitBaseDivisions < ActiveRecord::Migration[4.2]
   def change
     change_column :split_bases, :organization_id, :integer, null: true
 

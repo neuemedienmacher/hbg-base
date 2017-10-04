@@ -1,4 +1,4 @@
-class CreateSectionFilters < ActiveRecord::Migration
+class CreateSectionFilters < ActiveRecord::Migration[4.2]
   def change
     create_table :section_filters do |t|
       t.string :name

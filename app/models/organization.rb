@@ -1,11 +1,14 @@
 # One of the main models. Represents the organizations that provide offers.
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   has_paper_trail
 
-  VISIBLE_FRONTEND_STATES = %w(approved all_done).freeze
+  VISIBLE_FRONTEND_STATES = %w[approved all_done].freeze
 
   # Concerns
-  include CustomValidatable, Notable, Translation, Assignable
+  include Assignable
+  include Translation
+  include Notable
+  include CustomValidatable
 
   # Associations
   has_many :divisions, inverse_of: :organization
@@ -16,32 +19,31 @@ class Organization < ActiveRecord::Base
   belongs_to :website, inverse_of: :organizations
   has_many :contact_people, inverse_of: :organization
   has_many :emails, through: :contact_people, inverse_of: :organizations
-  has_many :sections, -> { uniq },
-           through: :divisions, inverse_of: :organizations
+  has_many :sections, -> { distinct }, through: :divisions, inverse_of: :organizations
   has_and_belongs_to_many :filters
   has_and_belongs_to_many :umbrella_filters,
                           association_foreign_key: 'filter_id',
                           join_table: 'filters_organizations'
-  has_many :cities, -> { uniq }, through: :locations,
-                                 inverse_of: :organizations
+  has_many :cities, -> { distinct }, through: :locations,
+                                     inverse_of: :organizations
   has_many :definitions_organizations
   has_many :definitions, through: :definitions_organizations,
                          inverse_of: :organizations
   has_many :topics_organizations
   has_many :topics, through: :topics_organizations
-  has_many :offer_cities, -> { uniq }, through: :offers,
-                                       class_name: 'City',
-                                       source: 'city'
-  has_many :division_cities, -> { uniq }, through: :divisions,
-                                          class_name: 'City',
-                                          source: 'city'
+  has_many :offer_cities, -> { distinct }, through: :offers,
+                                           class_name: 'City',
+                                           source: 'city'
+  has_many :division_cities, -> { distinct }, through: :divisions,
+                                              class_name: 'City',
+                                              source: 'city'
 
   # Enumerization
   extend Enumerize
-  enumerize :legal_form, in: %w(ev ggmbh gag foundation gug gmbh ag ug kfm gbr
-                                ohg kg eg sonstige state_entity)
-  enumerize :mailings, in: %w(disabled enabled force_disabled)
-  enumerize :pending_reason, in: %w(unstable on_hold foreign)
+  enumerize :legal_form, in: %w[ev ggmbh gag foundation gug gmbh ag ug kfm gbr
+                                ohg kg eg sonstige state_entity]
+  enumerize :mailings, in: %w[disabled enabled force_disabled]
+  enumerize :pending_reason, in: %w[unstable on_hold foreign]
 
   # Sanitization
   extend Sanitization
@@ -103,6 +105,6 @@ class Organization < ActiveRecord::Base
   end
 
   def in_section? section
-    sections.where(identifier: section).count > 0
+    divisions.joins(:section).where('sections.identifier = ?', section).count > 0
   end
 end

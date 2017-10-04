@@ -1,5 +1,5 @@
 # A submitted contact form on our platform to ask questions or give feedback.
-class Contact < ActiveRecord::Base
+class Contact < ApplicationRecord
   # Attributes #
 
   # reporting: was focussed on a specific offer or orga; visitor found an issue

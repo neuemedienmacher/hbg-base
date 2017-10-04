@@ -1,4 +1,4 @@
-class ContactPersonTranslation < ActiveRecord::Base
+class ContactPersonTranslation < ApplicationRecord
   include BaseTranslation
 
   # Concerns

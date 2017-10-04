@@ -1,4 +1,4 @@
-class CreateCityAndTransferData < ActiveRecord::Migration
+class CreateCityAndTransferData < ActiveRecord::Migration[4.2]
   class Location < ActiveRecord::Base
     validates :city, presence: true
   end

@@ -1,4 +1,4 @@
-class OfferTranslation < ActiveRecord::Base
+class OfferTranslation < ApplicationRecord
   include BaseTranslation
 
   # Concerns

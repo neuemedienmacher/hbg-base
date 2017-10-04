@@ -1,6 +1,6 @@
 # One of the main models: A location that an organization uses to provide a
 # local offer. Has geocoordinates to make associated offers locally searchable.
-class Location < ActiveRecord::Base
+class Location < ApplicationRecord
   has_paper_trail
 
   # Associations

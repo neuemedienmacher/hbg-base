@@ -8,7 +8,7 @@ FactoryGirl.define do
     old_next_steps { FFaker::Lorem.paragraph(rand(1..3))[0..399] }
     encounter do
       # weighted
-      %w(personal personal personal personal hotline chat forum email online-course portal).sample
+      %w[personal personal personal personal hotline chat forum email online-course portal].sample
     end
     area { Area.first unless encounter == 'personal' }
     approved_at nil
@@ -77,7 +77,7 @@ FactoryGirl.define do
       end
       evaluator.opening_count.times do
         offer.openings << (
-          if Opening.count != 0 && rand(2) == 0
+          if Opening.count != 0 && rand(2).zero?
             Opening.select(:id).all.sample
           else
             FactoryGirl.create(:opening)
@@ -120,5 +120,5 @@ FactoryGirl.define do
 end
 
 def maybe result
-  rand(2) == 0 ? nil : result
+  rand(2).zero? ? nil : result
 end

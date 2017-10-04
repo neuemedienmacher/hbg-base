@@ -1,10 +1,10 @@
 # Hierarchical solution categories for offers.
-class SolutionCategory < ActiveRecord::Base
+class SolutionCategory < ApplicationRecord
   # Closure Tree
   has_closure_tree
 
   # Associations
-  has_many :split_bases, class_name: ::SplitBase,
+  has_many :split_bases, class_name: 'SplitBase',
                          inverse_of: :solution_category
   has_many :offers, through: :split_bases, inverse_of: :solution_category
 

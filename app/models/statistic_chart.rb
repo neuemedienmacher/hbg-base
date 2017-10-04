@@ -1,4 +1,4 @@
-class StatisticChart < ActiveRecord::Base
+class StatisticChart < ApplicationRecord
   # belongs_to :user_team, inverse_of: :statistic_charts # NOTE for later use?
   belongs_to :user, inverse_of: :statistic_charts
 
@@ -12,7 +12,7 @@ class StatisticChart < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  TITLES = %w(completion approval).freeze
+  TITLES = %w[completion approval].freeze
 
   enumerize :title, in: TITLES
 end

@@ -1,4 +1,4 @@
-class ChangeTargetGenderInOffers < ActiveRecord::Migration
+class ChangeTargetGenderInOffers < ActiveRecord::Migration[4.2]
   def up
     rename_column :offers, :target_gender, :exclusive_gender
     change_column :offers, :exclusive_gender, :string, null: true, default: nil

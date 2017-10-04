@@ -1,4 +1,4 @@
-class UserTeam < ActiveRecord::Base
+class UserTeam < ApplicationRecord
   # Concerns
   include Trackable
 
@@ -28,7 +28,7 @@ class UserTeam < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  CLASSIFICATIONS = %w(family refugees translator).freeze
+  CLASSIFICATIONS = %w[family refugees translator].freeze
   enumerize :classification, in: CLASSIFICATIONS
 
   # Scopes

@@ -1,6 +1,6 @@
 # Devise user model, only used for researchers and supervisors to access the
 # backend. Not for clients yet.
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Concerns
   include Trackable
 
@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
 
   # Enumerization
   extend Enumerize
-  enumerize :role, in: %w(standard researcher super)
+  enumerize :role, in: %w[standard researcher super]
 
   # Scopes
   scope :researcher, -> { where(role: 'researcher') }

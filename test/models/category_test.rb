@@ -75,7 +75,7 @@ describe Category do
       end
 
       it 'should show keywords_[locale] for the current locale' do
-        locale = %w(de en ar fa).sample
+        locale = %w[de en ar fa].sample
         subject.send("keywords_#{locale}=", 'foobar')
         I18n.with_locale(locale) do
           subject.keywords.must_equal 'foobar'
