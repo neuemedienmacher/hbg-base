@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170921090532) do
+ActiveRecord::Schema.define(version: 20171010103200) do
 
   create_table "absences", force: :cascade do |t|
     t.date "starts_at", null: false
@@ -214,6 +214,13 @@ ActiveRecord::Schema.define(version: 20170921090532) do
     t.integer "solution_category_id", null: false
     t.index ["division_id"], name: "index_divisions_presumed_solution_categories_on_division_id"
     t.index ["solution_category_id"], name: "index_presumed_s_categories_on_s_category"
+  end
+
+  create_table "divisions_presumed_tags", id: false, force: :cascade do |t|
+    t.integer "division_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["division_id"], name: "index_divisions_presumed_tags_on_division_id"
+    t.index ["tag_id"], name: "index_divisions_presumed_tags_on_tag_id"
   end
 
   create_table "emails", force: :cascade do |t|
