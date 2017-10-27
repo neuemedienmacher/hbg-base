@@ -20,8 +20,8 @@ class Division < ApplicationRecord
   # delete after deploy
   has_many :divisions_presumed_categories, inverse_of: :division
   has_many :presumed_categories,
-         through: :divisions_presumed_categories, source: :category,
-         class_name: 'Category', inverse_of: :presuming_divisions
+           through: :divisions_presumed_categories, source: :category,
+           class_name: 'Category', inverse_of: :presuming_divisions
 
   has_many :divisions_presumed_tags, inverse_of: :division
   has_many :presumed_tags,
