@@ -4,20 +4,25 @@ class Offer
 
     included do
       # Associations
-      belongs_to :split_base, inverse_of: :offers
-      has_many :divisions, through: :split_base,
-                           inverse_of: :offers
-      has_many :organizations, through: :split_base,
+      belongs_to :split_base, inverse_of: :offers, optional: true
+      has_many :offer_divisions, inverse_of: :offer,
+                                 dependent: :destroy
+      has_many :divisions, through: :offer_divisions,
+                           inverse_of: :offers,
+                           source: 'division'
+      # has_many :divisions, through: :split_base,
+      #                      inverse_of: :offers
+      has_many :organizations, through: :divisions,
                                inverse_of: :offers
 
       belongs_to :location, inverse_of: :offers
       belongs_to :area, inverse_of: :offers
-      has_one :solution_category, through: :split_base, inverse_of: :offers
+      belongs_to :solution_category, inverse_of: :offers
       belongs_to :logic_version, inverse_of: :offers
 
       has_many :filters_offers
       has_many :filters, through: :filters_offers, source: :filter
-      belongs_to :section, inverse_of: :offers
+      belongs_to :section, inverse_of: :offers, optional: true
       has_many :language_filters,
                class_name: 'LanguageFilter',
                through: :filters_offers,

@@ -21,12 +21,19 @@ FactoryGirl.define do
       audience_count 1
       opening_count { rand(1..5) }
       fake_address false
+      section nil
+      organizations nil
+      divisions nil
     end
 
     after :build do |offer, evaluator|
       # SplitBase => Division(s) => Organization(s)
-      offer.split_base = FactoryGirl.create(:split_base)
-      organization = offer.organizations[0]
+      organizations = evaluator.organizations ||
+                      [FactoryGirl.create(:organization, :approved)]
+      organization = organizations.first
+      div = organization.divisions.first ||
+            FactoryGirl.create(:division, organization: organization)
+      offer.divisions << div
 
       # location
       if offer.personal?
