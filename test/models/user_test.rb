@@ -20,7 +20,7 @@ describe User do
     it { subject.must have_many(:user_teams).through :user_team_users }
     it do
       subject.must(
-        have_many(:observed_user_teams).through :user_team_observing_users
+        have_many(:observed_user_teams).through(:user_team_observing_users)
       )
     end
     it { subject.must have_many :led_teams }
