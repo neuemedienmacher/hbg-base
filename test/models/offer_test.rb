@@ -51,10 +51,12 @@ describe Offer do
       it { subject.must belong_to :section }
       it { subject.must have_many(:language_filters).through :filters_offers }
       it { subject.must have_many(:trait_filters).through :filters_offers }
-      it {
-        subject.must have_many(:target_audience_filters)
-          .through :target_audience_filters_offers
-      }
+      it do
+        subject.must(
+          have_many(:target_audience_filters)
+            .through(:target_audience_filters_offers)
+        )
+      end
       it { subject.must have_and_belong_to_many :openings }
       it { subject.must have_many :hyperlinks }
       it { subject.must have_many :websites }
