@@ -17,7 +17,7 @@ describe UserTeam do
     it { subject.must have_many(:users).through :user_team_users }
     it do
       subject.must(
-        have_many(:observing_users).through :user_team_observing_users
+        have_many(:observing_users).through(:user_team_observing_users)
       )
     end
     it { subject.must belong_to :lead }
