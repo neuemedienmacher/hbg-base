@@ -1,7 +1,8 @@
 require_relative '../test_helper'
 
 describe Location do
-  # Using 'let' because 'ArgumentError: let 'location' cannot override a method in Minitest::Spec. Please use another name.'
+  # Using 'let' because 'ArgumentError: let 'location' cannot override a method
+  # in Minitest::Spec. Please use another name.'
   let(:loc) { Location.new }
 
   subject { loc }

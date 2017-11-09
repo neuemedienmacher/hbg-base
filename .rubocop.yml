@@ -29,7 +29,8 @@ RedundantSelf:
   Enabled: false
 
 LineLength:
-  Enabled: false
+  Max: 81
+  Enabled: true
 
 Style/SignalException:
   Enabled: false
@@ -48,4 +49,3 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Enabled: false
-

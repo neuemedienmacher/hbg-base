@@ -35,7 +35,9 @@ module Sanitization
       method_name = "sanitize_#{options[:method]}_#{field}"
       define_method(
         method_name,
-        send("#{options[:method]}_sanitization", field, options[:remove_all_spaces])
+        send("#{options[:method]}_sanitization",
+             field,
+             options[:remove_all_spaces])
       )
       before_validation method_name.to_sym, options
     end

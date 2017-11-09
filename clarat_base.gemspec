@@ -69,7 +69,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'memory_test_fix' # Sqlite inmemory fix
   s.add_development_dependency 'rake'
   s.add_development_dependency 'database_cleaner'
-  # s.add_development_dependency 'colorize' # use this when RBP quits using `colored`
+  # s.add_development_dependency 'colorize' # use this when RBP quits using
+  # {}`colored`
   # s.add_development_dependency 'fakeredis' ! need version > 0.5.0
   s.add_development_dependency 'fakeweb', '~> 1.3'
   s.add_development_dependency 'webmock'
@@ -77,7 +78,8 @@ Gem::Specification.new do |s|
 
   # test suite additions
   s.add_development_dependency 'rails_best_practices'
-  s.add_development_dependency 'brakeman' # security test: execute with 'brakeman'
+  # security test: execute with 'brakeman'
+  s.add_development_dependency 'brakeman'
   s.add_development_dependency 'rubocop' # style enforcement
 
   # Code Coverage

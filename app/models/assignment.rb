@@ -42,7 +42,8 @@ class Assignment < ApplicationRecord
     state :closed # Assignment is finished and only used for history/versioning
 
     event :close do
-      transitions from: :open, to: :closed # , success: :close_children_and_create_system_assignment
+      # , success: :close_children_and_create_system_assignment
+      transitions from: :open, to: :closed
     end
 
     event :re_open do # , guard: :no_other_open_assignment? do
