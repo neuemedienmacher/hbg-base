@@ -55,7 +55,9 @@ class Offer
 
       # additional searchable string made from keywords
       def tag_keywords locale = :en
-        tags.map { |t| t.try("keywords_#{locale}") }.reject(&:blank?).uniq.join(', ')
+        tags.map do |t|
+          t.try("keywords_#{locale}")
+        end.reject(&:blank?).uniq.join(', ')
       end
 
       # concatenated organization name for search index

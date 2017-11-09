@@ -51,7 +51,10 @@ describe Offer do
       it { subject.must belong_to :section }
       it { subject.must have_many(:language_filters).through :filters_offers }
       it { subject.must have_many(:trait_filters).through :filters_offers }
-      it { subject.must have_many(:target_audience_filters).through :target_audience_filters_offers }
+      it {
+        subject.must have_many(:target_audience_filters)
+          .through :target_audience_filters_offers
+      }
       it { subject.must have_and_belong_to_many :openings }
       it { subject.must have_many :hyperlinks }
       it { subject.must have_many :websites }
@@ -238,7 +241,8 @@ describe Offer do
             end
           end
           it 'must be false for any other available_locale' do
-            (I18n.available_locales.map(&:to_s) - BaseTranslation::MANUALLY_TRANSLATED_LOCALES)
+            (I18n.available_locales
+              .map(&:to_s) - BaseTranslation::MANUALLY_TRANSLATED_LOCALES)
               .map do |l|
               subject.locale = l
               subject.manually_editable?.must_equal false
@@ -284,7 +288,8 @@ describe Offer do
       it 'should correctly return geolocation hash for algolia' do
         loc = FactoryGirl.create(:location)
         basicOffer.location_id = loc.id
-        basicOffer._geoloc.must_equal('lat' => loc.latitude, 'lng' => loc.longitude)
+        basicOffer._geoloc.must_equal('lat' => loc.latitude,
+                                      'lng' => loc.longitude)
       end
 
       it 'should correctly return tags' do

@@ -55,7 +55,9 @@ describe Translation do
     it 'should correctly return the changed translatable fields' do
       offer = FactoryGirl.create(:offer)
       # contains all translatable fields for new records
-      offer.changed_translatable_fields.must_equal %i[name description old_next_steps]
+      offer.changed_translatable_fields.must_equal %i[
+        name description old_next_steps
+      ]
       offer.description = 'SomeOtherText'
       offer.save!
       # contains only the changed field

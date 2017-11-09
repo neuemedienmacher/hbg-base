@@ -18,7 +18,8 @@ class Organization < ApplicationRecord
   belongs_to :website, inverse_of: :organizations
   has_many :contact_people, inverse_of: :organization
   has_many :emails, through: :contact_people, inverse_of: :organizations
-  has_many :sections, -> { distinct }, through: :divisions, inverse_of: :organizations
+  has_many :sections, -> { distinct }, through: :divisions,
+                                       inverse_of: :organizations
   has_and_belongs_to_many :filters
   has_and_belongs_to_many :umbrella_filters,
                           association_foreign_key: 'filter_id',

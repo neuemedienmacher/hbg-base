@@ -106,7 +106,8 @@ describe Organization do
       it 'should return approved and done offers' do
         Organization.visible_in_frontend.count.must_equal 1
         FactoryGirl.create(:organization, aasm_state: 'all_done')
-        Organization.visible_in_frontend.count.must_equal 2 # one approved and one done
+        # one approved and one done
+        Organization.visible_in_frontend.count.must_equal 2
       end
     end
   end

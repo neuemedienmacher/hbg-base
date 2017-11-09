@@ -8,7 +8,8 @@ FactoryGirl.define do
     old_next_steps { FFaker::Lorem.paragraph(rand(1..3))[0..399] }
     encounter do
       # weighted
-      %w[personal personal personal personal hotline chat forum email online-course portal].sample
+      %w[personal personal personal personal hotline chat
+         forum email online-course portal].sample
     end
     area { Area.first unless encounter == 'personal' }
     approved_at nil

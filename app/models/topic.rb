@@ -1,4 +1,5 @@
-# Used internally by researchers to provide extra searchable tags&keywords to offers.
+# Used internally by researchers to provide extra searchable
+# tags&keywords to offers.
 class Topic < ApplicationRecord
   # Associations
   has_many :topics_organizations
