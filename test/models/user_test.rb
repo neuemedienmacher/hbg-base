@@ -18,10 +18,11 @@ describe User do
   describe 'relations' do
     it { subject.must have_many :authored_notes }
     it { subject.must have_many(:user_teams).through :user_team_users }
-    it {
-      subject.must have_many(:observed_user_teams)
-        .through :user_team_observing_users
-    }
+    it do
+      subject.must(
+        have_many(:observed_user_teams).through :user_team_observing_users
+      )
+    end
     it { subject.must have_many :led_teams }
     it { subject.must have_many :statistic_charts }
     it { subject.must have_many :absences }
