@@ -5,7 +5,7 @@ class User < ApplicationRecord
   include Trackable
 
   # Associations
-  has_many :authored_notes, class_name: 'Note', inverse_of: :user
+  has_many :authored_notes, class_name: 'Note', inverse_of: :user, dependent: :nullify
 
   has_many :user_team_users, inverse_of: :user
   has_many :user_teams, through: :user_team_users, inverse_of: :users
@@ -19,7 +19,7 @@ class User < ApplicationRecord
                                  source: :user_team,
                                  inverse_of: :observing_users
   # has_many :statistics, inverse_of: :user
-  has_many :statistic_charts, inverse_of: :user
+  has_many :statistic_charts, inverse_of: :user, dependent: :destroy
 
   has_many :absences, inverse_of: :user
   has_many :time_allocations, inverse_of: :user

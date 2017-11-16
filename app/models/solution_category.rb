@@ -4,7 +4,7 @@ class SolutionCategory < ApplicationRecord
   has_closure_tree
 
   # Associations
-  has_many :offers, inverse_of: :solution_category
+  has_many :offers, inverse_of: :solution_category, dependent: :nullify
 
   has_many :divisions_presumed_solution_categories,
            inverse_of: :solution_category

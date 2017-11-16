@@ -10,10 +10,10 @@ class Organization < ApplicationRecord
   include Notable
 
   # Associations
-  has_many :divisions, inverse_of: :organization
+  has_many :divisions, inverse_of: :organization, dependent: :nullify
   has_many :offers, through: :divisions, inverse_of: :organizations
 
-  has_many :locations, inverse_of: :organization
+  has_many :locations, inverse_of: :organization, dependent: :nullify
   belongs_to :website, inverse_of: :organizations
   has_many :contact_people, inverse_of: :organization
   has_many :emails, through: :contact_people, inverse_of: :organizations
