@@ -15,7 +15,7 @@ class Organization < ApplicationRecord
 
   has_many :locations, inverse_of: :organization, dependent: :nullify
   belongs_to :website, inverse_of: :organizations
-  has_many :contact_people, inverse_of: :organization
+  has_many :contact_people, inverse_of: :organization, dependent: :destroy
   has_many :emails, through: :contact_people, inverse_of: :organizations
   has_many :sections, -> { distinct }, through: :divisions,
                                        inverse_of: :organizations

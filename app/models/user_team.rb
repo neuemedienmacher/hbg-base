@@ -21,10 +21,10 @@ class UserTeam < ApplicationRecord
 
   has_many :created_assignments, class_name: 'Assignment',
                                  foreign_key: 'creator_team_id',
-                                 inverse_of: :creator_team
+                                 inverse_of: :creator_team, dependent: :nullify
   has_many :received_assignments, class_name: 'Assignment',
                                   foreign_key: 'receiver_team_id',
-                                  inverse_of: :receiver_team
+                                  inverse_of: :receiver_team, dependent: :nullify
 
   # Enumerization
   extend Enumerize

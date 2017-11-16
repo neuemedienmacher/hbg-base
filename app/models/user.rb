@@ -27,10 +27,10 @@ class User < ApplicationRecord
 
   has_many :created_assignments, class_name: 'Assignment',
                                  foreign_key: 'creator_id',
-                                 inverse_of: :creator
+                                 inverse_of: :creator, dependent: :nullify
   has_many :received_assignments, class_name: 'Assignment',
                                   foreign_key: 'receiver_id',
-                                  inverse_of: :receiver
+                                  inverse_of: :receiver, dependent: :nullify
 
   # Validations
   # validates :email, uniqueness: true, presence: true
