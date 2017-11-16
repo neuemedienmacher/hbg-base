@@ -6,6 +6,5 @@ class City < ApplicationRecord
   has_many :offers, through: :locations, inverse_of: :city
   has_many :organizations, -> { distinct }, through: :locations,
                                             inverse_of: :cities
-
-  # Validations moved to claradmin
+  has_many :sections, -> { distinct }, through: :offers, inverse_of: :cities
 end
