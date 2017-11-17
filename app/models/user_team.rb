@@ -3,10 +3,11 @@ class UserTeam < ApplicationRecord
   include Trackable
 
   # Associations
-  has_many :user_team_users, inverse_of: :user_team
+  has_many :user_team_users, inverse_of: :user_team, dependent: :destroy
   has_many :users, through: :user_team_users, inverse_of: :user_teams
 
-  has_many :user_team_observing_users, inverse_of: :user_team
+  has_many :user_team_observing_users, inverse_of: :user_team,
+                                       dependent: :destroy
   has_many :observing_users, through: :user_team_observing_users,
                              class_name: 'User',
                              source: :user,

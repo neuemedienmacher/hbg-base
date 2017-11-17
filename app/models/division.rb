@@ -22,11 +22,12 @@ class Division < ApplicationRecord
   belongs_to :city, inverse_of: :divisions
   belongs_to :area, inverse_of: :divisions
 
-  has_many :divisions_presumed_tags, inverse_of: :division
+  has_many :divisions_presumed_tags, inverse_of: :division, dependent: :destroy
   has_many :presumed_tags,
            through: :divisions_presumed_tags, source: :tag,
            class_name: 'Tag', inverse_of: :presuming_divisions
-  has_many :divisions_presumed_solution_categories, inverse_of: :division
+  has_many :divisions_presumed_solution_categories, inverse_of: :division,
+                                                    dependent: :destroy
   has_many :presumed_solution_categories,
            through: :divisions_presumed_solution_categories,
            source: :solution_category, class_name: 'SolutionCategory',

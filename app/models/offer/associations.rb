@@ -42,16 +42,16 @@ class Offer
                source: :target_audience_filter,
                inverse_of: :offers
 
-      has_many :tags_offers, inverse_of: :offer
+      has_many :tags_offers, inverse_of: :offer, dependent: :destroy
       has_many :tags, through: :tags_offers, inverse_of: :offers
       has_and_belongs_to_many :openings, inverse_of: :offers
       has_many :contact_person_offers, inverse_of: :offer,
-                                 dependent: :destroy
+                                       dependent: :destroy
       has_many :contact_people, through: :contact_person_offers,
                                 inverse_of: :offers
       has_many :emails, through: :contact_people, inverse_of: :offers
       has_many :next_steps_offers, inverse_of: :offer,
-                                 dependent: :destroy
+                                   dependent: :destroy
       has_many :next_steps, through: :next_steps_offers, inverse_of: :offers
       # Attention: former has_one :organization, through: :locations
       # but there can also be offers without locations
@@ -59,7 +59,7 @@ class Offer
       has_many :websites, through: :hyperlinks, inverse_of: :offers
       has_one :city, through: :location, inverse_of: :offers
       has_many :definitions_offers, inverse_of: :offer,
-                                 dependent: :destroy
+                                    dependent: :destroy
       has_many :definitions, through: :definitions_offers, inverse_of: :offers
     end
   end
