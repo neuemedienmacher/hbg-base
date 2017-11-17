@@ -61,7 +61,7 @@ describe ContactPerson do
 
       it 'will destroy contact person offers' do
         assert_raises(ActiveRecord::RecordNotFound) do
-          @contact_person_offer.reload }
+          @contact_person_offer.reload
         end
       end
 
