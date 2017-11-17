@@ -5,13 +5,11 @@ class Division < ApplicationRecord
 
   # Associations
   belongs_to :organization, inverse_of: :divisions
-  has_many :split_base_divisions, inverse_of: :division,
-                                  dependent: :destroy
+  has_many :split_base_divisions, inverse_of: :division
   has_many :split_bases, through: :split_base_divisions,
                          inverse_of: :divisions,
                          source: 'split_base'
-  has_many :offer_divisions, inverse_of: :division,
-                             dependent: :destroy
+  has_many :offer_divisions, inverse_of: :division, dependent: :destroy
   has_many :offers, through: :offer_divisions,
                     inverse_of: :divisions,
                     source: 'offer'

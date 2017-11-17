@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe Division do
-  let(:division) { Division.new }
+  let(:division) { divisions(:basic) }
   subject { division }
 
   describe 'attributes' do
@@ -21,6 +21,44 @@ describe Division do
       it { subject.must have_many(:split_base_divisions) }
       it { subject.must have_many(:split_bases).through :split_base_divisions }
       it { subject.must have_many(:offers).through :offer_divisions }
+    end
+  end
+
+  describe 'offers' do
+    before do
+      subject.offers << offers(:basic)
+      @offer = subject.offers.first
+      @offer_division = subject.offer_divisions.first
+      subject.destroy
+    end
+
+    it 'will destroy division offers' do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        @offer_division.reload
+      end
+    end
+
+    it 'will not destroy offers' do
+      refute_nil @offer.reload
+    end
+  end
+
+  describe 'presumed_tags' do
+    before do
+      subject.presumed_tags << tags(:basic)
+      @tag = subject.presumed_tags.first
+      @division_tag = subject.divisions_presumed_tags.first
+      subject.destroy
+    end
+
+    it 'will destroy divisions tags' do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        @division_tag.reload
+      end
+    end
+
+    it 'will not destroy offers' do
+      refute_nil @tag.reload
     end
   end
 end

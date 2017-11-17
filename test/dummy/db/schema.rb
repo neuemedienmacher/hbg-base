@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171103135514) do
+ActiveRecord::Schema.define(version: 20171117161000) do
 
   create_table "absences", force: :cascade do |t|
     t.date "starts_at", null: false
@@ -153,14 +153,14 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.index ["section_id"], name: "index_divisions_on_section_id"
   end
 
-  create_table "divisions_presumed_solution_categories", id: false, force: :cascade do |t|
+  create_table "divisions_presumed_solution_categories", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "solution_category_id", null: false
     t.index ["division_id"], name: "index_divisions_presumed_solution_categories_on_division_id"
     t.index ["solution_category_id"], name: "index_presumed_s_categories_on_s_category"
   end
 
-  create_table "divisions_presumed_tags", id: false, force: :cascade do |t|
+  create_table "divisions_presumed_tags", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "tag_id", null: false
     t.index ["division_id"], name: "index_divisions_presumed_tags_on_division_id"
@@ -191,14 +191,14 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.index ["section_id"], name: "index_filters_on_section_id"
   end
 
-  create_table "filters_offers", id: false, force: :cascade do |t|
+  create_table "filters_offers", force: :cascade do |t|
     t.integer "filter_id", null: false
     t.integer "offer_id", null: false
     t.index ["filter_id"], name: "index_filters_offers_on_filter_id"
     t.index ["offer_id"], name: "index_filters_offers_on_offer_id"
   end
 
-  create_table "filters_organizations", id: false, force: :cascade do |t|
+  create_table "filters_organizations", force: :cascade do |t|
     t.integer "filter_id", null: false
     t.integer "organization_id", null: false
     t.index ["filter_id"], name: "index_filters_organizations_on_filter_id"
@@ -361,7 +361,7 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.index ["split_base_id"], name: "index_offers_on_split_base_id"
   end
 
-  create_table "offers_openings", id: false, force: :cascade do |t|
+  create_table "offers_openings", force: :cascade do |t|
     t.integer "offer_id", null: false
     t.integer "opening_id", null: false
     t.index ["offer_id"], name: "index_offers_openings_on_offer_id"
@@ -489,14 +489,14 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.index ["solution_category_id"], name: "index_split_bases_on_solution_category_id"
   end
 
-  create_table "statistic_chart_goals", id: false, force: :cascade do |t|
+  create_table "statistic_chart_goals", force: :cascade do |t|
     t.integer "statistic_chart_id", null: false
     t.integer "statistic_goal_id", null: false
     t.index ["statistic_chart_id"], name: "index_statistic_chart_goals_on_statistic_chart_id"
     t.index ["statistic_goal_id"], name: "index_statistic_chart_goals_on_statistic_goal_id"
   end
 
-  create_table "statistic_chart_transitions", id: false, force: :cascade do |t|
+  create_table "statistic_chart_transitions", force: :cascade do |t|
     t.integer "statistic_chart_id", null: false
     t.integer "statistic_transition_id", null: false
     t.index ["statistic_chart_id"], name: "index_statistic_chart_transitions_on_statistic_chart_id"
@@ -562,7 +562,7 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.text "explanations_fa"
   end
 
-  create_table "tags_offers", id: false, force: :cascade do |t|
+  create_table "tags_offers", force: :cascade do |t|
     t.integer "tag_id", null: false
     t.integer "offer_id", null: false
     t.index ["offer_id"], name: "index_tags_offers_on_offer_id"
