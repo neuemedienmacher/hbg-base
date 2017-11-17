@@ -50,5 +50,24 @@ describe ContactPerson do
         contact_person.fax.must_equal '45'
       end
     end
+
+    describe 'offers' do
+      before do
+        contact_person.offers << offers(:basic)
+        @offer = contact_person.offers.first
+        @contact_person_offer = contact_person.contact_person_offers.first
+        contact_person.destroy
+      end
+
+      it 'will destroy contact person offers' do
+        assert_raises(ActiveRecord::RecordNotFound) do
+          @contact_person_offer.reload }
+        end
+      end
+
+      it 'will not destroy offers' do
+        refute_nil @offer.reload
+      end
+    end
   end
 end
