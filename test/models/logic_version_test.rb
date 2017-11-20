@@ -10,4 +10,15 @@ describe LogicVersion do
     it { subject.must_respond_to :name }
     it { subject.must_respond_to :description }
   end
+
+  describe 'offers' do
+    before do
+      offer = offers(:basic)
+      subject.offers << offer
+    end
+
+    it 'should not delete city' do
+      assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
+    end
+  end
 end

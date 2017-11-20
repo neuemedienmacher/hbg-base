@@ -34,6 +34,17 @@ describe Location do
     end
   end
 
+  describe 'offers' do
+    before do
+      offer = offers(:basic)
+      subject.offers << offer
+    end
+
+    it 'should not delete city' do
+      assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
+    end
+  end
+
   # this method is stubbed out for the entire rest of the test suite
   describe '#full_address' do
     it 'should return address and federal state name' do

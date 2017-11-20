@@ -17,4 +17,15 @@ describe FederalState do
       it { subject.must have_many :locations }
     end
   end
+
+  describe 'locations' do
+    before do
+      location = locations(:basic)
+      subject.locations << location
+    end
+
+    it 'should not delete city' do
+      assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
+    end
+  end
 end

@@ -34,6 +34,15 @@ describe ContactPerson do
     end
   end
 
+  describe 'contact people' do
+    it 'sets email_id to nil if email gets deleted' do
+      email = Email.new
+      contact_person.email_id = email.id
+      email.destroy
+      contact_person.email_id.must_equal nil
+    end
+  end
+
   describe 'methods' do
     describe '#telephone_#{n}' do
       it 'should return the concatenated area code and local number' do

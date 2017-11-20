@@ -13,6 +13,25 @@ describe NextStep do
     end
   end
 
+  describe 'offers' do
+    before do
+      subject.offers << offers(:basic)
+      @offer = subject.offers.first
+      @next_step_offer = subject.next_steps_offers.first
+      subject.destroy
+    end
+
+    it 'will destroy definitions offers' do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        @next_step_offer.reload
+      end
+    end
+
+    it 'will not destroy offers' do
+      refute_nil @offer.reload
+    end
+  end
+
   describe 'methods' do
     describe '#text' do
       it 'should show text_[locale] for the current locale' do

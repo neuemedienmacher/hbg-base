@@ -61,4 +61,23 @@ describe Division do
       refute_nil @tag.reload
     end
   end
+
+  describe 'presumed_solution_categories' do
+    before do
+      subject.presumed_solution_categories << solution_categories(:basic)
+      @sc = subject.presumed_solution_categories.first
+      @division_sc = subject.divisions_presumed_solution_categories.first
+      subject.destroy
+    end
+
+    it 'will destroy divisions tags' do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        @division_sc.reload
+      end
+    end
+
+    it 'will not destroy offers' do
+      refute_nil @sc.reload
+    end
+  end
 end
