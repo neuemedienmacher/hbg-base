@@ -21,24 +21,15 @@ describe City do
     end
   end
 
-  describe 'locations' do
+  describe 'locations and division' do
     before do
       location = locations(:basic)
       subject.locations << location
-    end
-
-    it 'should not delete city' do
-      assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
-    end
-  end
-
-  describe 'divisions' do
-    before do
       division = divisions(:basic)
       subject.divisions << division
     end
 
-    it 'should not delete area' do
+    it 'should not delete city' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
     end
   end

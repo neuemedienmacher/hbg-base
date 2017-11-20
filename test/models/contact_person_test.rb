@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe ContactPerson do
-  let(:contact_person) { ContactPerson.new }
+  let(:contact_person) { contact_people(:basic) }
 
   subject { contact_person }
 
@@ -62,8 +62,8 @@ describe ContactPerson do
 
     describe 'offers' do
       before do
-        contact_person.offers << offers(:basic)
-        @offer = contact_person.offers.first
+        @offer = offers(:basic) 
+        contact_person.offers << @offer
         @contact_person_offer = contact_person.contact_person_offers.first
         contact_person.destroy
       end

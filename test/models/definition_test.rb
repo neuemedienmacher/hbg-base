@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe Definition do
-  let(:definition) { Definition.new key: 'foo', explanation: 'bar' }
+  let(:definition) { definitions(:basic) }
   subject { definition }
 
   it 'must be valid' do
@@ -27,8 +27,8 @@ describe Definition do
 
   describe 'offers' do
     before do
-      subject.offers << offers(:basic)
-      @offer = subject.offers.first
+      @offer = offers(:basic)
+      subject.offers << @offer
       @definitions_offer = subject.definitions_offers.first
       subject.destroy
     end
@@ -46,8 +46,8 @@ describe Definition do
 
   describe 'organization' do
     before do
-      subject.organizations << organizations(:basic)
-      @organization = subject.organizations.first
+      @organization = organizations(:basic)
+      subject.organizations << @organization
       @definitions_organization = subject.definitions_organizations.first
       subject.destroy
     end

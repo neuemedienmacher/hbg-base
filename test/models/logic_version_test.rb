@@ -17,7 +17,7 @@ describe LogicVersion do
       subject.offers << offer
     end
 
-    it 'should not delete city' do
+    it 'should not delete logic version' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
     end
   end

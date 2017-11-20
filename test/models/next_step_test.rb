@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe NextStep do
-  let(:next_step) { NextStep.new }
+  let(:next_step) { next_steps(:basic) }
   subject { next_step }
 
   describe 'attributes' do
@@ -15,8 +15,8 @@ describe NextStep do
 
   describe 'offers' do
     before do
-      subject.offers << offers(:basic)
-      @offer = subject.offers.first
+      @offer = offers(:basic)
+      subject.offers << @offer
       @next_step_offer = subject.next_steps_offers.first
       subject.destroy
     end

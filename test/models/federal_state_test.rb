@@ -24,7 +24,7 @@ describe FederalState do
       subject.locations << location
     end
 
-    it 'should not delete city' do
+    it 'should not delete federal state' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
     end
   end

@@ -40,7 +40,7 @@ describe Location do
       subject.offers << offer
     end
 
-    it 'should not delete city' do
+    it 'should not delete location' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
     end
   end

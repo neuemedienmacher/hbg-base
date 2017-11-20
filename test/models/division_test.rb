@@ -29,6 +29,7 @@ describe Division do
       subject.offers << offers(:basic)
       @offer = subject.offers.first
       @offer_division = subject.offer_divisions.first
+      binding.pry
       subject.destroy
     end
 
