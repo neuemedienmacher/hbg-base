@@ -62,7 +62,7 @@ describe ContactPerson do
 
     describe 'offers' do
       before do
-        @offer = offers(:basic) 
+        @offer = offers(:basic)
         contact_person.offers << @offer
         @contact_person_offer = contact_person.contact_person_offers.first
         contact_person.destroy

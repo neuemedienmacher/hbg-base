@@ -32,7 +32,7 @@ describe Topic do
     end
 
     it 'will not destroy organizations' do
-      refute_nil @offer.reload
+      refute_nil @orga.reload
     end
   end
 end

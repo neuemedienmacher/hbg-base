@@ -23,6 +23,13 @@ describe Website do
     end
   end
 
+  describe 'Organizations' do
+    it 'does not delete website if there is an organization' do
+      subject.organizations << organizations(:basic)
+      assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
+    end
+  end
+
   describe 'Methods' do
     describe 'unreachable?' do
       it 'should return false for count < 2' do
