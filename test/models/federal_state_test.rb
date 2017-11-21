@@ -29,6 +29,7 @@ describe FederalState do
     end
 
     it 'should delete federal state when there is no location' do
+      subject.locations.each { |l| l.offers.destroy_all }
       subject.locations.destroy_all
       subject.destroy
       assert_raises(ActiveRecord::RecordNotFound) { subject.reload }
