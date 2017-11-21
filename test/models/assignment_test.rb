@@ -22,54 +22,54 @@ describe Assignment do
   describe 'Scopes' do
     before do
       FactoryGirl.create :organization
-      @assignment = Assignment.where(assignable_type: 'Organization').last
+      @assignments = Assignment.where(assignable_type: 'Organization')
     end
     describe 'active' do
       it 'responds correctly to opened scope' do
-        Assignment.where(assignable_type: 'Organization').active.count.must_equal 1
-        @assignment.update_column :aasm_state, 'closed'
-        Assignment.where(assignable_type: 'Organization').active.count.must_equal 0
+        @assignments.active.count.must_equal 1
+        @assignments.last.update_column :aasm_state, 'closed'
+        @assignments.active.count.must_equal 0
       end
     end
     describe 'closed' do
       it 'responds correctly to closed scope' do
-        Assignment.where(assignable_type: 'Organization').closed.count.must_equal 0
-        @assignment.update_column :aasm_state, 'closed'
-        Assignment.where(assignable_type: 'Organization').closed.count.must_equal 1
+        @assignments.closed.count.must_equal 0
+        @assignments.last.update_column :aasm_state, 'closed'
+        @assignments.closed.count.must_equal 1
       end
     end
     describe 'base' do
       it 'responds correctly to base scope' do
-        Assignment.where(assignable_type: 'Organization').base.count.must_equal 1
-        @assignment.update_column :assignable_field_type, 'SomeField'
-        Assignment.where(assignable_type: 'Organization').base.count.must_equal 0
+        @assignments.base.count.must_equal 1
+        @assignments.last.update_column :assignable_field_type, 'SomeField'
+        @assignments.base.count.must_equal 0
       end
     end
     describe 'field' do
       it 'responds correctly to field scope' do
-        Assignment.where(assignable_type: 'Organization').field.count.must_equal 0
-        @assignment.update_column :assignable_field_type, 'SomeField'
-        Assignment.where(assignable_type: 'Organization').field.count.must_equal 1
+        @assignments.field.count.must_equal 0
+        @assignments.last.update_column :assignable_field_type, 'SomeField'
+        @assignments.field.count.must_equal 1
       end
     end
 
     describe 'User' do
       before do
-        @assignment = Assignment.new(id: 1, assignable_type: 'OrganizationTranslation',
-        assignable_id: 1)
+        @assignment = Assignment.new(id: 1,
+                                     assignable_type: 'OrganizationTranslation',
+                                     assignable_id: 1)
+        @user = users(:researcher)
       end
 
       it 'nullifies creator id when user gets deleted' do
-        user = users(:researcher)
-        @assignment.creator_id = user.id
-        user.destroy
+        @assignment.creator_id = @user.id
+        @user.destroy
         @assignment.reload.creator_id.must_equal nil
       end
 
       it 'nullifies receiver id when user gets deleted' do
-        user = users(:researcher)
-        @assignment.receiver_id = user.id
-        user.destroy
+        @assignment.receiver_id = @user.id
+        @user.destroy
         @assignment.reload.receiver_id.must_equal nil
       end
     end
