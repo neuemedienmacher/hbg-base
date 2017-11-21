@@ -28,6 +28,12 @@ describe Website do
       subject.organizations << organizations(:basic)
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
     end
+
+    it 'should delete website when there is no orga' do
+      subject.organizations.destroy_all
+      subject.destroy
+      assert_raises(ActiveRecord::RecordNotFound) { subject.reload }
+    end
   end
 
   describe 'Methods' do

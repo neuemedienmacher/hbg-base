@@ -26,6 +26,12 @@ describe Area do
     it 'should not delete area' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
     end
+
+    it 'should delete area when there is no offer' do
+      subject.offers.destroy_all
+      subject.destroy
+      assert_raises(ActiveRecord::RecordNotFound) { subject.reload }
+    end
   end
 
   describe 'divisions' do
@@ -40,6 +46,12 @@ describe Area do
 
     it 'should not delete area' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
+    end
+
+    it 'should delete area when there is no division' do
+      subject.divisions.destroy_all
+      subject.reload.destroy
+      assert_raises(ActiveRecord::RecordNotFound) { subject.reload }
     end
   end
 end

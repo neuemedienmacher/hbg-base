@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe LogicVersion do
-  let(:logic_version) { LogicVersion.new }
+  let(:logic_version) { logic_versions(:basic) }
   subject { logic_version }
 
   describe 'attributes' do
@@ -19,6 +19,12 @@ describe LogicVersion do
 
     it 'should not delete logic version' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
+    end
+
+    it 'should delete logic version when there is no offer' do
+      subject.offers.destroy_all
+      subject.reload.destroy
+      assert_raises(ActiveRecord::RecordNotFound) { subject.reload }
     end
   end
 end

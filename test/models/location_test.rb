@@ -3,7 +3,7 @@ require_relative '../test_helper'
 describe Location do
   # Using 'let' because 'ArgumentError: let 'location' cannot override a method
   # in Minitest::Spec. Please use another name.'
-  let(:loc) { Location.new }
+  let(:loc) { locations(:basic) }
 
   subject { loc }
 
@@ -42,6 +42,12 @@ describe Location do
 
     it 'should not delete location' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
+    end
+
+    it 'should delete location when there is no offer' do
+      subject.offers.destroy_all
+      subject.reload.destroy
+      assert_raises(ActiveRecord::RecordNotFound) { subject.reload }
     end
   end
 

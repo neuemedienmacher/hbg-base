@@ -28,5 +28,11 @@ describe SolutionCategory do
     it 'should not delete solution category' do
       assert_raises(ActiveRecord::DeleteRestrictionError) { subject.destroy }
     end
+
+    it 'should delete solution category when there is no offer' do
+      subject.offers.destroy_all
+      subject.destroy
+      assert_raises(ActiveRecord::RecordNotFound) { subject.reload }
+    end
   end
 end
