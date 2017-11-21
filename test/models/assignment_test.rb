@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe Assignment do
-  let(:assignment) { Assignment.new }
+  let(:assignment) { assignments(:translation) }
   subject { assignment }
 
   describe 'attributes' do
@@ -52,26 +52,23 @@ describe Assignment do
         @assignments.field.count.must_equal 1
       end
     end
+  end
 
-    describe 'User' do
-      before do
-        @assignment = Assignment.new(id: 1,
-                                     assignable_type: 'OrganizationTranslation',
-                                     assignable_id: 1)
-        @user = users(:researcher)
-      end
+  describe 'User' do
+    before do
+      @user = users(:researcher)
+    end
 
-      it 'nullifies creator id when user gets deleted' do
-        @assignment.creator_id = @user.id
-        @user.destroy
-        @assignment.reload.creator_id.must_equal nil
-      end
+    it 'nullifies creator id when user gets deleted' do
+      subject.creator_id = @user.id
+      @user.destroy
+      subject.reload.creator_id.must_equal nil
+    end
 
-      it 'nullifies receiver id when user gets deleted' do
-        @assignment.receiver_id = @user.id
-        @user.destroy
-        @assignment.reload.receiver_id.must_equal nil
-      end
+    it 'nullifies receiver id when user gets deleted' do
+      subject.receiver_id = @user.id
+      @user.destroy
+      subject.reload.receiver_id.must_equal nil
     end
   end
 end
