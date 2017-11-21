@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171103135514) do
+ActiveRecord::Schema.define(version: 20171117092353) do
 
   create_table "absences", force: :cascade do |t|
     t.date "starts_at", null: false
@@ -343,7 +343,6 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.string "code_word", limit: 140
     t.integer "solution_category_id"
     t.integer "logic_version_id"
-    t.integer "split_base_id"
     t.boolean "all_inclusive", default: false
     t.date "starts_at"
     t.datetime "completed_at"
@@ -358,7 +357,6 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.index ["logic_version_id"], name: "index_offers_on_logic_version_id"
     t.index ["section_id"], name: "index_offers_on_section_id"
     t.index ["solution_category_id"], name: "index_offers_on_solution_category_id"
-    t.index ["split_base_id"], name: "index_offers_on_split_base_id"
   end
 
   create_table "offers_openings", id: false, force: :cascade do |t|
@@ -464,29 +462,6 @@ ActiveRecord::Schema.define(version: 20171103135514) do
     t.integer "generations", null: false
     t.index ["ancestor_id", "descendant_id", "generations"], name: "solution_category_anc_desc_idx", unique: true
     t.index ["descendant_id"], name: "solution_category_desc_idx"
-  end
-
-  create_table "split_base_divisions", force: :cascade do |t|
-    t.integer "split_base_id", null: false
-    t.integer "division_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["division_id"], name: "index_split_base_divisions_on_division_id"
-    t.index ["split_base_id"], name: "index_split_base_divisions_on_split_base_id"
-  end
-
-  create_table "split_bases", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "clarat_addition"
-    t.text "comments"
-    t.integer "organization_id"
-    t.integer "solution_category_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "code_word", limit: 140
-    t.string "label"
-    t.index ["organization_id"], name: "index_split_bases_on_organization_id"
-    t.index ["solution_category_id"], name: "index_split_bases_on_solution_category_id"
   end
 
   create_table "statistic_chart_goals", id: false, force: :cascade do |t|
