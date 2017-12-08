@@ -1,6 +1,6 @@
 require 'ffaker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :language_filter do
     name { %w[Deutsch Englisch].sample }
     identifier { name[0..2].downcase }

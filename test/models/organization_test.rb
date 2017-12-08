@@ -38,21 +38,21 @@ describe Organization do
   #     it 'should ensure there is exactly one hq location' do
   #       orga.locations.destroy_all
   #       orga.reload.valid?.must_equal false
-  #       FactoryGirl.create :location, organization: orga, hq: false
+  #       FactoryBot.create :location, organization: orga, hq: false
   #       orga.reload.valid?.must_equal false
-  #       FactoryGirl.create :location, organization: orga, hq: true
+  #       FactoryBot.create :location, organization: orga, hq: true
   #       orga.reload.valid?.must_equal true
-  #       FactoryGirl.create :location, organization: orga, hq: true
+  #       FactoryBot.create :location, organization: orga, hq: true
   #       orga.reload.valid?.must_equal false
   #     end
   #
   #     it 'should ensure that there are only own-websites connected' do
   #       orga.websites.destroy_all
   #       orga.reload.valid?.must_equal true
-  #       orga.websites << FactoryGirl.create(:website, :social)
+  #       orga.websites << FactoryBot.create(:website, :social)
   #       orga.reload.valid?.must_equal false
   #       orga.websites.destroy_all
-  #       orga.websites << FactoryGirl.create(:website, :own)
+  #       orga.websites << FactoryBot.create(:website, :own)
   #       orga.reload.valid?.must_equal true
   #     end
   #
@@ -104,7 +104,7 @@ describe Organization do
 
       it 'should return approved and done offers' do
         Organization.visible_in_frontend.count.must_equal 1
-        FactoryGirl.create(:organization, aasm_state: 'all_done')
+        FactoryBot.create(:organization, aasm_state: 'all_done')
         # one approved and one done
         Organization.visible_in_frontend.count.must_equal 2
       end
@@ -113,7 +113,7 @@ describe Organization do
 
   describe '#location' do
     it 'should return the hq location of the orga' do
-      FactoryGirl.create :location, organization: orga, hq: false # decoy
+      FactoryBot.create :location, organization: orga, hq: false # decoy
       orga.location.must_equal locations(:basic)
     end
   end

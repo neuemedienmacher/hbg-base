@@ -6,7 +6,7 @@ class EmailPusherWorkerTest < ActiveSupport::TestCase
 
   describe 'perform' do
     it 'should call Ribbon API' do
-      subscription = FactoryGirl.create :subscription
+      subscription = FactoryBot.create :subscription
       Gibbon::API.expect_chain(:lists, :subscribe).once
       worker.perform subscription.id
     end

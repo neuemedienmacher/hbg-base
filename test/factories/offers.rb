@@ -1,6 +1,6 @@
 require 'ffaker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :offer do
     # required fields
     name { FFaker::Lorem.words(rand(3..5)).join(' ').titleize }
@@ -30,33 +30,33 @@ FactoryGirl.define do
     after :build do |offer, evaluator|
       # SplitBase => Division(s) => Organization(s)
       organizations = evaluator.organizations ||
-                      [FactoryGirl.create(:organization, :approved)]
+                      [FactoryBot.create(:organization, :approved)]
       organization = organizations.first
       div = organization.divisions.first ||
-            FactoryGirl.create(:division, organization: organization)
+            FactoryBot.create(:division, organization: organization)
       offer.divisions << div
 
       # location
       if offer.personal?
         location =  organization.locations.sample ||
                     if evaluator.fake_address
-                      FactoryGirl.create(:location, :fake_address,
-                                         organization: organization)
+                      FactoryBot.create(:location, :fake_address,
+                                        organization: organization)
                     else
-                      FactoryGirl.create(:location, organization: organization)
+                      FactoryBot.create(:location, organization: organization)
                     end
         offer.location = location
       end
       # Filters
       offer.section = (
         Section.all.sample ||
-          FactoryGirl.create(:section)
+          FactoryBot.create(:section)
       )
 
       evaluator.language_count.times do
         offer.language_filters << (
           LanguageFilter.all.sample ||
-            FactoryGirl.create(:language_filter)
+            FactoryBot.create(:language_filter)
         )
       end
     end
@@ -64,7 +64,7 @@ FactoryGirl.define do
     after :create do |offer, evaluator|
       # Contact People
       offer.organizations.count.times do
-        offer.contact_people << FactoryGirl.create(
+        offer.contact_people << FactoryBot.create(
           :contact_person, organization: offer.organizations.first
         )
       end
@@ -76,14 +76,14 @@ FactoryGirl.define do
           if Opening.count != 0 && rand(2).zero?
             Opening.select(:id).all.sample
           else
-            FactoryGirl.create(:opening)
+            FactoryBot.create(:opening)
           end
         )
       end
       evaluator.audience_count.times do
         offer.target_audience_filters << (
           TargetAudienceFilter.all.sample ||
-            FactoryGirl.create(:target_audience_filter)
+            FactoryBot.create(:target_audience_filter)
         )
       end
     end
@@ -94,13 +94,13 @@ FactoryGirl.define do
                                              approved_at: Time.zone.now
         offer.reload
       end
-      approved_by { FactoryGirl.create(:researcher).id }
+      approved_by { FactoryBot.create(:researcher).id }
     end
 
     trait :with_email do
       after :create do |offer, _evaluator|
         offer.contact_people.first.update_column(
-          :email_id, FactoryGirl.create(:email).id
+          :email_id, FactoryBot.create(:email).id
         )
       end
     end
@@ -110,7 +110,7 @@ FactoryGirl.define do
     end
 
     trait :with_creator do
-      created_by { FactoryGirl.create(:researcher).id }
+      created_by { FactoryBot.create(:researcher).id }
     end
   end
 end

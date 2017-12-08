@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 describe Assignable do
   let(:assignment) do
-    FactoryGirl.create :assignment
+    FactoryBot.create :assignment
   end
   subject { assignment.assignable }
 

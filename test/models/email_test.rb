@@ -27,7 +27,7 @@ describe Email do
     end
 
     describe '#subscribe' do
-      let(:email) { FactoryGirl.create :email, :with_security_code }
+      let(:email) { FactoryBot.create :email, :with_security_code }
       subject { email.subscribe }
 
       describe 'with a correct security key' do
@@ -98,14 +98,14 @@ describe Email do
   describe 'Methods' do
     describe '#should_be_blocked?' do
       it 'should return true if it has SPoC contact_people' do
-        email = FactoryGirl.create :email
-        FactoryGirl.create :contact_person, spoc: true, email: email
+        email = FactoryBot.create :email
+        FactoryBot.create :contact_person, spoc: true, email: email
         email.send(:should_be_blocked?).must_equal true
       end
 
       it 'should return false if it has no SPoC contact_people' do
-        email = FactoryGirl.create :email
-        FactoryGirl.create :contact_person, spoc: false, email: email
+        email = FactoryBot.create :email
+        FactoryBot.create :contact_person, spoc: false, email: email
         email.send(:should_be_blocked?).must_equal false
       end
     end

@@ -16,7 +16,7 @@ require 'minitest-matchers'
 require 'minitest-rails-capybara'
 require 'launchy' # save_and_open_page
 require 'mocha'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'ffaker'
 require 'memory_test_fix' # Sqlite inmemory fix
 require 'rake'

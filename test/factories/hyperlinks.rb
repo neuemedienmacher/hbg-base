@@ -1,6 +1,6 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :hyperlink do
-    linkable { FactoryGirl.create %i[offer location organization].sample }
+    linkable { FactoryBot.create %i[offer location organization].sample }
     website
   end
 end

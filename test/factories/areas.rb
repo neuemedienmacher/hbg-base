@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :area do
     name 'foobar'
     minlat 1.0
