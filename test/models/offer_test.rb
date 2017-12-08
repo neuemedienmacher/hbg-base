@@ -68,7 +68,7 @@ describe Offer do
       end
 
       it 'should return 2 if there are two organizations' do
-        offers(:basic).divisions << FactoryGirl.create(:division)
+        offers(:basic).divisions << FactoryBot.create(:division)
         offers(:basic).organization_count.must_equal(2)
       end
     end
@@ -256,12 +256,12 @@ describe Offer do
           end
 
           it 'must be true for manually edited record' do
-            offer = FactoryGirl.create :offer
+            offer = FactoryBot.create :offer
             translation =
-              FactoryGirl.create(:offer_translation, locale: :en,
-                                                     name: 'en name',
-                                                     description: 'en desc',
-                                                     old_next_steps: 'en next')
+              FactoryBot.create(:offer_translation, locale: :en,
+                                                    name: 'en name',
+                                                    description: 'en desc',
+                                                    old_next_steps: 'en next')
             offer.translations << translation
             translation.description = 'en new desc'
             translation.source = 'researcher'
@@ -286,7 +286,7 @@ describe Offer do
 
     describe 'search' do
       it 'should correctly return geolocation hash for algolia' do
-        loc = FactoryGirl.create(:location)
+        loc = FactoryBot.create(:location)
         basicOffer.location_id = loc.id
         basicOffer._geoloc.must_equal('lat' => loc.latitude,
                                       'lng' => loc.longitude)
@@ -313,7 +313,7 @@ describe Offer do
       end
 
       it 'should correctly return visible boolean' do
-        loc = FactoryGirl.create(:location)
+        loc = FactoryBot.create(:location)
         basicOffer.location_id = loc.id
 
         basicOffer.location.visible = false

@@ -1,6 +1,6 @@
 require 'ffaker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :location do
     # required
     sequence(:street) { |n| "Foobar #{n}" }

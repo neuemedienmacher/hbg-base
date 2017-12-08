@@ -21,7 +21,7 @@ describe Assignment do
 
   describe 'Scopes' do
     before do
-      FactoryGirl.create :organization
+      FactoryBot.create :organization
       @assignments = Assignment.where(assignable_type: 'Organization')
     end
     describe 'active' do

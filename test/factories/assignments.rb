@@ -1,6 +1,6 @@
 require 'ffaker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :assignment do
     message { FFaker::Lorem.sentence }
     creator { User.first }
@@ -9,7 +9,7 @@ FactoryGirl.define do
     receiver_team { UserTeam.first }
     # translations are the first model for the assignments,
     # so we use them for tests
-    assignable { FactoryGirl.create :offer_translation }
+    assignable { FactoryBot.create :offer_translation }
     assignable_type 'OfferTranslation'
 
     trait :with_field do
@@ -17,7 +17,7 @@ FactoryGirl.define do
     end
 
     trait :with_parent do
-      parent { FactoryGirl.create :assignment }
+      parent { FactoryBot.create :assignment }
     end
   end
 end
