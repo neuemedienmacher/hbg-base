@@ -12,8 +12,7 @@ describe Tag do
     it { subject.must_respond_to :name_ar }
     it { subject.must_respond_to :name_tr }
     it { subject.must_respond_to :name_fr }
-    it { subject.must_respond_to :name_pl }
-    it { subject.must_respond_to :name_ru }
+    it { subject.must_respond_to :name_ps }
     it { subject.must_respond_to :name_fa }
     it { subject.must_respond_to :keywords_de }
     it { subject.must_respond_to :keywords_en }

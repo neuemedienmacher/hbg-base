@@ -20,8 +20,7 @@ describe TargetAudienceFiltersOffer do
     it { subject.must_respond_to :stamp_fa }
     it { subject.must_respond_to :stamp_fr }
     it { subject.must_respond_to :stamp_tr }
-    it { subject.must_respond_to :stamp_ru }
-    it { subject.must_respond_to :stamp_pl }
+    it { subject.must_respond_to :stamp_ps }
   end
 
   describe '::Base' do
