@@ -13,6 +13,7 @@ describe Email do
     it { subject.must_respond_to :updated_at }
 
     it { subject.must_respond_to :given_security_code }
+    it { subject.must_respond_to :tos_accepted }
   end
 
   describe 'state machine' do
