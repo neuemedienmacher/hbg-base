@@ -33,10 +33,21 @@ class Email < ApplicationRecord
     end
   end
 
+  # Enumerization
+  extend Enumerize
+  enumerize :tos, in: %w[uninformed pending declined accepted]
+
+  # Scopes
+  scope :visible_in_frontend, -> { where(tos: 'accepted') }
+
   # Methods
 
   def security_code_confirmed?
     given_security_code == security_code
+  end
+
+  def visible_in_frontend?
+    tos == 'accepted'
   end
 
   private
