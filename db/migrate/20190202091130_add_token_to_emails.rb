@@ -2,7 +2,7 @@ class AddTokenToEmails < ActiveRecord::Migration[5.1]
   def change
     add_column :emails, :token, :string, limit: 64, default: nil
     # create unique token for every email that doesn't have one yet
-    Email.where(token: nil).map do |mail|
+    Email.where(token: nil).map do |email|
       initialize_token email
     end
   end
