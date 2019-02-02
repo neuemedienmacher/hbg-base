@@ -14,6 +14,7 @@ describe Email do
 
     it { subject.must_respond_to :given_security_code }
     it { subject.must_respond_to :tos }
+    it { subject.must_respond_to :token }
   end
 
   describe 'state machine' do

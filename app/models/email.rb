@@ -1,6 +1,6 @@
 # A unique email address
 class Email < ApplicationRecord
-  include AASM
+  include AASM, Tokenable
 
   attr_accessor :given_security_code
 
