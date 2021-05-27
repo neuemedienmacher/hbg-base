@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201100104) do
+ActiveRecord::Schema.define(version: 20181202082818) do
 
   create_table "absences", force: :cascade do |t|
     t.date "starts_at", null: false
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 20180201100104) do
     t.string "security_code", limit: 36
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "tos", default: "uninformed", null: false
   end
 
   create_table "federal_states", force: :cascade do |t|

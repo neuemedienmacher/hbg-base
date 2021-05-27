@@ -13,6 +13,8 @@ describe Email do
     it { subject.must_respond_to :updated_at }
 
     it { subject.must_respond_to :given_security_code }
+    it { subject.must_respond_to :tos }
+    it { subject.must_respond_to :token }
   end
 
   describe 'state machine' do
@@ -96,6 +98,22 @@ describe Email do
   end
 
   describe 'Methods' do
+    describe '#visible_in_frontend?' do
+      it 'should return true for accepted tos' do
+        email.tos = 'accepted'
+        email.visible_in_frontend?.must_equal true
+      end
+
+      it 'should return false for other tos' do
+        email.tos = 'uninformed'
+        email.visible_in_frontend?.must_equal false
+        email.tos = 'pending'
+        email.visible_in_frontend?.must_equal false
+        email.tos = 'declined'
+        email.visible_in_frontend?.must_equal false
+      end
+    end
+
     describe '#should_be_blocked?' do
       it 'should return true if it has SPoC contact_people' do
         email = FactoryBot.create :email
