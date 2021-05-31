@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'friendly_id', '>= 5.0'
   s.add_dependency 'geocoder'
   s.add_dependency 'redcarpet' # Markdown processing
-  s.add_dependency 'algoliasearch-rails' # indexing & search
+  s.add_dependency 'algoliasearch-rails', '1.25.2' # indexing & search
   s.add_dependency 'easy_translate' # automated translations of database entries
   s.add_dependency 'localeapp' # manual translations (yaml-files)
 
