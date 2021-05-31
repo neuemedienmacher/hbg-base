@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'web-console', '~> 2.0'
   s.add_dependency 'rails-observers' # observers got extracted since rails 4
   s.add_dependency 'enumerize', '2.1.2'
-  s.add_dependency 'paper_trail'
+  s.add_dependency 'paper_trail', '10.2.0'
   s.add_dependency 'sanitize' # parser based sanitization
   s.add_dependency 'closure_tree'
   s.add_dependency 'aasm' # State Machine
