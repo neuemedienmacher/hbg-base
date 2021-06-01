@@ -27,7 +27,8 @@ Gem::Specification.new do |s|
   #########   DEPENDENCIES   #########
   ####################################
 
-  s.add_dependency 'rails', '~> 5.1'
+  s.add_dependency 'rails', '5.1.6.1'
+  s.add_dependency 'activesupport', '5.1.6.1'
   s.add_dependency 'bundler', '>= 1.8.4'
 
   s.add_dependency 'rails-i18n'
