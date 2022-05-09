@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'sanitize' # parser based sanitization
   s.add_dependency 'closure_tree'
   s.add_dependency 'aasm' # State Machine
-  s.add_dependency 'friendly_id', '>= 5.0'
+  s.add_dependency 'friendly_id', '5.2.1'
   s.add_dependency 'geocoder'
   s.add_dependency 'redcarpet' # Markdown processing
   s.add_dependency 'algoliasearch-rails', '1.20.6' # indexing & search
