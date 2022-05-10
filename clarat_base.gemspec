@@ -27,21 +27,22 @@ Gem::Specification.new do |s|
   #########   DEPENDENCIES   #########
   ####################################
 
-  s.add_dependency 'rails', '~> 5.1'
+  s.add_dependency 'rails', '5.1.6.1'
+  s.add_dependency 'activesupport', '5.1.6.1'
   s.add_dependency 'bundler', '>= 1.8.4'
 
   s.add_dependency 'rails-i18n'
   s.add_dependency 'web-console', '~> 2.0'
   s.add_dependency 'rails-observers' # observers got extracted since rails 4
   s.add_dependency 'enumerize', '2.1.2'
-  s.add_dependency 'paper_trail'
+  s.add_dependency 'paper_trail', '10.2.0'
   s.add_dependency 'sanitize' # parser based sanitization
   s.add_dependency 'closure_tree'
   s.add_dependency 'aasm' # State Machine
-  s.add_dependency 'friendly_id', '>= 5.0'
+  s.add_dependency 'friendly_id', '5.2.1'
   s.add_dependency 'geocoder'
   s.add_dependency 'redcarpet' # Markdown processing
-  s.add_dependency 'algoliasearch-rails' # indexing & search
+  s.add_dependency 'algoliasearch-rails', '1.20.6' # indexing & search
   s.add_dependency 'easy_translate' # automated translations of database entries
   s.add_dependency 'localeapp' # manual translations (yaml-files)
 
