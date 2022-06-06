@@ -13,7 +13,7 @@ class TargetAudienceFilter < Filter
                            refugees_families refugees_parents_to_be
                            refugees_general].freeze
 
-  IMMIGRANTS_IDENTIFIER = %w[immigrants_children immigrants_adults immigrants_general].freeze
+  IMMIGRANTS_IDENTIFIER = %w[immigrants_children immigrants_adults immigrants_families immigrants_general].freeze
 
   IDENTIFIER = [FAMILY_IDENTIFIER, REFUGEES_IDENTIFIER, IMMIGRANTS_IDENTIFIER].reduce([], :concat)
 
